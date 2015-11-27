@@ -8,7 +8,7 @@ details of PSOA RuleML and PSOATransRun.
 
 REQUIREMENTS
 Operating System: Windows or Linux
-Prerequisites: Java version 6.0 or higher, XSB Prolog 3.5
+Prerequisites: Java version 6.0 or higher, XSB Prolog 3.5 or higher
 
 USAGE
 Download http://psoa.ruleml.org/transrun/0.8/local/PSOATransRunLocal.jar to 
