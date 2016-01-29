@@ -37,8 +37,8 @@ presentation syntax.
 Advanced query loop variations will be shown via the help command (-?):
    java -jar PSOATransRunLocal.jar -?
 
-4. After the message "KB loaded" is shown, queries can be posed. Each query must be written 
-without intervening Newline characters and terminated by pressing the Enter key.
-One answer at a time will be shown. 
-To get the next answer, press the semicolon key. To proceed to the next query, 
-press the Enter key. To exit a query loop, press Ctrl+C and optionally go to 3.
+4. After the message "KB loaded" is shown, queries can be posed. Each query must be 
+written without intervening Newline characters and terminated by pressing the Enter key.
+One answer at a time will be shown. To get the next answer, press the semicolon key. 
+To proceed to the next query, press the Enter key. To exit a query loop, press Ctrl+C 
+and optionally go to 3.
