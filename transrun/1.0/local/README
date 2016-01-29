@@ -16,9 +16,9 @@ Prerequisites:
 USAGE
 Download http://psoa.ruleml.org/transrun/1.0/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_DIR>. 
-Then follow these steps to run the program:
+Then follow these steps to use PSOATransRun (1. and 2. being just preparatory):
 
-1. Open Command Line Prompt
+1. Open a window for a Command Prompt / Linux Terminal
 Windows: see http://windows.microsoft.com/en-ca/windows-vista/open-a-command-prompt-window
 Linux: start the Linux Terminal
 
@@ -28,14 +28,17 @@ In Windows, if <PSOATransRun_DIR> is on a different drive from the current
 working directory, the command line option /d should be used:
    cd /d <PSOATransRun_DIR>
 
-3. Execute the following command to enter a query loop for a <kb>:
+3. Execute the following command to enter a basic query loop for a <kb>:
    java -jar PSOATransRunLocal.jar -x <xsb_dir> -i <kb>
 The -x <xsb_dir> part of the command can be omitted if the XSB_DIR environment
 variable is set to <xsb_dir>.
-<kb> is the path of the input knowledge base (KB) written in PSOA RuleML 
+<kb> is the path of the input knowledge base (KB) file written in PSOA RuleML 
 presentation syntax.
+Advanced query loop variations will be shown via the help command (-?):
+   java -jar PSOATransRunLocal.jar -?
 
-4. After the message "KB loaded" is shown, queries can be posed. One query at a time
-is entered and every query must be in a single line. One answer at a time will be shown.
+4. After the message "KB loaded" is shown, queries can be posed. Each query must be written 
+without intervening Newline characters and terminated by pressing the Enter key.
+One answer at a time will be shown. 
 To get the next answer, press the semicolon key. To proceed to the next query, 
-press the Enter key. To stop querying and exit, press Ctrl+C.
+press the Enter key. To exit a query loop, press Ctrl+C and optionally go to 3.
