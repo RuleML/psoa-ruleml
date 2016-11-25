@@ -1,6 +1,6 @@
 OVERVIEW
 PSOATransRun is an implementation of the Positional-Slotted, Object-Applicative
-RuleML (PSOA RuleML) language. The PSOATransRun 1.0 release includes a composition 
+RuleML (PSOA RuleML) language. The PSOATransRun 1.2 release includes a composition 
 of a translator PSOA2Prolog, from PSOA RuleML to a subset of the logic 
 programming language ISO Prolog, with the well-known efficient XSB Prolog engine.
 See http://psoa.ruleml.org for details of PSOA RuleML and PSOATransRun
@@ -14,7 +14,7 @@ Prerequisites:
   the path of which we will call <xsb_dir>.
 
 USAGE
-Download http://psoa.ruleml.org/transrun/1.0/local/PSOATransRunLocal.jar to 
+Download http://psoa.ruleml.org/transrun/1.2/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_DIR>. 
 Then follow these steps to use PSOATransRun (1. and 2. being just preparatory):
 
