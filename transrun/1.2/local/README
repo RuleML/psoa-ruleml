@@ -1,4 +1,4 @@
-OVERVIEW
+OVERVIEW                                                             2017-01-26                             
 PSOATransRun is an implementation of the Positional-Slotted, Object-Applicative
 RuleML (PSOA RuleML) language. The PSOATransRun 1.2 release includes a composition 
 of a translator PSOA2Prolog, from PSOA RuleML to a subset of the logic 
@@ -7,9 +7,9 @@ See http://psoa.ruleml.org for details of PSOA RuleML and PSOATransRun
 and http://github.com/ZOUG/psoa2tptp for the repository.
 
 REQUIREMENTS
-Operating System: Windows or Linux
+Operating System: Windows, Linux, or Mac OS X
 Prerequisites:
-  Install Java version 6.0 or higher
+  Install Java version 8.0 or higher
   Install XSB Prolog 3.5 or higher (http://xsb.sourceforge.net) to a directory,
   the path of which we will call <xsb_dir>.
 
