@@ -1,4 +1,4 @@
-OVERVIEW                                                             2017-01-29                             
+OVERVIEW                                                             2017-01-31                             
 PSOATransRun is an implementation of the Positional-Slotted, Object-Applicative
 RuleML (PSOA RuleML) language. The PSOATransRun 1.2 release includes a composition 
 of a translator PSOA2Prolog, from PSOA RuleML to a subset of the logic 
@@ -11,7 +11,9 @@ Operating System: Windows, Linux, or Mac OS X
 Prerequisites:
   Install Java version 8.0 or higher
   Install XSB Prolog 3.5 or higher (http://xsb.sourceforge.net) to a directory,
-  the path of which we will call <xsb_dir>.
+  the path of which we will call <xsb_dir>, e.g. ...
+  ... in Windows:                C:\Program Files\XSB\
+  ... in Linux/Mac OS X:         ~/XSB/
 
 USAGE
 Download http://psoa.ruleml.org/transrun/1.2/local/PSOATransRunLocal.jar to 
@@ -38,13 +40,13 @@ variable is set to <xsb_dir>.
 presentation syntax.
 
 Here are copy&paste-ready examples of invoking the query loop command on different platforms,
-assuming EDITME.psoa is a file used for repeated editing KBs with one's favorite text editor.
+assuming EDITME.psoa is a file used for repeatedly editing KBs with one's favorite text editor.
 
 Windows (assuming the XSB installation directory <xsb_dir> is expanded to C:\Program Files\XSB\):
-    java -jar PSOATransRunLocal.jar -x "C:\Program Files\XSB\" -i EDITME.psoa
+   java -jar PSOATransRunLocal.jar -x "C:\Program Files\XSB\" -i EDITME.psoa
     
 Linux/Mac OS X (assuming the XSB installation directory <xsb_dir> is expanded to ~/XSB/):
-    java -jar PSOATransRunLocal.jar -x ~/XSB/ -i EDITME.psoa
+   java -jar PSOATransRunLocal.jar -x ~/XSB/ -i EDITME.psoa
 
 Advanced query loop variations will be shown via the help command (-?):
    java -jar PSOATransRunLocal.jar -?
