@@ -7,7 +7,7 @@ See http://psoa.ruleml.org for details of PSOA RuleML and PSOATransRun
 and http://github.com/ZOUG/psoa2tptp for the repository.
 
 REQUIREMENTS
-Operating System: Windows or Linux
+Operating System: Windows, Linux, or Mac OS X
 Prerequisites:
   Install Java version 6.0 or higher
   Install XSB Prolog 3.5 or higher (http://xsb.sourceforge.net) to a directory,
