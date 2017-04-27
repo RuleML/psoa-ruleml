@@ -2,6 +2,3 @@ RewriteEngine on
 RewriteCond %{HTTP_HOST} ^psoa\.ruleml\.org$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.psoa\.ruleml\.org$
 RewriteRule ^/?$ "http\:\/\/wiki\.ruleml\.org\/index\.php\/PSOA_RuleML" [R=301,L]
-<FilesMatch "README">
-  ForceType text/plain
-</FilesMatch>
