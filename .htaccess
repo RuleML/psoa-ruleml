@@ -5,3 +5,4 @@ RewriteRule ^/?$ "http\:\/\/wiki\.ruleml\.org\/index\.php\/PSOA_RuleML" [R=301,L
 <FilesMatch "README">
   ForceType text/plain
 </FilesMatch>
+testtesttesttesttesttesttesttesttest
