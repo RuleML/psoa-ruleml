@@ -13,10 +13,10 @@ Document
       :greaterThan(?x ?y) :- External(pred:numeric-greater-than(?x ?y))
     )
     Forall ?x ?y (
-      :atMost(?x ?y) :- External(pred:numeric-less-than-or-equal(?x ?y))
+      :lessEq(?x ?y) :- External(pred:numeric-less-than-or-equal(?x ?y))
     )    
     Forall ?x ?y (
-      :atLeast(?x ?y) :- External(pred:numeric-greater-than-or-equal(?x ?y))
+      :greaterEq(?x ?y) :- External(pred:numeric-greater-than-or-equal(?x ?y))
     )
   )
 )
