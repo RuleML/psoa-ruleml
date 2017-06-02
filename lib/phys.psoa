@@ -1,6 +1,6 @@
 Document
 (
-  Prefix(: <http://psoa.ruleml.org/lib/physics#>)
+  Prefix(: <http://psoa.ruleml.org/lib/phys#>)
   Prefix(xsb: <http://xsb.sourceforge.net/manual1/manual1.pdf#>)
   Prefix(pred: <http://www.w3.org/2007/rif-builtin-predicate#>)
   Prefix(func: <http://www.w3.org/2007/rif-builtin-function#>)
