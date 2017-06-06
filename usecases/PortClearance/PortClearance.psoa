@@ -1,8 +1,10 @@
 Document (
   Prefix(: <http://psoa.ruleml.org/usecases/PortClearance#>)
   Prefix(math: <http://psoa.ruleml.org/lib/math#>)
+  Prefix(phys: <http://psoa.ruleml.org/lib/phys#>)
   
   Import(<http://psoa.ruleml.org/lib/math.psoa>)
+  Import(<http://psoa.ruleml.org/lib/phys.psoa>)
   
   Group (
     % Copy&paste-ready KB used as the PSOATransRun input file:
@@ -32,8 +34,9 @@ Document (
     Forall ?s ?d ?e (
       :HasValidCertificate(?s) :- 
         And(?s#:Ship(:registryExpirationDate->?e)
-            :currentDate(?d)
-            math:lessThan(?d ?e))
+    %       phys:currentDate(?d)  % Uncomment for local date (deployment)
+            :currentDate(?d)      % Uncomment for fixed date (reproducibility)
+            phys:lessThanDate(?d ?e))
     )
 
     % Object-relational size-switched safety rules check status (small) or status and hull (large)
@@ -79,24 +82,24 @@ Document (
     )
 
 
-    :currentDate(20170506)   % Fixed for testing purposes
-
+    :currentDate(phys:date(2017 5 6))   % Uncomment for fixed date (reproducibility)
     
-    % Ship facts (No or Yes refer to answers for queries with :ship1, :ship2, ... as arguments)
+    
+    % Ship facts (No or Yes refer to answers for queries, as of 2017-05-06, with :ship1, :ship2, ... as arguments)
     
     % Facts covering all cases with qualitative slot-filler distinctions
     % Explanatory comments for Yes answers focus on the most relevant slots
     
     % Distinction for :registryExpirationDate
     
-    % Ship 1 - No, registry has expired (as of 20170506)
-    :ship1#:Ship(:registryExpirationDate->20170501 
+    % Ship 1 - No, registry has expired
+    :ship1#:Ship(:registryExpirationDate->phys:date(2017 5 1) 
                  :totalLength->20
                  :hold->:h1#:ShipHold(:residualCargoMeasurement->0.2
                                       :hull->:single))
 
-    % Ship 2 - Yes, registry is valid (as of 20170506)
-    :ship2#:Ship(:registryExpirationDate->20171001 
+    % Ship 2 - Yes, registry is valid
+    :ship2#:Ship(:registryExpirationDate->phys:date(2017 10 1)
                  :totalLength->20
                  :hold->:h2#:ShipHold(:residualCargoMeasurement->0.2 
                                       :hull->:single))
@@ -104,13 +107,13 @@ Document (
     % Distinction for :residualCargoMeasurement
 
     % Ship 3 - No, hold not clean
-    :ship3#:Ship(:registryExpirationDate->20200101
+    :ship3#:Ship(:registryExpirationDate->phys:date(2020 1 1)
                  :totalLength->70                 
                  :hold->:h3#:ShipHold(:residualCargoMeasurement->0.6 
                                       :hull->:single))
    
     % Ship 4 - Yes, hold clean (qualitatively the same as for Ship 2)
-    :ship4#:Ship(:registryExpirationDate->20200101 
+    :ship4#:Ship(:registryExpirationDate->phys:date(2020 1 1 )
                  :totalLength->70
                  :hold->:h4#:ShipHold(:residualCargoMeasurement->0.4
                                       :hull->:single))
@@ -118,19 +121,19 @@ Document (
     % Distinctions for :residualCargoMeasurement and :hull
 
     % Ship 5 - No, hold not clean
-    :ship5#:Ship(:registryExpirationDate->20200101
+    :ship5#:Ship(:registryExpirationDate->phys:date(2020 1 1)
                  :totalLength->90
                  :hold->:h5#:ShipHold(:residualCargoMeasurement->0.6 
                                       :hull->:double))
 
     % Ship 6 - No, size large yet hold single-hulled
-    :ship6#:Ship(:registryExpirationDate->20200101
+    :ship6#:Ship(:registryExpirationDate->phys:date(2020 1 1)
                  :totalLength->90 
                  :hold->:h6#:ShipHold(:residualCargoMeasurement->0.4 
                                       :hull->:single))
 
     % Ship 7 - Yes, hold clean and double-hulled
-    :ship7#:Ship(:registryExpirationDate->20200101
+    :ship7#:Ship(:registryExpirationDate->phys:date(2020 1 1)
                  :totalLength->90 
                  :hold->:h7#:ShipHold(:residualCargoMeasurement->0.4 
                                       :hull->:double))
@@ -141,7 +144,7 @@ Document (
     % Three reasons for No
     
     % Ship 8 - No, registry expired, hold not clean, and size large yet hold single-hulled
-    :ship8#:Ship(:registryExpirationDate->20170101
+    :ship8#:Ship(:registryExpirationDate->phys:date(2017 1 1)
                  :totalLength->90 
                  :hold->:h8#:ShipHold(:residualCargoMeasurement->0.9 
                                       :hull->:single))
@@ -149,19 +152,19 @@ Document (
     % Two reasons for No
     
     % Ship 9 - No, hold not clean and size large yet hold single-hulled
-    :ship9#:Ship(:registryExpirationDate->20180101
+    :ship9#:Ship(:registryExpirationDate->phys:date(2018 1 1)
                  :totalLength->90 
                  :hold->:h9#:ShipHold(:residualCargoMeasurement->0.9 
                                       :hull->:single))
 
     % Ship 10 - No, registry expired and size large yet hold single-hulled
-    :ship10#:Ship(:registryExpirationDate->20170101
+    :ship10#:Ship(:registryExpirationDate->phys:date(2017 1 1)
                   :totalLength->90 
                   :hold->:h10#:ShipHold(:residualCargoMeasurement->0.2 
                                         :hull->:single))
 
     % Ship 11 - No, registry expired and hold not clean
-    :ship11#:Ship(:registryExpirationDate->20170101
+    :ship11#:Ship(:registryExpirationDate->phys:date(2017 1 1)
                   :totalLength->90
                   :hold->:h11#:ShipHold(:residualCargoMeasurement->0.9 
                                         :hull->:double))
@@ -169,23 +172,23 @@ Document (
     % Two reasons for Yes
 
     % Ship 12 - Yes, size small nevertheless hold double-hulled                   
-    :ship12#:Ship(:registryExpirationDate->20200101
+    :ship12#:Ship(:registryExpirationDate->phys:date(2020 1 1)
                   :totalLength->60 
                   :hold->:h12#:ShipHold(:residualCargoMeasurement->0.1 
                                         :hull->:double))    
     
     
     % Facts probing special cases
-                                      
-    % Ship 13 - Yes, date, length, and measurement are at the threshold
-    :ship13#:Ship(:registryExpirationDate->20170507  % As of 20170506
-                  :totalLength->80       
-                  :hold->:h13#:ShipHold(:residualCargoMeasurement->0.5 
-                                        :hull->:double))
 
-    % Ship 14 - No, large ship must have some (a double) hull
-    :ship14#:Ship(:registryExpirationDate->20200101
+    % Ship 13 - No, large ship must have some (a double) hull
+    :ship13#:Ship(:registryExpirationDate->phys:date(2020 1 1)
                   :totalLength->120     
-                  :hold->:h14#:ShipHold(:residualCargoMeasurement->0.2))
+                  :hold->:h13#:ShipHold(:residualCargoMeasurement->0.2))          
+
+    % Ship 14 - Yes, date, length, and measurement are at the threshold
+    :ship14#:Ship(:registryExpirationDate->phys:date(2017 5 7)
+                  :totalLength->80       
+                  :hold->:h14#:ShipHold(:residualCargoMeasurement->0.5 
+                                        :hull->:double))
   )
 )
