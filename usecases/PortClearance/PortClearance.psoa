@@ -1,4 +1,5 @@
 Document (
+
   Prefix(: <http://psoa.ruleml.org/usecases/PortClearance#>)
   Prefix(math: <http://psoa.ruleml.org/lib/math#>)
   Prefix(phys: <http://psoa.ruleml.org/lib/phys#>)
@@ -7,7 +8,16 @@ Document (
   Import(<http://psoa.ruleml.org/lib/phys.psoa>)
   
   Group (
-    % Copy&paste-ready KB used as the PSOATransRun input file:
+
+    % Port Clearance Knowledge Base
+    % Version: 2017-06-08
+
+    % Copy&paste-ready KB file in presentation syntax (PSOA RuleML/PS):
+    % http://psoa.ruleml.org/usecases/PortClearance/PortClearance.psoa
+    % To be complemented by KB file in serialization syntax (PSOA RuleML/XML):
+    % http://psoa.ruleml.org/usecases/PortClearance/PortClearance.ruleml
+
+    % PSOA RuleML/PS can be directly used as a PSOATransRun input file:
     % http://wiki.ruleml.org/index.php/PSOA_RuleML#PSOATransRun (Current Release)
 
     % Reordering, subgrouping, and explaining the rules from
@@ -190,5 +200,7 @@ Document (
                   :totalLength->80       
                   :hold->:h14#:ShipHold(:residualCargoMeasurement->0.5 
                                         :hull->:double))
+
   )
+
 )
