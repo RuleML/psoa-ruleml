@@ -1,4 +1,4 @@
-OVERVIEW                                                             2017-06-06                            
+OVERVIEW                                                             2017-06-10                            
 PSOATransRun is an implementation of the Positional-Slotted, Object-Applicative
 RuleML (PSOA RuleML) language. The PSOATransRun 1.3 release includes a composition 
 of a translator PSOA2Prolog, from PSOA RuleML to a subset of the logic 
@@ -56,3 +56,11 @@ written without intervening Newline characters and terminated by pressing the En
 One answer at a time will be shown. To get the next answer, press the semicolon key. 
 To proceed to the next query, press the Enter key. To exit a query loop, press Ctrl+C, and
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
+
+
+
+
+
+Release Notes
+* Added support for perspectival and non-perspectival descriptors
+* Added built-ins from ISO Prolog, see http://wiki.ruleml.org/index.php/PSOA_RuleML#Built-ins
