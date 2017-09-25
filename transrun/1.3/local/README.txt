@@ -60,5 +60,5 @@ To proceed to the next query, press the Enter key. To exit a query loop, press C
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
 PSOATransRun 1.3 RELEASE NOTES
-* Added support for perspectival and non-perspectival descriptors
+* Added support for dependent and independent descriptors
 * Added built-ins from ISO Prolog, see http://wiki.ruleml.org/index.php/PSOA_RuleML#Built-ins
