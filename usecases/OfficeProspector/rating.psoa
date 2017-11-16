@@ -1,0 +1,45 @@
+Document (
+  Prefix(pred: <http://www.w3.org/2007/rif-builtin-predicate#>)
+  Prefix(op-rtg: <http://psoa.ruleml.org/usecases/OfficeProspector/rating#>)
+  
+  Group
+  (
+<!--  
+    op-rtg:none#op-rtg:Rating
+    op-rtg:basic#op-rtg:Rating
+    op-rtg:regular#op-rtg:Rating
+    op-rtg:advanced#op-rtg:Rating
+    op-rtg:excellent#op-rtg:Rating
+    op-rtg:matchRating(op-rtg:basic     op-rtg:atleast(op-rtg:basic))
+    op-rtg:matchRating(op-rtg:regular   op-rtg:atleast(op-rtg:basic))
+    op-rtg:matchRating(op-rtg:advanced  op-rtg:atleast(op-rtg:basic))
+    op-rtg:matchRating(op-rtg:excellent op-rtg:atleast(op-rtg:basic))
+    op-rtg:matchRating(op-rtg:regular   op-rtg:atleast(op-rtg:regular))
+    op-rtg:matchRating(op-rtg:advanced  op-rtg:atleast(op-rtg:regular))
+    op-rtg:matchRating(op-rtg:excellent op-rtg:atleast(op-rtg:regular))
+    op-rtg:matchRating(op-rtg:advanced  op-rtg:atleast(op-rtg:advanced))
+    op-rtg:matchRating(op-rtg:excellent op-rtg:atleast(op-rtg:advanced))
+-->
+
+    op-rtg:none#op-rtg:Rating(_level->-2)
+    op-rtg:basic#op-rtg:Rating(_level->-1)
+    op-rtg:regular#op-rtg:Rating(_level->0)
+    op-rtg:advanced#op-rtg:Rating(_level->1)
+    op-rtg:excellent#op-rtg:Rating(_level->2)
+    
+    
+    Forall ?r (
+      op-rtg:matchRating(?r ?r) :- ?r#op-rtg:Rating
+    )
+    
+    Forall ?r1 ?r2 ?l1 ?l2
+    (
+      op-rtg:matchRating(?r1 op-rtg:atleast(?r2)) :-
+        And(
+          ?r1#op-rtg:Rating(_level->?l1)
+          ?r2#op-rtg:Rating(_level->?l2)
+          External(pred:numeric-greater-than-or-equal(?l1 ?l2))
+        )
+    )
+  )
+)

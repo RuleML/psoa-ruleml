@@ -1,0 +1,138 @@
+Document (
+  Prefix(: <http://psoa.ruleml.org/usecases/OfficeProspector/>)
+  Prefix(op-rtg: <http://psoa.ruleml.org/usecases/OfficeProspector/rating#>)
+
+  Group
+  (
+    <!--
+        Find any suite ?s that satisfies:
+        1) the monthly rent of ?s is at most CAD 1200;
+        2) the HVAC system of ?s has a rating of at least basic;
+        3) ?s has Internet.
+    -->
+    
+    Forall ?s (
+      :q1(?s) :-
+        ?s#:Suite(
+          :constrain(:monthlyRent)->:atmost(:measure(1200 :cad))
+          :constrain(:hvac)->op-rtg:atleast(op-rtg:basic)
+          :utility->:internet
+        )
+    )
+
+    <!--
+        Change the constraint value for :monthlyRent to :measure(999 :cad) 
+    -->
+    
+    Forall ?s (
+      :q2(?s) :-
+        ?s#:Suite(
+          :constrain(:monthlyRent)->:atmost(:measure(999 :cad))
+          :constrain(:hvac)->op-rtg:atleast(op-rtg:basic)
+          :utility->:internet
+        )
+    )
+    
+    <!--
+        Built on top of the first query, the next query further constrains the building ?b of the suite ?s to 
+        being built after 1985 and within 1000 meters of a public transport access point.
+    -->
+
+    Forall ?s ?b (
+      :q3(?s ?b) :-
+        And(
+          ?s#:Suite(
+            :constrain(:monthlyRent)->:atmost(:measure(1200 :cad))
+            :constrain(:hvac)->op-rtg:atleast(op-rtg:basic)
+            :utility->:internet
+          )
+          ?b#:Building(
+            :hasPart->?s
+            :constrain(:publicTransAccessDistance)->:atmost(:measure(1000 :m))
+            :constrain(:yearBuilt)->:atleast(1985)
+          )
+        )
+    )
+
+    <!--
+        Further require the neighborhood of the suite to have a crime rate lower than 3 percent
+    -->
+    
+    Forall ?s ?b ?n (
+      :q4(?s ?b ?n) :-
+        And(
+          ?s#:Suite(
+            :constrain(:monthlyRent)->:atmost(:measure(1200 :cad))
+            :constrain(:hvac)->op-rtg:atleast(op-rtg:basic)
+            :utility->:internet
+          )
+          ?b#:Building(
+            :hasPart->?s
+            :constrain(:publicTransAccessDistance)->:atmost(:measure(1000 :m))
+            :constrain(:yearBuilt)->:atleast(1985)
+          )
+          ?n#:Neighborhood(
+            :hasPart->?b
+            :constrain(:crimeRate)->:atmost(3)
+          )
+        )
+    )
+
+    <!--
+        Pose constraints on neighborhoods without referring to the building level, using the recursive :hasPartTrans slot.
+    -->
+    
+    Forall ?s ?n (
+      :q5(?s ?n) :-    
+        And(
+          ?s#:Suite(
+            :constrain(:monthlyRent)->:atmost(:measure(1200 :cad))
+            :constrain(:hvac)->op-rtg:atleast(op-rtg:basic)
+            :utility->:internet
+          )
+          ?n#:Neighborhood(
+            :hasPartTrans->?s
+            :constrain(:crimeRate)->:atmost(3)
+          )
+        )
+    )
+    
+    <!--
+        Finds all pairs of adjacent spaces ?o1, ?o2 inside suite :st1.
+    -->
+    
+    Forall ?o1 ?o2 (
+      :q6(?o1 ?o2) :-
+        And(
+          :st1#:Suite(:hasPart->?o1 :hasPart->?o2)
+          ?o1#:Space(:adjacent->?o2#:Space)
+        )
+    )
+    
+    <!--
+        Find any kitchen ?o1 and open office ?o2 of suite :st2 that are adjacent.
+    -->
+
+    Forall ?o1 ?o2 (
+      :q7(?o1 ?o2) :-
+        And(
+          :st2#:Suite(:hasPart->?o1 :hasPart->?o2)
+          ?o1#:Kitchen(:adjacent->?o2#:OpenOffice)
+        )
+    )
+
+    <!--
+        Queries can also be posed to find amenities and their information nearby the building of a suite.
+        The following query finds the name and cuisine of any restaurant {\tt ?r} within 1000 meters distance of the suite :st1.
+    -->
+
+    Forall ?b ?r ?name ?cus (
+      :q8(?b ?r ?name ?cus) :-
+        And(
+          ?b#:Building(:hasPart->:st1)
+          :withinDistance(?b ?r 1000)
+          ?r#:Restaurant(:name->?name :cuisine->?cus)
+        )
+    )
+  )
+)

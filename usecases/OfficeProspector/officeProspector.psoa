@@ -1,0 +1,504 @@
+Document (
+  Prefix(func: <http://www.w3.org/2007/rif-builtin-function#>)
+  Prefix(pred: <http://www.w3.org/2007/rif-builtin-predicate#>)
+  Prefix(lgdo: <http://linkedgeodata.org/ontology/>)
+  Prefix(geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>)
+  Prefix(lgdmeta: <http://linkedgeodata.org/meta/>)
+  Prefix(rdfs: <http://www.w3.org/2000/01/rdf-schema#>)
+  Prefix(foaf: <http://xmlns.com/foaf/0.1/>)
+  
+  Prefix(: <http://psoa.ruleml.org/usecases/OfficeProspector/>)
+  Prefix(opd: <http://psoa.ruleml.org/usecases/OfficeProspector/data-external#>)
+  Prefix(op-rtg: <http://psoa.ruleml.org/usecases/OfficeProspector/rating#>)
+  
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/rating.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/office2.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/geocode.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/neighborhood.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/distanceLessEqual.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/amenitiesToronto.n3> <http://www.w3.org/ns/entailment/Simple>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/queries.psoa>)
+
+
+  Group
+  ( 
+    <!--
+        Slot-constraining rules for finding objects matching a user-provided constraint such as "at least" or "at most"
+    -->
+    
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atmost(?valcstrt)) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->?v)
+          External(pred:numeric-less-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atleast(?valcstrt)) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->?v)
+          External(pred:numeric-greater-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atmost(:measure(?valcstrt ?unit))) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->:measure(?v ?unit))
+          External(pred:numeric-less-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atleast(:measure(?valcstrt ?unit))) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->:measure(?v ?unit))
+          External(pred:numeric-greater-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->op-rtg:atleast(?valcstrt)) :-
+        And(
+          ?o#Top(?p->?v#Top(:rating->?rv))
+          op-rtg:matchRating(?rv ?valcstrt)
+        )
+    )
+    
+    <!--
+       Rules for converting measurements
+    -->
+    
+    Forall ?o ?p ?v1 ?v2
+    (
+      ?o#Top(?p->:measure(?v1 :ft)) :-
+        And(
+          ?o#Top(?p->:measure(?v2 :m))
+          ?v1 = External(func:numeric-multiply(?v2 0.3048))
+        )
+    )
+    
+    Forall ?o ?p ?v1 ?v2
+    (
+      ?o#Top(?p->:measure(?v1 :sqft)) :-
+        And(
+          ?o#Top(?p->:measure(?v2 :sqm))
+          ?v1 = External(func:numeric-multiply(?v2 0.0929))
+        )
+    )
+    
+    <!--  
+       Converting measurements for :atleast and :atmost constraints. The rules could be combined 
+       once function variables are available.
+    -->
+    Forall ?o ?p ?v1 ?v2
+    (
+      ?o#Top(?p->:atleast(:measure(?v1 :ft))) :-
+        And(
+          ?o#Top(?p->:atleast(:measure(?v2 :m)))
+          ?v1 = External(func:numeric-multiply(?v2 0.3048))
+        )
+    )
+    
+    Forall ?o ?p ?v1 ?v2
+    (
+      ?o#Top(?p->:atmost(:measure(?v1 :ft))) :-
+        And(
+          ?o#Top(?p->:atmost(:measure(?v2 :m)))
+          ?v1 = External(func:numeric-multiply(?v2 0.3048))
+        )
+    )
+    
+    
+    Forall ?b ?s ?dist
+    (
+      ?b#Top(:constrain(:publicTransAccessDistance)->:atmost(?dist)) :-   % Repeating :Building (instead of Top) in the conclusion would be redundant and could lead to inefficiency
+         And(
+           ?b#:Building
+           ?s#:PublicTransAccess
+           :withinDistance(?b ?s ?dist)
+         )
+    )
+
+    Forall ?b ?dist ?res
+    (
+      ?b#Top(:constrain(:restaurantDistance)->:atmost(?dist)) :-
+         And(
+           ?b#:Building
+           ?res#:Restaurant
+           :withinDistance(?b ?res ?dist)
+         )
+    )
+
+    Forall ?b ?dist ?res
+    (
+      ?b#Top(:constrain(:hotelDistance)->:atmost(?dist)) :-
+         And(
+           ?b#:Building
+           ?res#:Hotel
+           :withinDistance(?b ?res ?dist)
+         )
+    )
+    
+    Forall ?o1 ?o2 ?lat1 ?long1 ?lat2 ?long2 ?dist
+    (
+      :withinDistance(?o1 ?o2 :measure(?dist :m)) :-
+        And(
+          ?o1#:GeoEntity(:coord->:Point(?lat1 ?long1))
+          ?o2#:GeoEntity(:coord->:Point(?lat2 ?long2))
+          :distanceLessEqual(?lat1 ?long1 ?lat2 ?long2 ?dist)
+        )
+    )
+    
+    <!--
+       Rules for deriving slots
+    -->
+    
+    Forall ?b ?rs ?avs ?ts
+    (
+      ?b#Top(:rentedSuites->?rs) :-
+        And(
+          ?b#:Building(:availableSuites->?avs :totalSuites->?ts)
+          ?rs = External(func:numeric-subtract(?avs ?ts))
+        )
+    )
+    
+    Forall ?b ?ocrt ?rs ?ts
+    (
+      ?b#Top(:occupancyRate->?ocrt) :-
+        And(
+          ?b#:Building(:rentedSuites->?rs :totalSuites->?ts)
+          ?ocrt = External(func:numeric-divide(?rs ?ts))
+        )
+    )
+
+    Forall ?s ?n ?t1 ?t2 ?t3
+    (
+      ?s#Top(:estimatedOccupancy->?n) :-
+        And(
+          ?s#:Suite(
+            :totalCubicles->?t1
+            :totalClosedOffices->?t2
+            :totalOpenOfficeArea->?t3
+          )
+          ?n = External(func:numeric-add(?t1 
+                    External(func:numeric-add(?t2
+                              External(func:numeric-divide(?t3 13)))
+                          )
+                    )
+               )
+        )
+    )
+    
+    <!-- Four cardinal directions if oriented north-up -->
+    
+    Forall ?o1 ?o2
+    (
+      ?o1#Top(:adjacent->?o2) :-
+        Or(
+          ?o1#Top(:plusX->?o2)
+          ?o1#Top(:plusY->?o2)
+          ?o1#Top(:minusX->?o2)
+          ?o1#Top(:minusY->?o2)
+        )
+    )
+
+    Forall ?o1 ?o2
+    (
+      ?o2#Top(:minusX->?o1) :-
+        ?o1#Top(:plusX->?o2)
+    )
+
+    Forall ?o1 ?o2
+    (
+      ?o2#Top(:minusY->?o1) :-
+        ?o1#Top(:plusY->?o2)
+    )
+    
+    Forall ?o1 ?o2
+    (
+      ?o2#Top(:hasPart->?o1) :- ?o1#Top(:partOf->?o2)
+    )
+    
+    Forall ?o1 ?o2
+    (
+      ?o2#Top(:partOf->?o1) :- ?o1#Top(:hasPart->?o2)
+    )
+
+    Forall ?x ?y
+    (
+       ?o#Top(:length->:measure(?x :m) :width->:measure(?y :m)) :-
+         And(
+            ?o#:Space(-[?x ?y])
+            External(pred:numeric-greater-than-or-equal(?x ?y))
+         )
+    )
+    
+    Forall ?x ?y
+    (
+       ?o#Top(:length->:measure(?y :m) :width->:measure(?x :m)) :-
+         And(
+            ?o#:Space(-[?x ?y])
+            External(pred:numeric-less-than(?x ?y))
+         )
+    )
+    
+    Forall ?X ?Y
+    (
+      ?X#Top(:hasPartTrans->?Y) :-
+        ?X#Top(:hasPart->?Y)
+    )
+    
+    Forall ?X ?Y ?Z
+    (
+      ?X#Top(:hasPartTrans->?Z) :-
+        And(?X#Top(:hasPart->?Y)
+            ?Y#Top(:hasPartTrans->?Z))
+    )
+
+    <!--
+       Validation Rules
+    -->
+    Forall ?o ?r
+    (
+       :inconsistent(?o) :-
+         ?o#:AllRoomSuite(:hasPart->?r#:OpenSpace)
+    )
+    
+    Forall ?o ?r
+    (
+       :inconsistent(?o) :- 
+         ?o#:AllOpenSuite(:hasPart->?r#:Room)
+    )
+    
+    
+    <!--
+       GeoEntity taxonomy
+    -->
+    :Building##:GeoEntity
+    :PublicTransAccess##:GeoEntity
+    :SubwayStation##:PublicTransAccess
+    :BusAccess##:PublicTransAccess
+    :Hotel##:GeoEntity
+    :Restaurant##:GeoEntity
+    
+    
+    
+    <!--
+       Taxonomy of different kinds of spaces. Spaces inside suites are described based on 
+       (1) their functionality, e.g. office, meeting space, kitchen;
+       (2) whether it open (OpenSpace) or closed (Room).
+       (3) the combination of (1) and (2), e.g. closed office, open meeting space.
+    -->
+    
+    :Office##:Space
+    :ClosedOffice##:Office
+    :Cubicle##:Office
+    :OpenOffice##:Office
+    :MeetingSpace##:Space
+    :ClosedMeetingSpace##:MeetingSpace
+    :OpenMeetingSpace##:MeetingSpace
+    :Kitchen##:Space
+    :ClosedKitchen##:Kitchen
+    :OpenKitchen##:Kitchen
+    :Reception##:Space
+    :ClosedOffice##:Room
+    :ClosedMeetingSpace##:Room
+    :ClosedKitchen##:Room
+    :OpenOffice##:OpenWorkSpace
+    :OpenMeetingSpace##:OpenWorkSpace
+    :OpenWorkSpace##:OpenSpace
+    :OpenKitchen##:OpenSpace
+    :Reception##:OpenSpace
+	
+	:Suite##:Space
+	:Building##:Space
+	:Neighborhood##:Space
+    
+    
+    <!--
+        Knowledge integration rules. Primary keys in relational models are transformed to OIDs using a constructor function.
+    -->
+    
+    
+    <!--
+       In contrast to the :oidcons function, which constructs an OID for each relationship from its predicate 
+       and all of its arguments, the :oidkey function constructs OIDs for each relationship from its predicate 
+       and the arguments that constitute a simple or composite key of the relationship
+    -->
+    Forall ?id ?name ?area ?popul ?crimes ?tb ?te ?ts ?cr ?trd
+    (
+      :oidkey(opd:Neighborhood ?neighborhoodNum)#:Neighborhood(
+        :name->?name
+        :totalBusiness->?tb
+        :totalEmployments->?te
+        :totalPublicTransAccesses->?ts
+        :crimeRate->?cr
+        :publicTransDensity->?trd
+      ) :-
+      And(
+        opd:Neighborhood(?neighborhoodNum ?name ?area ?popul ?crimes ?tb ?te ?ts)
+        ?cr = External(func:numeric-multiply(100 External(func:numeric-divide(?crimes ?popul))))
+        ?trd = External(func:numeric-multiply(100 External(func:numeric-divide(?ts ?popul))))
+      )
+    )
+
+    
+    <!--
+       Create a "slotted extension" from a building object's positional arguments. Since the OID is kept
+       unchanged, its slots that do not occur in the rule are also retained for the conclusion object.
+       Since our rules are only used top-down, the conclusion slots would not stored but only created on-the-fly 
+       while querying.
+    -->
+    Forall ?b ?streetNum ?street ?city ?province ?country ?yearBuilt ?contact
+    (
+       ?b#Top(
+            :streetNum->?streetNum
+            :street->?street
+            :city->?city
+            :prov->?province
+            :country->?country
+            :yearBuilt->?yearBuilt
+            :contact->?contact
+       ) :-
+       ?b#:Building(?streetNum ?street ?city ?province ?country ?yearBuilt ?contact)
+    )
+    
+    <!--
+       Enrich the building object ?b with :coord and :partOf slots obtained from a 5-column join between 
+       buildings and the Geocode relationship.
+       
+       The slot value of :partOf is an OID having the same form as those constructed in the conclusion of
+       the above neighborhood rule, thus creating the connection between building objects and neighborhood
+       objects.
+       
+       Splitting this rule and the rule above makes sure that the expensive join operation is performed only
+       when :coord and :partOf slots are needed to answer the input query, thus improving query efficiency.
+    -->
+    Forall ?b ?streetNum ?street ?city ?province ?country ?yearBuilt ?contact ?lat ?long ?neighborhoodNum
+    (
+       ?b#Top(
+            :coord->:Point(?lat ?long)
+            :partOf->:oidkey(opd:Neighborhood ?neighborhoodNum)
+       ) :-
+       And(
+          ?b#:Building(?streetNum ?street ?city ?province ?country ?yearBuilt ?contact)
+          opd:Geocode(?streetNum ?street ?city ?province ?country ?lat ?long ?neighborhoodNum)
+       )
+    )
+    
+    <!--
+      "slotted extension" rule for suite objects.
+    -->
+    
+    Forall ?s ?floor ?suiteNumber ?area ?monthlyRent
+    (
+      ?s#Top(
+        :floor->?floor
+        :suiteNumber->?suiteNumber
+        :area->:measure(?area :sqm)
+        :monthlyRent->:measure(?monthlyRent :cad)
+      ) :-
+      ?s#:Suite(?floor ?suiteNumber ?area ?monthlyRent)  % Shelf condition needed for OID ?s
+    )
+    
+    Forall ?sp ?x ?y
+    (
+        ?sp#Top(:sideX->:measure(?x :m) :sideY->:measure(?y :m)) :-
+          ?sp#:Space(-[?x ?y])
+    )
+    
+    Forall ?sp ?x ?y ?area
+    (
+        ?sp#Top(:area->:measure(?ar :sqm)) :-
+          And(
+            ?sp#:Space(-[?x ?y])
+            ?ar = External(func:numeric-multiply(?x ?y))
+          )
+    )
+    
+    <!--
+       Rules defining the subset of slots imported from LinkedGeoData (http://linkedgeodata.org/) that are 
+       needed for OfficeProspector.
+       :oidlgd constructs an OID for our use case from each OID used by LinkedGeoData.
+       From LinkedGeoData objects like ns1:node1906274243, derived objects like :oidlgd(ns1:node1906274243) are
+       constructed using this subset of slots.
+    -->
+    
+    Forall ?o ?lat ?long
+    (
+       :oidlgd(?o)#:GeoEntity(:coord->:Point(?lat ?long)) :-
+         ?o#lgdmeta:Node(geo:lat->?lat geo:long->?long)  % Extract lat/long slots from lgdmeta:Node
+    )
+    
+    Forall ?o ?desc
+    (
+      :oidlgd(?o)#Top(:name->?desc) :-
+        ?o#Top(rdfs:label->?desc)
+    )
+    
+    Forall ?o ?cus
+    (
+      :oidlgd(?o)#Top(:cuisine->?cus) :-
+        ?o#Top(lgdo:cuisine->?cus)
+    )
+    
+    Forall ?o ?phone
+    (
+      :oidlgd(?o)#Top(:phone->?phone) :-
+        ?o#Top(foaf:phone->?phone)
+    )
+    
+    Forall ?o ?page
+    (
+      :oidlgd(?o)#Top(:homepage->?page) :-
+        ?o#Top(foaf:homepage->?page)
+    )
+    
+    Forall ?o ?hours
+    (
+      :oidlgd(?o)#Top(:opening_hours->?hours) :-
+        ?o#Top(lgdo:opening_hours->?hours)
+    )
+    
+    Forall ?o
+    (
+       :oidlgd(?o)#:Restaurant :-
+         ?o#lgdo:Restaurant
+    )
+    
+    Forall ?o
+    (
+       :oidlgd(?o)#:BusAccess :-
+         Or(
+           ?o#lgdo:BusStop
+           ?o#lgdo:BusStation
+         )
+    )
+    
+    Forall ?o
+    (
+       :oidlgd(?o)#:TramAccess :-
+         Or(
+           ?o#lgdo:TramStop
+           ?o#lgdo:TramStation
+         )
+    )
+    
+    Forall ?o
+    (
+       :oidlgd(?o)#:SubwayStation :-
+          ?o#lgdo:SubwayEntrance
+    )
+  )
+)
