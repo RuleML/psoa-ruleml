@@ -11,62 +11,23 @@ Document (
   Prefix(opd: <http://psoa.ruleml.org/usecases/OfficeProspector/data-external#>)
   Prefix(op-rtg: <http://psoa.ruleml.org/usecases/OfficeProspector/rating#>)
   
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/SlotConstrainingRules.psoa>)
+  
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/rating.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/office.psoa>)
 %  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/office-simplified.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/distanceLessEqual.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/geocode.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/neighborhood.psoa>)
-  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/distanceLessEqual.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/amenitiesToronto.n3> <http://www.w3.org/ns/entailment/Simple>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/queries.psoa>)
 
 
   Group
-  ( 
+  (
     <!--
-        Slot-constraining rules for expanding slot-constrained queries with user-provided slot name/filler specifications 
-        to retrieve OIDs
+        Domain-specific slot-constraining rules
     -->
-    
-    Forall ?o ?p ?v ?valcstrt
-    (
-      ?o#Top(:constrain(?p)->:atmost(?valcstrt)) :-
-        And(
-          External(pred:is-literal-integer(?valcstrt))
-          ?o#Top(?p->?v)
-          External(pred:numeric-less-than-or-equal(?v ?valcstrt))
-        )
-    )
-
-    Forall ?o ?p ?v ?valcstrt
-    (
-      ?o#Top(:constrain(?p)->:atleast(?valcstrt)) :-
-        And(
-          External(pred:is-literal-integer(?valcstrt))
-          ?o#Top(?p->?v)
-          External(pred:numeric-greater-than-or-equal(?v ?valcstrt))
-        )
-    )
-
-    Forall ?o ?p ?v ?valcstrt
-    (
-      ?o#Top(:constrain(?p)->:atmost(:measure(?valcstrt ?unit))) :-
-        And(
-          External(pred:is-literal-integer(?valcstrt))
-          ?o#Top(?p->:measure(?v ?unit))
-          External(pred:numeric-less-than-or-equal(?v ?valcstrt))
-        )
-    )
-
-    Forall ?o ?p ?v ?valcstrt
-    (
-      ?o#Top(:constrain(?p)->:atleast(:measure(?valcstrt ?unit))) :-
-        And(
-          External(pred:is-literal-integer(?valcstrt))
-          ?o#Top(?p->:measure(?v ?unit))
-          External(pred:numeric-greater-than-or-equal(?v ?valcstrt))
-        )
-    )
 
     Forall ?o ?p ?v ?valcstrt
     (

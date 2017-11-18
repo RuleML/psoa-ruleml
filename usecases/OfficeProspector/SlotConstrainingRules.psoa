@@ -1,0 +1,55 @@
+Document (
+  Prefix(pred: <http://www.w3.org/2007/rif-builtin-predicate#>)
+  
+  Prefix(: <http://psoa.ruleml.org/usecases/OfficeProspector/>)
+  
+  Group
+  (
+    <!--
+        Non-domain-specific slot-constraining rules for expanding slot-constrained queries with user-provided 
+        slot name/filler specifications to retrieve OIDs
+    -->
+    
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atmost(?valcstrt)) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->?v)
+          External(pred:numeric-less-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atleast(?valcstrt)) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->?v)
+          External(pred:numeric-greater-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atmost(:measure(?valcstrt ?unit))) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->:measure(?v ?unit))
+          External(pred:numeric-less-than-or-equal(?v ?valcstrt))
+        )
+    )
+
+    Forall ?o ?p ?v ?valcstrt
+    (
+      ?o#Top(:constrain(?p)->:atleast(:measure(?valcstrt ?unit))) :-
+        And(
+          External(pred:is-literal-integer(?valcstrt))
+          ?o#Top(?p->:measure(?v ?unit))
+          External(pred:numeric-greater-than-or-equal(?v ?valcstrt))
+        )
+    )
+  )
+)
+  
+  
