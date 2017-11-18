@@ -80,7 +80,7 @@ Document (
     Forall ?b ?s ?dist
     (
       ?b#Top(:constrain(:publicTransAccessDistance)->:atmost(?dist)) :-   % Repeating :Building (instead of Top) in the conclusion would be redundant and could lead to inefficiency
-         And(suite2
+         And(
            ?b#:Building
            ?s#:PublicTransAccess
            :withinDistance(?b ?s ?dist)
