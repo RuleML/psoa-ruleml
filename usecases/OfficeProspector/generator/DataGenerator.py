@@ -177,7 +177,7 @@ class FrontDesk(PSOAAtom):
 
     def __init__(self):
         self.predicate = IRI('FrontDesk')
-        self.oid = HVAC.genOID('fd')
+        self.oid = FrontDesk.genOID('fd')
         if random() > 0.8:
             self.opening_hours = '{0}:00-{1}:00'.format(randint(6, 8), randint(16, 19))
         else:
@@ -352,7 +352,7 @@ class Suite(PSOAAtom):
                 self.totalCubicles += 1
             elif iri is SuiteSubspace.openOfficeType:
                 self.totalOpenWorkSpaceArea += space.sideX * space.sideY
-        self.totalOpenWorkSpaceArea = Measure(self.totalOpenWorkSpaceArea, Measure.meter)
+        self.totalOpenWorkSpaceArea = Measure(self.totalOpenWorkSpaceArea, Measure.sqmeter)
 
 
 class SuiteSubspace(PSOAAtom):

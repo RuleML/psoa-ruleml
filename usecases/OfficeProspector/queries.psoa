@@ -120,17 +120,41 @@ Document (
           ?o1#:Kitchen(:adjacent->?o2#:OpenOffice)
         )
     )
+    
+    <!--
+        Variant of :q7 for simplified office data
+    -->
+    
+    Forall ?o1 ?o2 (
+      :q7-s(?o1 ?o2) :-
+        And(
+          :suite2#:Suite(:hasPart->?o1 :hasPart->?o2)
+          ?o1#:Kitchen(:adjacent->?o2#:OpenOffice)
+        )
+    )
 
     <!--
-        Queries can also be posed to find amenities and their information nearby the building of a suite.
-        The following query finds the name and cuisine of any restaurant {\tt ?r} within 1000 meters distance of the suite :st1.
+        Find the name and cuisine of any restaurant ?r within 1000 meters distance of the suite :st2.
     -->
 
     Forall ?b ?r ?name ?cus (
       :q8(?b ?r ?name ?cus) :-
         And(
-          ?b#:Building(:hasPart->:st1)
-          :withinDistance(?b ?r 1000)
+          ?b#:Building(:hasPart->:st2)
+          :withinDistance(?b ?r :measure(1000 :m))
+          ?r#:Restaurant(:name->?name :cuisine->?cus)
+        )
+    )
+    
+    <!--
+        Variant of :q8 for simplified office data
+    -->
+
+    Forall ?b ?r ?name ?cus (
+      :q8-s(?b ?r ?name ?cus) :-
+        And(
+          ?b#:Building(:hasPart->:suite2)
+          :withinDistance(?b ?r :measure(1000 :m))
           ?r#:Restaurant(:name->?name :cuisine->?cus)
         )
     )

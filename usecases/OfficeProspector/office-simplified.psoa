@@ -1,0 +1,60 @@
+Document(
+  Prefix(: <http://psoa.ruleml.org/usecases/OfficeProspector/>)
+  Prefix(op-rtg: <http://psoa.ruleml.org/usecases/OfficeProspector/rating#>)
+
+  Group(
+    :bldg1#:Building("876" "Adelaide St W" "Toronto" "ON" "CA" 
+                     1983 "416-787-830" 
+                     :frontdesk->:f1
+                     :hasPart->:suite1
+                     :hasPart->:suite2 
+                     :hasPart->:suite3 
+                     :totalElevators->1 
+                     :availableSuites->3 
+                     :totalSuites->10)
+                   
+    :suite1#:Suite(1 101 226 2000
+                :entrance->:door1
+                :hasPart->:space1 :hasPart->:space2 :hasPart->:space3
+                :hasPart->:space4 :hasPart->:space5
+                :totalClosedOffices->2
+                :hvac->:h1
+                :utility->:phone :utility->:internet
+               )
+    :door1#:Door(:plusY->:space5)
+    :space1#:Reception(-[6.91 4.6] :plusX->:space2)
+    :space2#:ClosedOffice(-[3.45 4.6] :plusX->:space3)
+    :space3#:ClosedOffice(-[3.45 4.6] :plusX->:space4)
+    :space4#:ClosedMeetingSpace(-[7.35 10.5])
+    :space5#:OpenWorkSpace(-[9.6 5.61] :plusX->:space4
+                        :plusY->:space1 :plusY->:space2 :plusY->:space3)
+    :h1#:HVAC(:rating->op-rtg:advanced)
+
+    :suite2#:Suite(2 205 150 1500
+                :entrance->:door2
+                :hasPart->:space6 :hasPart->:space7 :hasPart->:space8 :hasPart->:space9
+                :totalOpenOffices->2
+                :hvac->:h2
+                :utility->:phone :utility->:internet
+               )
+    :door2#:Door(:plusY->:space6)
+    :space6#:OpenSpace(-[24 1] :plusY->:space7 :plusY->:space8 :plusY->:space9)
+    :space7#:OpenOffice(-[6.2 5.1] :plusX->:space8)
+    :space8#:ClosedKitchen(-[6.2 5.1] :plusX->:space9)
+    :space9#:OpenMeetingSpace(-[10.3 5.1])
+    :h2#:HVAC(:rating->op-rtg:regular)
+
+    :suite3#:Suite(3 303 100 1000
+                :entrance->:door3
+                :hasPart->:space10 :hasPart->:space11 :hasPart->:space12
+                :totalClosedOffices->2
+                :hvac->:h3
+                :utility->:phone :utility->:internet
+               )
+    :door3#:Door(:plusY->:space10)
+    :space10#:OpenSpace(-[24 1] :plusY->:space11 :plusY->:space12)
+    :space11#:ClosedOffice(-[7.2 6.1] :plusX->:space12)
+    :space12#:ClosedOffice(-[7.2 6.1])
+    :h3#:HVAC(:rating->op-rtg:basic)
+  )
+)

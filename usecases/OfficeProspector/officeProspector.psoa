@@ -12,7 +12,8 @@ Document (
   Prefix(op-rtg: <http://psoa.ruleml.org/usecases/OfficeProspector/rating#>)
   
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/rating.psoa>)
-  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/office2.psoa>)
+  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/office.psoa>)
+%  Import(<http://psoa.ruleml.org/usecases/OfficeProspector/office-simplified.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/geocode.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/neighborhood.psoa>)
   Import(<http://psoa.ruleml.org/usecases/OfficeProspector/distanceLessEqual.psoa>)
@@ -23,7 +24,8 @@ Document (
   Group
   ( 
     <!--
-        Slot-constraining rules for finding objects matching a user-provided constraint such as "at least" or "at most"
+        Slot-constraining rules for expanding slot-constrained queries with user-provided slot name/filler specifications 
+        to retrieve OIDs
     -->
     
     Forall ?o ?p ?v ?valcstrt
@@ -75,6 +77,50 @@ Document (
         )
     )
     
+    Forall ?b ?s ?dist
+    (
+      ?b#Top(:constrain(:publicTransAccessDistance)->:atmost(?dist)) :-   % Repeating :Building (instead of Top) in the conclusion would be redundant and could lead to inefficiency
+         And(suite2
+           ?b#:Building
+           ?s#:PublicTransAccess
+           :withinDistance(?b ?s ?dist)
+         )
+    )
+
+    Forall ?b ?dist ?res
+    (
+      ?b#Top(:constrain(:restaurantDistance)->:atmost(?dist)) :-
+         And(
+           ?b#:Building
+           ?res#:Restaurant
+           :withinDistance(?b ?res ?dist)
+         )
+    )
+
+    Forall ?b ?dist ?res
+    (
+      ?b#Top(:constrain(:hotelDistance)->:atmost(?dist)) :-
+         And(
+           ?b#:Building
+           ?res#:Hotel
+           :withinDistance(?b ?res ?dist)
+         )
+    )
+    
+    Forall ?o1 ?o2 ?lat1 ?long1 ?lat2 ?long2 ?dist
+    (
+      :withinDistance(?o1 ?o2 :measure(?dist :m)) :-
+        And(
+          ?o1#:GeoEntity(:coord->:Point(?lat1 ?long1))
+          ?o2#:GeoEntity(:coord->:Point(?lat2 ?long2))
+          :distanceLessEqual(?lat1 ?long1 ?lat2 ?long2 ?dist)
+        )
+    )
+    
+    
+    
+    
+    
     <!--
        Rules for converting measurements
     -->
@@ -120,48 +166,11 @@ Document (
     )
     
     
-    Forall ?b ?s ?dist
-    (
-      ?b#Top(:constrain(:publicTransAccessDistance)->:atmost(?dist)) :-   % Repeating :Building (instead of Top) in the conclusion would be redundant and could lead to inefficiency
-         And(
-           ?b#:Building
-           ?s#:PublicTransAccess
-           :withinDistance(?b ?s ?dist)
-         )
-    )
-
-    Forall ?b ?dist ?res
-    (
-      ?b#Top(:constrain(:restaurantDistance)->:atmost(?dist)) :-
-         And(
-           ?b#:Building
-           ?res#:Restaurant
-           :withinDistance(?b ?res ?dist)
-         )
-    )
-
-    Forall ?b ?dist ?res
-    (
-      ?b#Top(:constrain(:hotelDistance)->:atmost(?dist)) :-
-         And(
-           ?b#:Building
-           ?res#:Hotel
-           :withinDistance(?b ?res ?dist)
-         )
-    )
     
-    Forall ?o1 ?o2 ?lat1 ?long1 ?lat2 ?long2 ?dist
-    (
-      :withinDistance(?o1 ?o2 :measure(?dist :m)) :-
-        And(
-          ?o1#:GeoEntity(:coord->:Point(?lat1 ?long1))
-          ?o2#:GeoEntity(:coord->:Point(?lat2 ?long2))
-          :distanceLessEqual(?lat1 ?long1 ?lat2 ?long2 ?dist)
-        )
-    )
+    
     
     <!--
-       Rules for deriving slots
+       Vocabulary-extension rules for deriving new slots
     -->
     
     Forall ?b ?rs ?avs ?ts
@@ -265,21 +274,8 @@ Document (
         And(?X#Top(:hasPart->?Y)
             ?Y#Top(:hasPartTrans->?Z))
     )
-
-    <!--
-       Validation Rules
-    -->
-    Forall ?o ?r
-    (
-       :inconsistent(?o) :-
-         ?o#:AllRoomSuite(:hasPart->?r#:OpenSpace)
-    )
     
-    Forall ?o ?r
-    (
-       :inconsistent(?o) :- 
-         ?o#:AllOpenSuite(:hasPart->?r#:Room)
-    )
+    
     
     
     <!--
@@ -291,6 +287,8 @@ Document (
     :BusAccess##:PublicTransAccess
     :Hotel##:GeoEntity
     :Restaurant##:GeoEntity
+    
+    
     
     
     
@@ -326,8 +324,11 @@ Document (
 	:Neighborhood##:Space
     
     
+    
+    
+    
     <!--
-        Knowledge integration rules. Primary keys in relational models are transformed to OIDs using a constructor function.
+        Integration rules for knowledge enrichment. Primary keys in relational models are transformed to OIDs using a constructor function.
     -->
     
     
@@ -352,12 +353,11 @@ Document (
         ?trd = External(func:numeric-multiply(100 External(func:numeric-divide(?ts ?popul))))
       )
     )
-
     
     <!--
        Create a "slotted extension" from a building object's positional arguments. Since the OID is kept
        unchanged, its slots that do not occur in the rule are also retained for the conclusion object.
-       Since our rules are only used top-down, the conclusion slots would not stored but only created on-the-fly 
+       Since our rules are only used top-down, the conclusion slots would not be stored but only created on-the-fly 
        while querying.
     -->
     Forall ?b ?streetNum ?street ?city ?province ?country ?yearBuilt ?contact
