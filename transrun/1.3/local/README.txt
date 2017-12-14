@@ -1,7 +1,7 @@
 PSOATransRun 1.3 README                                              2017-11-21
 
 OVERVIEW
-PSOATransRun is an implementation of the Positional-Slotted, Object-Applicative
+PSOATransRun is an implementation of the Positional-Slotted Object-Applicative
 RuleML (PSOA RuleML) language. This PSOATransRun release includes a composition 
 of a translator PSOA2Prolog, from PSOA RuleML to a subset of the logic 
 programming language ISO Prolog, with the well-known efficient XSB Prolog engine.
@@ -42,7 +42,8 @@ variable is set to <xsb_dir>.
 presentation syntax.
 
 Here are copy&paste-ready examples of invoking the query loop command on different platforms,
-assuming EDITME.psoa is a file used for repeatedly editing KBs with one's favorite text editor.
+assuming EDITME.psoa is a file, in <PSOATransRun_dir>, used for repeatedly editing KBs with
+one's favorite text editor.
 
 Windows (assuming the XSB installation directory <xsb_dir> is expanded to C:\Program Files\XSB\):
    java -jar PSOATransRunLocal.jar -x "C:\Program Files\XSB\" -i EDITME.psoa
@@ -54,11 +55,11 @@ Advanced query loop variations will be shown via the help command (-?):
    java -jar PSOATransRunLocal.jar -?
 
 4. After the message "KB loaded" is shown, queries can be posed. Each query must be 
-written without intervening Newline characters and terminated by pressing the Enter key.
+written without intervening Newline characters and only terminated by pressing the Enter key.
 One answer at a time will be shown. To get the next answer, press the semicolon key. 
 To proceed to the next query, press the Enter key. To exit a query loop, press Ctrl+C, and
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
 PSOATransRun 1.3 RELEASE NOTES
-* Added support for dependent and independent descriptors
+* Added support for dependent and independent descriptors, see https://arxiv.org/abs/1712.02869
 * Added built-ins from ISO Prolog, see http://wiki.ruleml.org/index.php/PSOA_RuleML#Built-ins
