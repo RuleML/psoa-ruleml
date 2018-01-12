@@ -1,4 +1,4 @@
-PSOATransRun 1.3 README                                              2017-12-13
+PSOATransRun 1.3 README                                              2018-01-12
 
 OVERVIEW
 PSOATransRun is an implementation of the Positional-Slotted Object-Applicative
@@ -14,7 +14,7 @@ Prerequisites:
   Install Java version 8.0 or higher
   Install XSB Prolog 3.6 or higher (http://xsb.sourceforge.net) to a directory,
   the path of which we will call <xsb_dir>, e.g. ...
-  ... in Windows:                C:\Program Files\XSB\
+  ... in Windows:                C:\Program Files\XSB
   ... in Linux/Mac OS X:         ~/XSB/
 
 USAGE
@@ -45,8 +45,8 @@ Here are copy&paste-ready examples of invoking the query loop command on differe
 assuming EDITME.psoa is a file, in <PSOATransRun_dir>, used for repeatedly editing KBs with
 one's favorite text editor.
 
-Windows (assuming the XSB installation directory <xsb_dir> is expanded to C:\Program Files\XSB\):
-   java -jar PSOATransRunLocal.jar -x "C:\Program Files\XSB\" -i EDITME.psoa
+Windows (assuming the XSB installation directory <xsb_dir> is expanded to C:\Program Files\XSB):
+   java -jar PSOATransRunLocal.jar -x "C:\Program Files\XSB" -i EDITME.psoa
     
 Linux/Mac OS X (assuming the XSB installation directory <xsb_dir> is expanded to ~/XSB/):
    java -jar PSOATransRunLocal.jar -x ~/XSB/ -i EDITME.psoa
