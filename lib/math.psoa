@@ -18,5 +18,8 @@ Document
     Forall ?x ?y (
       :greaterEq(?x ?y) :- External(pred:numeric-greater-than-or-equal(?x ?y))
     )
+    Forall ?r ?x ?y (
+      :multiply(?r ?x ?y) :- ?r = External(func:numeric-multiply(?x ?y))
+    )
   )
 )
