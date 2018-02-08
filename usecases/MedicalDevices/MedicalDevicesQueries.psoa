@@ -1,0 +1,89 @@
+%Queries and Answers for Classification
+
+:IsClassifiedIn(:MDN1202c :IIa)                %No
+:IsClassifiedIn(:MDA0204 :IIb)				   %Yes
+:IsClassifiedIn(:MDA0104-ST ?c)                %?c =:III
+:IsClassifiedIn(?m :I)                  %?m = :MDN1214, ?m=:MDN1204a, ?m=:DeviceR5a,?m=:MDS1006,?m=:MDA0202, ?m=:MDA0318
+:IsClassifiedIn(?m :IIa)          %?m=MDN1202a, MDN1202b, DeviceR3b, MDN1204c, DeviceR5b, MDA01, MDA01-ST, MDN1103, 
+                                  %MDA0302, MDA02, MDA0315, MDA0306, MDA0317a, DeviceR17, MDS1007a, DeviceR20, MDN1213b 
+:IsClassifiedIn(?m ?c)           %All devices and in which class are classified
+:IsClassifiedIn(?m#:CharacteristicsOfMD(:use->:ModifyingComposition) :III)       %?m=MDS1003, MDS1002, MDN1212
+
+:CategoryOfDevice(:MDA0301 ?g)                  %?g =:A9b
+:CategoryOfDevice(?m :I6c)        %?m=MDA0104, ?m=MDA0104a, ?m=MDA0102
+:CategoryOfDevice(?m ?g)         %All devices and in which group they belong
+:CategoryOfDevice(?m#:CharacteristicsOfMD(:use->:ModifyingComposition) :A10b)     %No
+:CategoryOfDevice(?m#:CharacteristicsOfMD(:use->:ModifyingComposition) :N3a)      %?m=:DeviceR3a
+
+:MDN1204b#:CharacteristicsOfMD(:type->:NonInvasive)         %Yes
+:MDA0104#:CharacteristicsOfMD(:use->:BodySubstances)       %No
+:MDS1003#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->?s)    %?s =:InVitro
+
+?m#:CharacteristicsOfMD(:use->:DiagnosisMonitoring) %?m=:MDA0204, ?m=:MDA0201, ?m=:MDA0202, ?m=:MDA02						
+?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->?r)  %?m=:MDN11, ?r=:None,    
+                                                                             %?m=:MDN1103, ?r=:Dental, 
+                                                                             %?m=:MDN1101, ?r=:CentralSystems, 
+																			 %?m=:MDN1102, ?r=:Implants, 
+																			 %?m=:MDN1104, ?r=:BiologicalOrMedicalChange
+																	
+?m#:CharacteristicsOfMD(:specificCase->:None)      %?m = :MDA0306, ?m=:MDN1210, ?m=:MDA01-ST,?m=:MDS1010 ?m=:MDN11
+                                                   %?m=:MDA01, ?m=:MDA02,?m=:DeviceR17 ?m=:MDA0318, ?m=:DeviceR20
+												   %?m = :DeviceR22, ?m=:MDN1214, ?m=:MDS1001,?m=:MDA0315 ?m=:MDS1005
+										
+?m#:CharacteristicsOfMD(:duration->?d)   % ?m=DeviceR5a, ?d=0.5
+                                         % ?m=DeviceR5b, ?d=5                                         
+                                         % ?m=DeviceR5c, ?d=55
+
+                                       
+%Queries and Answers for CE marking
+
+:MarketableMD(:MDN1104)           %No     
+:MarketableMD(:MDA0104b-ST)       %Yes 
+:MarketableMD(:MDN1102)           %Yes
+:MarketableMD(?m)                  %Devices in Yes in "Classification and Marketability.pdf"
+
+:HasCEwithNBN(?m)                  %:Devices in Yes in "Classification and Marketability.pdf"
+:HasCEwithNBN(:MDA0318)            %Yes
+:HasCEwithNBN(:DeviceR3b)           %No
+
+:RegisterWithTheECA(?m)           %:MDN1214, MDA0202, MDA0318, DeviceR5a, MDS1005, MDS1010
+:DesignDossierCertificate(?m)     %:MDN1212, MDN1101
+:TypeExamination(?m)              %:MDN1104, MDA0301, MDA0204, MDN1211, MDA0317 and Devices in Yes in Class IIb, III (pdf)
+
+:RequirementsOfQualityType(:device->?m :design->:Verification  :manufacture->:Verification)   %:MDA0317a, MDN11, DeviceR17, 
+                                                                                              %:MDN1103, DS1009					  
+:RequirementsOfQualityType(:device->:MDN1202b :design->:Yes :manufacture->:Yes)                %Yes      
+:QualityType(?m :ProductionQuality)                                                            %:MDA0306, MDA0104-ST, MDN1210, DeviceR3a, 
+                                                                                               %:DeviceR5b, MDA0201, MDA0315b
+:QualityType(?m :FullQualityCII)                                                               %:MDN1202a, MDA0104b-ST, MDN1202b, MDN1202c, MDS1007b, DeviceR5c, MDA0104, MDA01-ST, MDA0101-ST
+
+:ConformityAssesment(:device->?m :vigilanceSystem->:No)          %:DMDS1007b. DeviceR5b, MDA01, MDA0315c
+:ConformityAssesment(:device->:MDA0102 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)  %No
+
+:DeclarationOfConformityInClass(?m :IIa)            %Devices in Yes for each class in "Classification and Marketability.pdf"
+:DeclarationOfConformityInClass(?m :IIb)
+
+:DeclarationOfConformityInClass(?m :Is)             %:Device MDS1005
+:DeclarationOfConformityInClass(?m :Im)             %:Device MDS1010
+
+
+								 
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+

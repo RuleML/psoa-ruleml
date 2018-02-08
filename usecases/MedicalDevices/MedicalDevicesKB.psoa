@@ -1,0 +1,1011 @@
+RuleML (
+     Prefix(: <http://psoa.ruleml.org/usecases/MedicalDevices#>) 
+	 Prefix(math: <http://psoa.ruleml.org/lib/math#>)
+     Prefix(phys: <http://psoa.ruleml.org/lib/phys#>)
+  
+     Import(<http://psoa.ruleml.org/lib/math.psoa>)
+     Import(<http://psoa.ruleml.org/lib/phys.psoa>)
+    
+	Assert (
+ 
+     % Medical Devices Classification and Marketability Knowledge Base
+     % Version: 2018-02-08
+     % Author: Sofia Almpani
+     % Affiliation: School of Electrical and Computer Engineering, National Technical University of Athens, Greece
+ 
+     % Reordering and subgrouping rules from REGULATION (EU) 2017/745 - Annex IX Chapter III (page 141)
+     % Link: http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32017R0745&from=DE
+ 
+ 
+ 	% Manufacturers of medical devices will need to declare the classification of their products. There are four classes:
+    % Class I - Generally regarded as low risk such as stethoscopes, bandages, etc. The devices are non-invasive. 
+	%           The manufacturer must complete a technical file with a declaration of conformity.
+    % Class IIa - Generally regarded as low-to-medium risk devices such as a hearing-aid.
+	%             This class also warrants technical files as well as having a European Notified Body perform a Quality Assurance.
+    % Class IIb - Generally regarded as are medium-to-high risk such as ventilators and intensive-care monitoring equipment. 
+	%             Compliance workflow is the same as Class IIa with an additional step of type examination of the device by the European 
+	%             Notified Body.
+ 	% Class III - Generally regarded as high risk such as balloon catheters and prosthetic heart valves. 
+	%             The steps to approval are audit of the full quality assurance system and examination of the design by the European 
+	%             Notified Body examination and testing of the device.
+ 
+	
+    % Rules for Non-Invasive Devices
+ 	
+    % Rule 1 
+	% Devices that either do not touch the patient or contact intact skin only.
+    	
+     Forall ?m (
+ 	 :CategoryOfDevice(?m :N1) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:None :specificCase->:None) 
+ 	)				   
+     
+    % Rule 2  
+    % Channeling or storing for eventual administration. 
+	
+     Forall ?m (	
+ 	:CategoryOfDevice(?m :N2a) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ChannelingOrStoring :specificCase->:ConnectWithAD)
+ 	)
+ 	
+ 	Forall ?m (
+ 	:CategoryOfDevice(?m :N2b) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ChannelingOrStoring :specificCase->:ForStoringOrgans)
+ 	)
+	
+	Forall ?m (
+ 	:CategoryOfDevice(?m :N2c) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ChannelingOrStoring :specificCase->:BloodBags)
+ 	) 
+ 	
+ 	% Rule 3  
+	% Devices that modify biological or chemical composition of blood, body liquids or other liquids.
+   
+     Forall ?m (
+ 	:CategoryOfDevice(?m :N3a) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:Implantation)
+ 	)
+ 	
+ 	Forall ?m (				   
+ 	 :CategoryOfDevice(?m :N3b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:Filtration)
+ 	)
+ 	
+ 	Forall ?m (
+ 	 :CategoryOfDevice(?m :N3c) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:InVitro)
+ 	)
+ 	
+ 	% Rule 4 
+    % Devices in contact with injured skin.
+    
+     Forall ?m (
+ 	 :CategoryOfDevice(?m :N4a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ContactInjuredSkin :specificCase->:MechanicalBarrier)
+ 	)
+ 								  
+ 	Forall ?m (
+ 	 :CategoryOfDevice(?m :N4b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ContactInjuredSkin :specificCase->:UsedPrincipally)
+ 	)
+ 								  
+ 	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :N4c) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:NonInvasive :use->:ContactInjuredSkin :specificCase->:ManageMicroenvironment)
+ 	)
+ 	
+    % Rules for Invasive Devices 
+ 	
+    % Rule 5
+	% Devices invasive in body orifices.
+    	
+    Forall ?m (
+ 	 :CategoryOfDevice(?m :I5a) :-
+    ?m#:CharacteristicsOfMD(:type->:Invasive :use->:NonSurgically :specificCase->:Transient)	
+	)
+
+	Forall ?m (
+ 	 :CategoryOfDevice(?m :I5b) :-
+ 	?m#:CharacteristicsOfMD(:type->:Invasive :use->:NonSurgically :specificCase->:ShortTerm)
+ 	)			   
+	
+	Forall ?m (
+ 	 :CategoryOfDevice(?m :I5c) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Invasive :use->:NonSurgically :specificCase->:LongTerm)
+ 	)
+	
+	% Time Period of usage of Medical Devices in Rule 5
+	 
+    Forall ?m ?d (
+         ?m#:Time(:specificCase ->:Transient) :-
+           And(?m#:CharacteristicsOfMD(:duration->?d) 
+            math:lessThan(?d 0.02))
+		)
+
+    Forall ?m ?d (
+         ?m#:Time(:specificCase ->:ShortTerm) :-
+           And(?m#:CharacteristicsOfMD(:duration->?d) 
+            math:lessEq(?d 30)
+			math:greaterEq(?d 0.02))
+			)
+			
+	Forall ?m ?d (
+      ?m#:Time(:specificCase->:LongTerm) :-
+           And(?m#:CharacteristicsOfMD(:duration->?d) 
+       			math:greaterThan(?d 30))
+				)
+     
+    % Rule 6 
+	% Surgically invasive devices for transient use except if there are reusable surgical instruments.
+     
+    Forall ?m (	
+ 	:CategoryOfDevice(?m :I6) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:None)
+ 	)
+ 	
+ 	Forall ?m (	
+ 	:CategoryOfDevice(?m :I6a) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:CirculatorySystem)
+ 	)
+	
+	Forall ?m (	
+ 	:CategoryOfDevice(?m :I6b) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:ReusableInstruments)
+ 	)
+	
+	 % Here and later, polyadic Xor (not yet available in PSOA) is simplified to polyadic Or (more efficient),
+     % where all disjuncts but one are understood to be false.
+
+	Forall ?m (	
+ 	:CategoryOfDevice(?m :I6c) :-
+ 	 Or (?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:Ionization) 
+	     ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:DeliverySystem) 
+	     ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:BiologicalEffect))
+ 	)
+   
+    % Rule 7  
+	% Surgically invasive devices for short term use.
+   
+    Forall ?m (
+ 	:CategoryOfDevice(?m :I7) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:None)
+ 	)
+ 	
+ 	Forall ?m (
+ 	:CategoryOfDevice(?m :I7a) :-
+ 	 Or(?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:CirculatorySystem)
+        ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:BiologicalEffect))	 
+	)
+	
+	Forall ?m (
+ 	:CategoryOfDevice(?m :I7b) :-
+ 	 Or(?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:Ionization)
+	    ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:ChemicalChanges)
+		?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:Medicines))
+ 	)
+ 	 
+	% Rule 8
+	% Surgically invasive devices for long term use and implantable devices.
+    
+    Forall ?m (
+ 	 :CategoryOfDevice(?m :I8) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:None)
+ 	)
+ 								  
+ 	Forall ?m (
+ 	 :CategoryOfDevice(?m :I8a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:Dental)
+ 	)
+	
+	Forall ?m (
+ 	 :CategoryOfDevice(?m :I8b) :-
+ 	  Or(?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:CentralSystems)
+	     ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:Implants)
+		 ?m#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:BiologicalOrMedicalChange))
+ 	)
+ 		
+ 	% Rules for Active Devices
+ 	
+ 	% Rule 9 
+	% Active therapeutic devices intended to exchange or administer energy.
+    	
+    Forall ?m (
+ 	 :CategoryOfDevice(?m :A9a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:Therapeutic :specificCase->:Energy) 
+ 	)	
+
+    Forall ?m (
+ 	 :CategoryOfDevice(?m :A9b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:Therapeutic :specificCase->:Ionizing) 
+ 	)	
+
+     Forall ?m (
+ 	 :CategoryOfDevice(?m :A9c) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:Therapeutic :specificCase->:ConnectingWithImplantable) 
+ 	)		
+     
+    % Rule 10  
+	% Active devices for diagnosis.
+     
+     Forall ?m (	
+ 	:CategoryOfDevice(?m :A10) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:None)
+ 	)
+ 	
+ 	Forall ?m (
+ 	:CategoryOfDevice(?m :A10a) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:VisibleSpectrum)
+ 	)
+	
+	Forall ?m (
+ 	:CategoryOfDevice(?m :A10b) :-
+ 	 Or(?m#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:Radiology)
+	   ?m#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:CentralSystems))
+ 	)
+ 	
+ 	% Rule 11 
+	% Softwares
+   
+     Forall ?m (
+ 	:CategoryOfDevice(?m :A11) :-
+ 	 ?m#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:None)
+ 	)
+ 	
+ 	Forall ?m (				   
+ 	 :CategoryOfDevice(?m :A11a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:PossibleIrreversibleHealthDeterioration)
+ 	)
+ 	
+ 	Forall ?m (
+ 	 :CategoryOfDevice(?m :A11b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:PossibleSeriousHealthDeterioration)
+ 	)
+	
+	Forall ?m (
+ 	 :CategoryOfDevice(?m :A11c) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:OtherSoftwares)
+ 	)
+ 	
+ 	% Rule 12  
+    % Active devices to administer, remove medicines and other substances to or from the body.
+
+	Forall ?m (
+ 	 :CategoryOfDevice(?m :A12) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:MoveSubstances :specificCase->:None)
+ 	)
+ 								  
+ 	Forall ?m (
+ 	 :CategoryOfDevice(?m :A12a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:MoveSubstances :specificCase->:PotentiallyHazardous)
+ 	)
+ 		
+    % Rule 13 
+	% All other active devices.
+	
+ 	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :A13) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Active :use->:AllOtherAD :specificCase->:None)
+ 	)
+	
+	% Special Rules
+	
+	% Rule 14
+	% Devices incorporating a medicinal substance
+ 	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S14) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:MedicalSubstance :specificCase->:None)
+ 	)
+	
+	% Rule 15
+	% Devices used for contraception or prevention of sexually transmitted diseases.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S15) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:SexualTransmitted :specificCase->:None)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S15a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:SexualTransmitted :specificCase->:Implantable)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S15a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:SexualTransmitted :specificCase->:LongTerm)
+ 	)
+	
+	% Rule 16
+	% Specific disinfecting, cleaning and rinsing devices.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S16a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Disinfecting :specificCase->:ContactLenses)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S16a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Disinfecting :specificCase->:InvasiveDevices)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S16b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Disinfecting :specificCase->:MedicalDevices)
+ 	)
+	
+	% Rule 17
+	% Non-active devices to record X-ray diagnostic images.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S17) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Xray :specificCase->:None)
+ 	)
+	
+	% Rule 18
+	% Devices utilizing animal tissues or derivatives.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S18) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Derivatives :specificCase->:None)
+ 	)
+	
+	% Rule 19
+	% Nanomaterial.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S19a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Nanomaterial :specificCase->:HighExposure)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S19b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Nanomaterial :specificCase->:LowExposure)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S19c) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Nanomaterial :specificCase->:NegligibleExposure)
+ 	)
+	
+	% Rule 20
+	% Devices with respect to body orifices for inhalation.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S20) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Inhalation :specificCase->:None)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S20a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Inhalation :specificCase->:LifeThreatening)
+ 	)
+		
+	% Rule 21
+	% Devices that are intended to be introduced into the human body via a body orifice.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S21a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:Metabolism)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S21a) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:Stomach)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S21b) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:OnCavities)
+ 	)
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S21c) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:AllOtherCases)
+ 	)
+	
+	% Rule 22
+	% Active therapeutic devices with an integrated or incorporated diagnostic function.
+	
+	Forall ?m (							  
+ 	 :CategoryOfDevice(?m :S2s) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:IntegratedDiagnostic :specificCase->:None)
+ 	)
+	
+   %Extra Classification groupings for Class I (Different requirements for CE marking)
+   
+   %Devices in Class I in sterile condition.
+   Forall ?m (							  
+ 	 :CategoryOfDevice(?m :Ss) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Sterile :specificCase->:None)
+ 	)
+	
+	%Devices in Class I with a measuring function.
+   Forall ?m (							  
+ 	 :CategoryOfDevice(?m :Sm) :-
+ 	  ?m#:CharacteristicsOfMD(:type->:Special :use->:Measuring :specificCase->:None)
+ 	)
+	
+	%Classification Grouping
+    
+	%Class I
+	
+ 	Forall ?m (
+	:IsClassifiedIn(?m :I) :- 
+       Or(:CategoryOfDevice(?m :N1)
+          :CategoryOfDevice(?m :N4a)
+		  :CategoryOfDevice(?m :I5a)
+          :CategoryOfDevice(?m :I6b)
+		  :CategoryOfDevice(?m :A10a)
+          :CategoryOfDevice(?m :A11c)
+		  :CategoryOfDevice(?m :A13))
+	 )
+	 
+	 %Class Is
+	 
+	 :IsClassifiedIn(?m :Is) :- 
+       :CategoryOfDevice(?m :Ss)
+	   
+	 %Class Im
+	 
+	 :IsClassifiedIn(?m :Im) :- 
+       :CategoryOfDevice(?m :Sm)
+        
+        
+	 
+	 
+	%Class IIa 
+	
+	 Forall ?m (
+	:IsClassifiedIn(?m :IIa) :-
+       Or(:CategoryOfDevice(?m :N2a)
+	       :CategoryOfDevice(?m :N2b)
+          :CategoryOfDevice(?m :N3b)
+          :CategoryOfDevice(?m :N4c)
+		  :CategoryOfDevice(?m :I5b)
+          :CategoryOfDevice(?m :I6)
+          :CategoryOfDevice(?m :I7)
+		  :CategoryOfDevice(?m :I8a)
+		  :CategoryOfDevice(?m :A9a)
+          :CategoryOfDevice(?m :A10)
+          :CategoryOfDevice(?m :A11)
+		  :CategoryOfDevice(?m :A12)
+		  :CategoryOfDevice(?m :S16b)
+		  :CategoryOfDevice(?m :S17)
+		  :CategoryOfDevice(?m :S19a)
+		  :CategoryOfDevice(?m :S20)
+		  :CategoryOfDevice(?m :S21b))
+	   )
+	   
+ 	%Class IIb
+	
+	Forall ?m (
+	:IsClassifiedIn(?m :IIb) :-
+       Or(:CategoryOfDevice(?m :N2c)
+	       :CategoryOfDevice(?m :N3a)
+	       :CategoryOfDevice(?m :N4b)
+		   :CategoryOfDevice(?m :I5c)
+	       :CategoryOfDevice(?m :I6c)
+	       :CategoryOfDevice(?m :I7a)
+		   :CategoryOfDevice(?m :I8)
+		   :CategoryOfDevice(?m :A9b)
+	       :CategoryOfDevice(?m :A10b)
+	       :CategoryOfDevice(?m :A11b)
+		   :CategoryOfDevice(?m :A12a)
+		   :CategoryOfDevice(?m :S15)
+		   :CategoryOfDevice(?m :S16a)
+		   :CategoryOfDevice(?m :S19b)
+		   :CategoryOfDevice(?m :S20a)
+		   :CategoryOfDevice(?m :S21c))
+	   )
+	
+	%Class III
+	
+ 	Forall ?m (
+	:IsClassifiedIn(?m :III) :-
+        Or(:CategoryOfDevice(?m :I6a)
+	     :CategoryOfDevice(?m :I7b)
+		 :CategoryOfDevice(?m :I8b)
+		 :CategoryOfDevice(?m :N3c)
+		 :CategoryOfDevice(?m :A9c)
+	     :CategoryOfDevice(?m :A11a)
+		 :CategoryOfDevice(?m :S14)
+		 :CategoryOfDevice(?m :S15a)
+		 :CategoryOfDevice(?m :S18)
+		 :CategoryOfDevice(?m :S19a)
+		 :CategoryOfDevice(?m :S21a)
+		 :CategoryOfDevice(?m :S22))
+	 )
+	 
+	% Workflow to CE marking for Medical Devices with Notified Body Number (NBN) for Manufacturers
+	
+	% For Manufacturer's Declaration of Conformity the following five requirements must be fulfilled:
+	% 1. Conformity Assessment & Technical File of the Medical Device - Annex VII
+	% 2. Manufacturer appointing an European Authorized Representative (EAR) as in 93/42/EEC, Article 1 parag.2
+	% 3a. European Competent Authorities (ECA) as in 93/42/EEC, Article 14 for Class I
+	% 3b. Quality Assurance for Classes IIa,IIb,III
+	% 4. Type examination for Classes IIb,III - Annex III
+	% 5. Design Dossier Certificate in Full Quality Assurance for Class III
+	
+	
+	%Requirements for all Classes
+	
+	Forall ?m (
+	:MarketableMD(?m) :-
+     :HasCEwithNBN(?m)
+    )
+	 
+	Forall ?m (:HasCEwithNBN(?m) :-
+	:DeclarationOfConformity(?m)      
+	)
+	
+	Forall ?m (:DeclarationOfConformity(?m) :-
+	 Or(:DeclarationOfConformityInClass(?m :I)
+	    :DeclarationOfConformityInClass(?m :Is)
+		:DeclarationOfConformityInClass(?m :Im)
+	    :DeclarationOfConformityInClass(?m :IIa)
+		:DeclarationOfConformityInClass(?m :IIb)
+		:DeclarationOfConformityInClass(?m :III))
+		)
+	
+	%Requirements for Class I
+	
+	Forall ?m (:DeclarationOfConformityInClass (?m :I) :-
+	 And (:IsClassifiedIn(?m :I)
+	      :RegisterWithTheECA(?m)
+	      :AppointingAnEAR(?m)
+		  :ConformityAssesment(:device->?m :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No))
+	)	
+	
+	%Requirements for Class Is
+	
+	Forall ?m (:DeclarationOfConformityInClass (?m :Is) :-
+	 And (:IsClassifiedIn(?m :Is)
+	      :RegisterWithTheECA(?m)
+	      :AppointingAnEAR(?m)
+		  :ConformityAssesment(:device->?m :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+		  :NBforSterileConditions(?m))
+	)	
+	
+	%Requirements for Class Im
+	
+	Forall ?m (:DeclarationOfConformityInClass (?m :Im) :-
+	 And (:IsClassifiedIn(?m :Im)
+	      :RegisterWithTheECA(?m)
+	      :AppointingAnEAR(?m)
+		  :ConformityAssesment(:device->?m :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	      :NBforMetrologicalRequirements(?m))
+	)	
+	
+	%Requirements for Class IIa
+		
+	Forall ?m (:DeclarationOfConformityInClass(?m :IIa) :-
+	 And (:IsClassifiedIn(?m :IIa)
+	      :AppointingAnEAR(?m)
+		  :ConformityAssesment(:device->?m :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+		  :QualityAssurance(?m))
+	)	
+	
+	%Requirements for Class IIb
+	
+	Forall ?m (:DeclarationOfConformityInClass(?m :IIb) :-
+	 And (:IsClassifiedIn(?m :IIb)
+	      :AppointingAnEAR(?m)
+		  :ConformityAssesment(:device->?m :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+		  :QualityAssurance(?m)
+		  :TypeExamination(?m))       
+	)	
+		
+	%Requirements for Class III
+	
+	Forall ?m (:DeclarationOfConformityInClass(?m :III) :-
+	 And (:IsClassifiedIn(?m :III)
+	      :AppointingAnEAR(?m)
+		  :ConformityAssesment(:device->?m :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+		  :QualityAssurance(?m)
+		  :TypeExamination(?m))
+	)	
+	
+		
+	%Various routes for Quality Assurance 
+	
+	Forall ?m ?c (:QualityAssurance(?m) :-
+	 Or (:QualityType(?m :FullQuality)
+	    :QualityType(?m :ProductionTesting)
+		:QualityType(?m :ProductionQuality)
+		:QualityType(?m :InspectionQuality))
+	)
+	
+	Forall ?m ?c (:QualityType(?m :FullQuality) :-
+	Or (:QualityType(?m :FullQualityCII) :QualityType(?m :FullQualityCIII)))
+	
+	
+	Forall ?m (:QualityType(?m :FullQualityCII) :-
+	And(:RequirementsOfQualityType(:device->?m :design->:Yes :manufacture->:Yes)      %Annex II, EN ISO 13485:2003
+	    Or (:IsClassifiedIn(?m :IIa)
+		    :IsClassifiedIn(?m :IIb)))
+	)
+		
+	Forall ?m (:QualityType(?m :FullQualityCIII) :-
+	And(:RequirementsOfQualityType(:device->?m :design->:Yes :manufacture->:Yes)      %Annex II,parag.4 EN ISO 13485:2003
+	    :IsClassifiedIn(?m :III)
+	    :DesignDossierCertificate(?m)) 
+		)		                                                        
+			
+	Forall ?m (:QualityType(?m :ProductionTesting) :-
+	:RequirementsOfQualityType(:device->?m :design->:Verification :manufacture->:Verification))    %Annex IV  
+	
+	Forall ?m (:QualityType(?m :ProductionQuality) :-
+	:RequirementsOfQualityType(:device->?m :design->:No :manufacture->:Yes))                   %Annex V, EN ISO 13485:2003   
+	
+	Forall ?m (:QualityType(?m :InspectionQuality) :-	
+	:RequirementsOfQualityType(:device->?m :design->:No :manufacture->:No))                   %Annex VI, EN ISO 46003:1999		
+   
+   
+   %Medical Devices Facts (Facts covering all cases)
+   % For the Medical Devices Facts we used the list of codes and corresponding types of devices under Regulation (EU) 2017/745
+   % Retrieved from: http://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32017R2185&qid=1517955018255&from=en
+   % In cases where the codes don’t describe specifically a category other (random) coding is applied (e.g. DeviceR3a) 
+   % In cases where more than one category belongs in the same code, letters a,b,c are used.
+   
+	
+ 	%Requirements of MDN1214: Class I, 3 Yes
+ 	:MDN1214#:CharacteristicsOfMD(:type->:NonInvasive :use->:None :specificCase->:None) 
+	:RegisterWithTheECA(:MDN1214)
+	:AppointingAnEAR(:MDN1214)
+    :ConformityAssesment(:device->:MDN1214 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 					   
+ 	%Requirements of MDN1202a: Class IIa, 3Yes
+	:MDN1202a#:CharacteristicsOfMD(:type->:NonInvasive :use->:ChannelingOrStoring :specificCase->:ConnectWithAD)
+ 	:AppointingAnEAR(:MDN1202a)
+	:ConformityAssesment(:device->:MDN1202a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	:RequirementsOfQualityType(:device->:MDN1202a :design->:Yes :manufacture->:Yes)
+	
+	%Requirements of MDN1202b: Class IIa, 3Yes
+	:MDN1202b#:CharacteristicsOfMD(:type->:NonInvasive :use->:ChannelingOrStoring :specificCase->:ForStoringOrgans)
+ 	:AppointingAnEAR(:MDN1202b)
+	:ConformityAssesment(:device->:MDN1202b :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	:RequirementsOfQualityType(:device->:MDN1202b :design->:Yes :manufacture->:Yes)
+	
+ 	%Requirements of MDN1202c: Class IIb, 3Yes, No TypeExamination
+	:MDN1202c#:CharacteristicsOfMD(:type->:NonInvasive :use->:ChannelingOrStoring :specificCase->:BloodBags)
+ 	:AppointingAnEAR(:MDN1202c)
+    :ConformityAssesment(:device->:MDN1202c :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN1202c :design->:Yes :manufacture->:Yes)
+   
+    %Requirements of DeviceR3a: Class IIb, 4Yes
+	:DeviceR3a#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:Implantation)
+ 	:AppointingAnEAR(:DeviceR3a)
+    :ConformityAssesment(:device->:DeviceR3a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:DeviceR3a :design->:No :manufacture->:Yes)
+	:TypeExamination(:DeviceR3a)
+					   
+ 	%Requirements of DeviceR3b: Class IIa, 2Yes, No EAR
+	:DeviceR3b#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:Filtration)
+	:ConformityAssesment(:device->:DeviceR3b :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	:RequirementsOfQualityType(:device->:DeviceR3b :design->:No :manufacture->:No)
+ 						
+ 	%Requirements of MDN1212: Class III, 4Yes 
+	:MDN1212#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:InVitro)
+    :AppointingAnEAR(:MDN1212)
+    :ConformityAssesment(:device->:MDN1212 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN1212 :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:MDN1212)
+	:DesignDossierCertificate(:MDN1212)
+	
+	%Requirements of MDN1204a: Class I, 2Yes, No ECA
+	:MDN1204a#:CharacteristicsOfMD(:type->:NonInvasive :use->:ContactInjuredSkin :specificCase->:MechanicalBarrier)
+ 	%:RegisterWithTheECA(:MDN1204a)
+    :AppointingAnEAR(:MDN1204a)
+	:ConformityAssesment(:device->:MDN1204a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+									  
+ 	%Requirements of MDN1204b: Class IIb, 2Yes, 2No TypeExamination & QualityAssurance
+	:MDN1204b#:CharacteristicsOfMD(:type->:NonInvasive :use->:ContactInjuredSkin :specificCase->:UsedPrincipally)
+ 	:AppointingAnEAR(:MDN1204b)
+    :ConformityAssesment(:device->:MDN1204b :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 								  
+ 	%Requirements of MDN1204c: Class IIa, 3Yes 
+	:MDN1204c#:CharacteristicsOfMD(:type->:NonInvasive :use->:ContactInjuredSkin :specificCase->:ManageMicroenvironment)
+ 	:AppointingAnEAR(:MDN1204c)
+    :ConformityAssesment(:device->:MDN1204c :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDN1204c :design->:No :manufacture->:No)
+								  
+ 	%Requirements of DeviceR5a: Class I, 3Yes
+	:DeviceR5a#:CharacteristicsOfMD(:type->:Invasive :use->:NonSurgically :duration->0.01)
+    :RegisterWithTheECA(:DeviceR5a)
+	:AppointingAnEAR(:DeviceR5a)
+    :ConformityAssesment(:device->:DeviceR5a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	
+	%Requirements of DeviceR5b: Class IIa, 2Yes No ConformityAssesment
+	:DeviceR5b#:CharacteristicsOfMD(:type->:Invasive :use->:NonSurgically :duration->5) 
+ 	:AppointingAnEAR(:DeviceR5b)
+    :ConformityAssesment(:device->:DeviceR5b :technicalFile->:No :vigilanceSystem->:No :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:DeviceR5b :design->:No :manufacture->:Yes)
+	
+	%Requirements of DeviceR5c:Class IIb, 4Yes
+	:DeviceR5c#:CharacteristicsOfMD(:type->:Invasive :use->:NonSurgically :duration->55)
+	:AppointingAnEAR(:DeviceR5c)
+    :ConformityAssesment(:device->:DeviceR5c :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:DeviceR5c :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:DeviceR5c)
+	
+	%Requirements of MDA01:Class IIa, 0Yes
+	:MDA01#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:None)
+ 	:ConformityAssesment(:device->:MDA01 :technicalFile->:No :vigilanceSystem->:No :harmonizedStandards->:No)
+ 	
+	%Requirements of MDA0101:Class III, 0Yes
+	:MDA0101#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:CirculatorySystem)
+	
+	%Requirements of MDS1006:Class I 2Yes, No ECA
+	:MDS1006#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:ReusableInstruments)
+	:AppointingAnEAR(:MDS1006)
+    :ConformityAssesment(:device->:MDS1006 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	
+	%Requirements of MDA0104:Class IIb 4Yes
+	:MDA0104#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:Ionization)
+ 	:AppointingAnEAR(:MDA0104)
+    :ConformityAssesment(:device->:MDA0104 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType (:device->:MDA0104 :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:MDA0104)
+	
+	%Requirements of MDA0102:Class IIb,  1Yes, 3No, EAR & TypeExamination & Quality
+	:MDA0102#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:DeliverySystem)
+    :ConformityAssesment(:device->:MDA0102 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 		
+	%Requirements of MDA0104a:Class IIb, 4Yes
+	:MDA0104a#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyTransient :specificCase->:BiologicalEffect)
+	:AppointingAnEAR(:MDA0104a)
+    :ConformityAssesment(:device->:MDA0104a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0104a :design->:No :manufacture->:No)
+	
+	%Requirements of MDA01-ST: Class IIa, 3Yes
+	:MDA01-ST#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:None)
+ 	:AppointingAnEAR(:MDA01-ST)
+    :ConformityAssesment(:device->:MDA01-ST :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDA01-ST :design->:Yes :manufacture->:Yes)
+	
+	%Requirements of MDA0101-ST:Class IIb, 4Yes
+	:MDA0101-ST#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:CirculatorySystem)
+ 	:AppointingAnEAR(:MDA0101-ST)
+    :ConformityAssesment(:device->:MDA0101-ST :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0101-ST :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:MDA0101-ST)
+	
+	%Requirements of MDA0104b-ST:Class IIb, 4Yes
+	:MDA0104b-ST#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:BiologicalEffect)
+ 	:AppointingAnEAR(:MDA0104b-ST)
+    :ConformityAssesment(:device->:MDA0104b-ST :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0104b-ST :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:MDA0104b-ST)
+		
+    %Requirements of MDA0104-ST:Class III, 4Yes
+	:MDA0104-ST#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:Ionization)
+    :AppointingAnEAR(:MDA0104-ST)
+    :ConformityAssesment(:device->:MDA0104-ST :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0104-ST :design->:No :manufacture->:Yes)
+	:TypeExamination(:MDA0104-ST)
+	
+ 	%Requirements of MDA0104a-ST: Class III, 3Yes, No TypeExamination
+	:MDA0104a-ST#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:ChemicalChanges)
+	:AppointingAnEAR(:MDA0104a-ST)
+    :ConformityAssesment(:device->:MDA0104a-ST :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0104a-ST :design->:Yes :manufacture->:Yes)
+	
+	%Requirements of MDA0102-ST: Class III, 2Yes 2No QualityAssurance & TypeExamination
+	:MDA0102-ST#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyShortTerm :specificCase->:Medicines)
+	:AppointingAnEAR(:MDA0102-ST)
+    :ConformityAssesment(:device->:MDA0102-ST :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	
+	%Requirements of MDN11:Class IIb 4Yes
+	:MDN11#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:None)
+ 	:AppointingAnEAR(:MDN11)
+    :ConformityAssesment(:device->:MDN11 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN11 :design->:Verification :manufacture->:Verification)
+	:TypeExamination(:MDN11)
+	
+	%Requirements of MDN1103:Class IIa,  3Yes
+	:MDN1103#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:Dental)
+ 	:AppointingAnEAR(:MDN1103)
+    :ConformityAssesment(:device->:MDN1103 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDN1103 :design->:Verification :manufacture->:Verification)
+	
+	%Requirements of MDN1101:Class III, 4Yes
+	:MDN1101#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:CentralSystems)
+ 	:AppointingAnEAR(:MDN1101)
+    :ConformityAssesment(:device->:MDN1101 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN1101 :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:MDN1101)
+	:DesignDossierCertificate(:MDN1101)
+	
+	%Requirements of MDN1102:Class III 4Yes, No Full QualityAssurance
+	:MDN1102#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:Implants)
+	:AppointingAnEAR(:MDN1102)
+    :ConformityAssesment(:device->:MDN1102 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN1102 :design->:No :manufacture->:No)
+	
+	%Requirements of MDN1104:Class III, 4Yes
+	:MDN1104#:CharacteristicsOfMD(:type->:Invasive :use->:SurgicallyLongTerm :specificCase->:BiologicalOrMedicalChange)
+	:AppointingAnEAR(:MDN1104)
+    :ConformityAssesment(:device->:MDN1104 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN1104 :design->:Verification :manufacture->:Yes)
+	:TypeExamination(:MDN1104)
+	
+	%Requirements of MDA0302:Class IIa, 1Yes, No ConformityAssesment& QualityAssurance
+	:MDA0302#:CharacteristicsOfMD(:type->:Active :use->:Therapeutic :specificCase->:Energy) 
+ 	:AppointingAnEAR(:MDA0302)
+  	
+ 	%Requirements of MDA0301:Class IIb, 1Yes, 3No EAR, QualityAssurance, ConformityAssesment
+	:MDA0301#:CharacteristicsOfMD(:type->:Active :use->:Therapeutic :specificCase->:Ionizing) 
+ 	:TypeExamination(:MDA0301)
+    
+ 	%Requirements of MDS1009: Class III, 4Yes
+	:MDS1009#:CharacteristicsOfMD(:type->:Active :use->:Therapeutic :specificCase->:ConnectingWithImplantable) 
+ 	:AppointingAnEAR(:MDS1009)
+    :ConformityAssesment(:device->:MDS1009 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDS1009 :design->:Verification :manufacture->:Verification)
+	:TypeExamination(:MDS1009)
+	
+	%Requirements of MDA02:Class IIa, 3Yes
+	:MDA02#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:None)
+ 	:AppointingAnEAR(:MDA02)
+    :ConformityAssesment(:device->:MDA02 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDA02 :design->:No :manufacture->:No)
+	
+ 	%Requirements of MDA0202:Class I, 3Yes
+	:MDA0202#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:VisibleSpectrum)
+ 	:RegisterWithTheECA(:MDA0202)
+	:AppointingAnEAR(:MDA0202)
+    :ConformityAssesment(:device->:MDA0202 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	
+	%Requirements of MDA0201:Class IIb, 4Yes
+	:MDA0201#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:Radiology)
+	:AppointingAnEAR(:MDA0201)
+    :ConformityAssesment(:device->:MDA0201 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0201 :design->:No :manufacture->:Yes)
+	:TypeExamination(:MDA0201)
+	
+	%Requirements of MDA0204:Class IIb, 2Yes 2No Conformity-harmonizedStandards, EAR
+	:MDA0204#:CharacteristicsOfMD(:type->:Active :use->:DiagnosisMonitoring :specificCase->:CentralSystems)
+    :ConformityAssesment(:device->:MDA0204 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDA0204 :design->:No :manufacture->:No)
+	:TypeExamination(:MDA0204)
+	
+ 	%Requirements of MDA0315:Class IIa, 2Yes, No QualityAssurance
+	:MDA0315#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:None)
+ 	:AppointingAnEAR(:MDA0315)
+    :ConformityAssesment(:device->:MDA0315 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	
+ 	%Requirements of MDA0315a:Class III, 4Yes
+	:MDA0315a#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:PossibleIrreversibleHealthDeterioration)
+ 	:AppointingAnEAR(:MDA0315a)
+    :ConformityAssesment(:device->:MDA0315a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0315a :design->:No :manufacture->:No)
+	:TypeExamination(:MDA0315a)
+	
+ 	%Requirements of MDA0315b:Class IIb, 4Yes
+	:MDA0315b#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:PossibleSeriousHealthDeterioration)
+ 	:AppointingAnEAR(:MDA0315b)
+    :ConformityAssesment(:device->:MDA0315b :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDA0315b :design->:No :manufacture->:Yes)
+	:TypeExamination(:MDA0315b)
+	
+ 	%Requirements of MDA0315c:Class I, 1Yes 2No, ECA, Conformity-vigilanceSystem
+	:MDA0315c#:CharacteristicsOfMD(:type->:Active :use->:SoftwareTherapeutic :specificCase->:OthersSoftwares)
+ 	:AppointingAnEAR(:MDA0315c)
+    :ConformityAssesment(:device->:MDA0315c :technicalFile->:Yes :vigilanceSystem->:No :harmonizedStandards->:No)
+ 	
+	%Requirements of MDA0306:Class IIa, 3Yes
+	:MDA0306#:CharacteristicsOfMD(:type->:Active :use->:MoveSubstances  :specificCase->:None)
+ 	:AppointingAnEAR(:MDA0306)
+    :ConformityAssesment(:device->:MDA0306 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDA0306 :design->:No :manufacture->:Yes)
+	
+ 	%Requirements of MDA0306a: Class IIb, 0Yes
+	:MDA0306a#:CharacteristicsOfMD(:type->:Active :use->:MoveSubstances :specificCase->:PotentiallyHazardous)
+ 	
+ 	%Requirements of MDA0318:Class I, 3Yes
+	:MDA0318#:CharacteristicsOfMD(:type->:Active :use->:AllOtherAD :specificCase->:None)
+	:RegisterWithTheECA(:MDA0318)
+	:AppointingAnEAR(:MDA0318)
+    :ConformityAssesment(:device->:MDA0318 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	
+	%Requirements of MDS1001:Class III, 4Yes
+	:MDS1001#:CharacteristicsOfMD(:type->:Special :use->:MedicalSubstance :specificCase->:None)
+ 	:AppointingAnEAR(:MDS1001)
+    :ConformityAssesment(:device->:MDS1001 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDS1001 :design->:No :manufacture->:No)
+	:TypeExamination(:MDS1001)
+				    
+	%Requirements of MDN1210:Class IIb, 4Yes
+	:MDN1210#:CharacteristicsOfMD(:type->:Special :use->:SexualTransmitted :specificCase->:None)
+ 	:AppointingAnEAR(:MDN1210)
+    :ConformityAssesment(:device->:MDN1210 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDN1210 :design->:No :manufacture->:Yes)
+	:TypeExamination(:MDN1210)			
+
+	%Requirements of MDN1210a:Class III, 1Yes, no Conformity, Quality, Type
+	:MDN1210a#:CharacteristicsOfMD(:type->:Special :use->:SexualTransmitted :specificCase->:Implantable)
+	:AppointingAnEAR(:MDN1210a)
+	
+	%Requirements of MDN1211:Class IIb, 1Yes, 3No EAR, QualityAssurance, ConformityAssesment
+	:MDN1211#:CharacteristicsOfMD(:type->:Special :use->:Disinfecting :specificCase->:ContactLenses)
+ 	:TypeExamination(:MDN1211)
+	
+	%Requirements of MDA0317:Class IIb, 1Yes, 3No EAR, QualityAssurance, ConformityAssesment
+	:MDA0317#:CharacteristicsOfMD(:type->:Special :use->:Disinfecting :specificCase->:InvasiveDevices)
+ 	:TypeExamination(:MDA0317)
+	
+	%Requirements of MDA0317a:Class IIa,  3Yes
+	:MDA0317a#:CharacteristicsOfMD(:type->:Special :use->:Disinfecting :specificCase->:MedicalDevices)
+ 	:AppointingAnEAR(:MDA0317a)
+    :ConformityAssesment(:device->:MDA0317a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:MDA0317a :design->:Verification :manufacture->:Verification)
+ 	  
+ 	%Requirements of DeviceR17:Class IIa,  3Yes
+	:DeviceR17#:CharacteristicsOfMD(:type->:Special :use->:Xray :specificCase->:None)
+ 	:AppointingAnEAR(:DeviceR17)
+    :ConformityAssesment(:device->:DeviceR17 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+ 	:RequirementsOfQualityType(:device->:DeviceR17 :design->:Verification :manufacture->:Verification)
+	
+	%Requirements of MDS1002: Class III, 2Yes  No Type, Quality
+	:MDS1002#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:InVitro)
+    :AppointingAnEAR(:MDS1002)
+    :ConformityAssesment(:device->:MDS1002 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	
+	%Requirements of MDS1003: Class III, 2Yes  No Type, Quality
+	:MDS1003#:CharacteristicsOfMD(:type->:NonInvasive :use->:ModifyingComposition :specificCase->:InVitro)
+    :AppointingAnEAR(:MDS1003)
+    :ConformityAssesment(:device->:MDS1003 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+	
+	%Requirements of MDS1007a:Class III, 0Yes
+	:MDS1007a#:CharacteristicsOfMD(:type->:Special :use->:Nanomaterial :specificCase->:HighExposure)
+	
+ 	%Requirements of MDS1007b:Class IIb, 4Yes
+	:MDS1007b#:CharacteristicsOfMD(:type->:Special :use->:Nanomaterial :specificCase->:LowExposure)
+	:AppointingAnEAR(:MDS1007b)
+    :ConformityAssesment(:device->:MDS1007b :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:Yes)
+ 	:RequirementsOfQualityType(:device->:MDS1007b :design->:Yes :manufacture->:Yes)
+	:TypeExamination(:MDS1007b)
+	
+	%Requirements of MDS1007c:Class IIa, 0Yes
+	:MDS1007b#:CharacteristicsOfMD(:type->:Special :use->:Nanomaterial :specificCase->:NegligibleExposure)
+ 	:ConformityAssesment(:device->:MDS1007b :technicalFile->:No :vigilanceSystem->:No :harmonizedStandards->:No)
+ 	
+	%Requirements of DeviceR20:Class IIa, 0Yes
+	:DeviceR20#:CharacteristicsOfMD(:type->:Special :use->:Inhalation :specificCase->:None)
+ 	  
+ 	%Requirements of DeviceR20a:Class IIa, 0Yes
+	:DeviceR20a#:CharacteristicsOfMD(:type->:Special :use->:Inhalation :specificCase->:LifeThreatening)
+
+ 	%Requirements of MDN1213:Class IIb, 0Yes
+	:MDN1213#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:Metabolism)
+ 
+ 	%Requirements of MDN1213a:Class IIa, 0Yes
+	:MDN1213a#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:Stomach)
+
+ 	%Requirements of MDN1213b:Class IIa, 0Yes
+	:MDN1213b#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:OnCavities)
+
+ 	%Requirements of MDN1213c:Class IIa, 0Yes
+	:MDN1213c#:CharacteristicsOfMD(:type->:Special :use->:ViaBodyOrifice :specificCase->:AllOtherCases)
+ 	
+ 	%Requirements of DeviceR22:Class IIa, 0Yes
+	:DeviceR22#:CharacteristicsOfMD(:type->:Special :use->:IntegratedDiagnostic :specificCase->:None)
+     
+    %Requirements of MDS1005:Class Is, 4Yes
+	:MDS1005#:CharacteristicsOfMD(:type->:Special :use->:Sterile :specificCase->:None)
+	:RegisterWithTheECA(:MDS1005)
+	:AppointingAnEAR(:MDS1005)
+	:ConformityAssesment(:device->:MDS1005 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	:NBforSterileConditions(:MDS1005)	
+	
+	%Requirements of MDS1010:Class Im, 4Yes
+	:MDS1010#:CharacteristicsOfMD(:type->:Special :use->:Measuring :specificCase->:None)
+	:RegisterWithTheECA(:MDS1010)
+	:AppointingAnEAR(:MDS1010)
+	:ConformityAssesment(:device->:MDS1010 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)
+	:NBforMetrologicalRequirements(:MDS1010)
+	
+	)
+   )
+    
+ 
