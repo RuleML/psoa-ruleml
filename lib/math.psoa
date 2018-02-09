@@ -19,16 +19,16 @@ Document
       :greaterEq(?x ?y) :- External(pred:numeric-greater-than-or-equal(?x ?y))
     )    
     Forall ?r ?x ?y (
-      :add(?r ?x ?y) :- ?r = External(func:numeric-add(?x ?y))
+      :sum(?r ?x ?y) :- ?r = External(func:numeric-add(?x ?y))
     )    
     Forall ?r ?x ?y (
-      :subtract(?r ?x ?y) :- ?r = External(func:numeric-subtract(?x ?y))
+      :diff(?r ?x ?y) :- ?r = External(func:numeric-subtract(?x ?y))
     )
     Forall ?r ?x ?y (
-      :multiply(?r ?x ?y) :- ?r = External(func:numeric-multiply(?x ?y))
+      :prod(?r ?x ?y) :- ?r = External(func:numeric-multiply(?x ?y))
     )    
     Forall ?r ?x ?y (
-      :divide(?r ?x ?y) :- ?r = External(func:numeric-divide(?x ?y))
+      :quot(?r ?x ?y) :- ?r = External(func:numeric-divide(?x ?y))
     )
   )
 )
