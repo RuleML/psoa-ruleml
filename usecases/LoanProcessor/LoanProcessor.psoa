@@ -1,0 +1,133 @@
+RuleML ( 
+
+% Datalog Decision Rules for Loan Processor Example                       2013-10-31
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       2018-02-09
+
+% Harold Boley
+
+Prefix(: <http://psoa.ruleml.org/usecases/LoanProcessor#>)
+Prefix(math: <http://psoa.ruleml.org/lib/math#>)
+
+Import(<http://psoa.ruleml.org/lib/math.psoa>)
+
+
+% The predicate loanProcessor considers requests with ?AmountAsk in (0 500000],
+% also fixing ?RiskLevel = 1000 and ?RatiMin = 0.8 in a call to riskBrancher:
+% Its "<" rule invokes matchingAssessor, hence clientCategory, for table lookup.
+% Its ">=" rule uses ratingAssessor, hence clientEvaluation, for deep analysis.
+% Possible outcomes are either failure, without ?AmountGrant binding, or success,
+% with ?AmountGrant bound to the loan.
+% The rules and facts use PSOA presentation syntax (e.g., ":-" as the "IF" infix):
+% http://wiki.ruleml.org/index.php/PSOA_RuleML
+
+
+Assert (
+
+% Datalog Decision Rules with Arithmetic PSOA-Math-Library Built-Ins
+%                             (SWRL-like, cf. http://www.w3.org/Submission/SWRL/#8)
+
+Forall ?Client ?AmountAsk ?AmountGrant (
+loanProcessor(?Client ?AmountAsk ?AmountGrant) :-          % loanProcessor(In In Out)
+And(
+  math:greaterThan(?AmountAsk 0)                           % Positive loan request
+  math:lessEq(?AmountAsk 500000)                           % up to half a million.
+  riskBrancher(?Client ?AmountAsk ?AmountGrant 1000 0.8))  % ... ?RiskLevel ?RatiMin).
+)
+
+
+Forall ?Client ?AmountAsk ?AmountGrant ?RiskLevel ?RatiMin (
+riskBrancher(?Client ?AmountAsk ?AmountGrant ?RiskLevel ?RatiMin) :-
+And(
+  math:lessThan(?AmountAsk ?RiskLevel)                           % Deterministic ...
+  matchingAssessor(?Client ?AmountAsk ?AmountGrant))
+)
+
+Forall ?Client ?AmountAsk ?AmountGrant ?RiskLevel ?RatiMin (
+riskBrancher(?Client ?AmountAsk ?AmountGrant ?RiskLevel ?RatiMin) :-
+And(
+  math:greaterEq(?AmountAsk ?RiskLevel)                          % ... branch
+  ratingAssessor(?Client ?AmountAsk ?AmountGrant ?RatiMin))
+)
+
+
+Forall ?Client ?AmountAsk ?AmountGrant (
+matchingAssessor(?Client ?AmountAsk ?AmountGrant) :-
+And(
+  clientCategory(?Client gold)                 % ?Client fact matches gold category
+  math:prod(?AmountGrant ?AmountAsk 0.75))     % ?AmountGrant = ?AmountAsk * 0.75
+)
+
+Forall ?Client ?Amount (
+matchingAssessor(?Client ?Amount ?Amount) :-   % ?Amount = ?AmountGrant = ?AmountAsk IF
+  clientCategory(?Client platinum)             % ?Client fact matches platinum category
+)
+
+ 
+Forall ?Client ?AmountAsk ?AmountGrant ?RatiMin (
+ratingAssessor(?Client ?AmountAsk ?AmountGrant ?RatiMin) :-
+And(
+  clientEvaluation(?Client ?AmountAsk ?Rating)    % Data analysis binds ?Rating in [0,1].
+  math:greaterEq(?Rating ?RatiMin)                % For ?Rating < ?RatiMin: not approved
+  math:prod(?AmountGrant ?AmountAsk ?Rating))     % ?AmountGrant = ?AmountAsk * ?Rating
+)
+
+
+% Data Facts as Basis for the Decision Rules
+
+clientCategory(nilper silver)                 % Facts represent database table
+clientCategory(bold gold)                     % which captures qualitative categories
+clientCategory(claritum platinum)             % of previous quantitative analysis
+
+Forall ?AmountAsk (
+clientEvaluation(nilper ?AmountAsk 0.77)         % (Non-ground) facts record ratings
+)
+Forall ?AmountAsk (
+clientEvaluation(bold ?AmountAsk 0.79)           % from deep client data analysis,
+)
+Forall ?AmountAsk (
+clientEvaluation(claritum ?AmountAsk 0.91)       % which could be made conditional
+)
+Forall ?AmountAsk (
+clientEvaluation(ralcitum ?AmountAsk 0.91)       % on (currently free) ?AmountAsk
+)
+
+
+% Query Rules for Testing the Decision Rules and Data Facts
+
+Forall ?AG (
+negTest(1 ?AG) :- loanProcessor(nilper 200 ?AG)     % Failure since 200 < 1000 and
+                                                    %               no silver match
+)
+
+Forall ?AG (													
+negTest(2 ?AG) :- loanProcessor(nilper 1100 ?AG)    % Failure since 1100 > 1000 and
+                                                    %               0.77 < 0.8
+)
+
+Forall ?AG (
+negTest(3 ?AG) :- loanProcessor(bold 1100 ?AG)      % Failure since 1100 > 1000 and
+                                                    %               0.79 < 0.8
+)
+
+Forall ?AG (
+negTest(4 ?AG) :- loanProcessor(ralcitum 200 ?AG)   % Failure since 200 < 1000 and
+                                                    %               no category
+)
+											  
+Forall ?AG1 ?AG2 ?AG3 ?AG4 (
+posTest(?AG1 ?AG2 ?AG3 ?AG4) :-        % Query with mode posTest(Out Out Out Out)
+                                       %
+And(
+  loanProcessor(bold 200 ?AG1)         % Success with ?AG1 = 150  since 200 < 1000 and
+                                       %                                gold match
+  loanProcessor(claritum 200 ?AG2)     % Success with ?AG2 = 200  since 200 < 1000 and
+                                       %                                platinum match
+  loanProcessor(claritum 400000 ?AG3)  % Success with ?AG3 = 364k since 400k > 1k and
+                                       %                                0.91 > 0.8
+  loanProcessor(ralcitum 500000 ?AG4)) % Success with ?AG4 = 455k since 500k > 1k and
+                                       %                                0.91 > 0.8
+)
+
+)
+
+)
