@@ -6,7 +6,7 @@ Document
   
   Group
   (
-    % Arithmetic predicates
+    % Arithmetic predicates invoked with External-less short names
     Forall ?x ?y (
       :lessThan(?x ?y) :- External(pred:numeric-less-than(?x ?y))
     )
@@ -19,7 +19,7 @@ Document
     Forall ?x ?y (
       :greaterEq(?x ?y) :- External(pred:numeric-greater-than-or-equal(?x ?y))
     )
-    % Arithmetic functions
+    % Arithmetic functions invoked as first-argument-result predicates
     Forall ?r ?x ?y (
       :sum(?r ?x ?y) :- ?r = External(func:numeric-add(?x ?y))
     )    
