@@ -19,6 +19,8 @@ Import(<http://psoa.ruleml.org/lib/math.psoa>)
 % with ?AmountGrant bound to the loan.
 % The rules and facts use PSOA presentation syntax (e.g., ":-" as the "IF" infix):
 % http://wiki.ruleml.org/index.php/PSOA_RuleML
+% Transcribed to PSOA from original POSL version:
+% http://www.cs.unb.ca/~boley/Grailog/LoanProcessor/LoanProcessor.txt
 
 
 Assert (
