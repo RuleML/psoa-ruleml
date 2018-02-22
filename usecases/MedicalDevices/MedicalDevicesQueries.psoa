@@ -1,23 +1,27 @@
+
 %Queries and Answers for Classification
 
-:IsClassifiedIn(:MDN1202c :IIa)                %No
-:IsClassifiedIn(:MDA0204 :IIb)				   %Yes
-:IsClassifiedIn(:MDA0104-ST ?c)                %?c =:III
+
+:IsClassifiedIn(mdcode:MDN1202c :IIa)                %No
+:IsClassifiedIn(mdcode:MDA0204 :IIb)				   %Yes
+:IsClassifiedIn(mdcode:MDA0104-ST ?c)                %?c =:III
 :IsClassifiedIn(?m :I)                  %?m = :MDN1214, ?m=:MDN1204a, ?m=:DeviceR5a,?m=:MDS1006,?m=:MDA0202, ?m=:MDA0318
 :IsClassifiedIn(?m :IIa)          %?m=MDN1202a, MDN1202b, DeviceR3b, MDN1204c, DeviceR5b, MDA01, MDA01-ST, MDN1103, 
                                   %MDA0302, MDA02, MDA0315, MDA0306, MDA0317a, DeviceR17, MDS1007a, DeviceR20, MDN1213b 
 :IsClassifiedIn(?m ?c)           %All devices and in which class are classified
-:IsClassifiedIn(?m#:CharacteristicsOfMD(:use->:ModifyingComposition) :III)       %?m=MDS1003, MDS1002, MDN1212
+:IsClassifiedIn(?m#:MedicalDevice(:use->:ModifyingComposition) :III)       %?m=MDS1003, MDS1002, MDN1212
 
-:CategoryOfMedicalDevice(:MDA0301 ?g)                  %?g =:A9b
+
+:CategoryOfMedicalDevice(mdcode:MDA0301 ?g)                  %?g =:A9b
 :CategoryOfMedicalDevice(?m :I6c)        %?m=MDA0104, ?m=MDA0104a, ?m=MDA0102
 :CategoryOfMedicalDevice(?m ?g)         %All devices and in which group they belong
 :CategoryOfMedicalDevice(?m#:MedicalDevice(:use->:ModifyingComposition) :A10b)     %No
 :CategoryOfMedicalDevice(?m#:MedicalDevice(:use->:ModifyingComposition) :N3a)      %?m=:DeviceR3a
 
-:MDN1204a#:MedicalDevice(:kind->:NonInvasive)        %Yes
-:MDA0104#:MedicalDevice(:use->:BodySubstances)       %No
-:MDS1003#:MedicalDevice(:kind->:NonInvasive :use->:ModifyingComposition :specificCase->?s)    %?s =:InVitro
+
+mdcode:MDN1204a#:MedicalDevice(:kind->:NonInvasive)        %Yes
+mdcode:MDA0104#:MedicalDevice(:use->:BodySubstances)       %No
+mdcode:MDS1003#:MedicalDevice(:kind->:NonInvasive :use->:ModifyingComposition :specificCase->?s)    %?s =:InVitro
 
 ?m#:MedicalDevice(:use->:DiagnosisMonitoring) %?m=:MDA0204, ?m=:MDA0201, ?m=:MDA0202, ?m=:MDA02						
 ?m#:MedicalDevice(:kind->:Invasive :use->:SurgicallyLongTerm :specificCase->?r)  %?m=:MDN11, ?r=:None,    
@@ -37,14 +41,17 @@
                                        
 %Queries and Answers for CE marking
 
-:MarketableMedicalDevice(:MDN1204a)           %No     
-:MarketableMedicalDevice(:MDA0104b-ST)       %Yes 
-:MarketableMedicalDevice(:MDN1101)           %Yes
+
+:MarketableMedicalDevice(mdcode:MDN1204a)           %No     
+:MarketableMedicalDevice(mdcode:MDA0104b-ST)       %Yes 
+:MarketableMedicalDevice(mdcode:MDN1101)           %Yes
 :MarketableMedicalDevice(?m)                  %Devices in Yes in "Classification and Marketability.pdf"
 
+
 :HasCEwithNBN(?m)                  %:Devices in Yes in "Classification and Marketability.pdf"
-:HasCEwithNBN(:MDA0318)            %Yes
+:HasCEwithNBN(mdcode:MDA0318)            %Yes
 :HasCEwithNBN(:DeviceR3b)           %No
+
 
 :RegisterWithTheECA(?m)           %:MDN1214, MDA0202, MDA0318, DeviceR5a, MDS1005, MDS1010
 :DesignDossierCertificate(?m)     %:MDN1212, MDN1101
@@ -52,14 +59,15 @@
 
 :RequirementsOfQualityType(:device->?m :design->:Verification  :manufacture->:Verification)   %:MDA0317a, MDN11, DeviceR17, 
                                                                                               %:MDN1103, DS1009					  
-:RequirementsOfQualityType(:device->:MDN1202b :design->:Yes :manufacture->:Yes)                %Yes      
+:RequirementsOfQualityType(:device->mdcode:MDN1202b :design->:Yes :manufacture->:Yes)                %Yes      
 :QualityType(?m :ProductionQuality)                                                            %:MDA0306, MDA0104-ST, MDN1210, DeviceR3a, 
                                                                                                %:DeviceR5b, MDA0201, MDA0315b
 :QualityType(?m :FullQualityCII)                                                               %:MDN1202a, MDA0104b-ST, MDN1202b, MDN1202c, 
                                                                                                %:MDS1007b, DeviceR5c, MDA0104, MDA01-ST, MDA0101-ST
 
-:ConformityAssesment(:device->?m :vigilanceSystem->:No)          %:DMDS1007b. DeviceR5b, MDA01, MDA0315c
-:ConformityAssesment(:device->:MDA0102 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)  %No
+																					
+:ConformityAssessment(:device->?m :vigilanceSystem->:No)          %:DMDS1007b. DeviceR5b, MDA01, MDA0315c
+:ConformityAssessment(:device->mdcode:MDA0102 :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No)  %No
 
 :DeclarationOfConformityInClass(?m :IIa)            %Devices in Yes for each class in "Classification and Marketability.pdf"
 :DeclarationOfConformityInClass(?m :IIb)
@@ -67,25 +75,26 @@
 :DeclarationOfConformityInClass(?m :Is)             %:Device MDS1005
 :DeclarationOfConformityInClass(?m :Im)             %:Device MDS1010
 
+
 %Various Examples for a specific medical device e.g. MDN1204a 
 
-?m#:MedicalDevice(:kind->:NonInvasive :use->:ContactInjuredSkin :specificCase->:MechanicalBarrier)   %?m =:MDN1204a
-:MDN1204a#:MedicalDevice(:kind->:NonInvasive :use->:ContactInjuredSkin :specificCase->?s)            %?s=MechanicalBarrier
+?m#:MedicalDevice(:kind->:NonInvasive :use->:ContactInjuredSkin :specificCase->:MechanicalBarrier)   %?m =mdcode:MDN1204a
+mdcode:MDN1204a#:MedicalDevice(:kind->:NonInvasive :use->:ContactInjuredSkin :specificCase->?s)            %?s=MechanicalBarrier
 
-:CategoryOfMedicalDevice(:MDN1204a ?g)  %?g =:N4a
-:CategoryOfMedicalDevice(?m :N4a)       %?m =:MDN1204a
+:CategoryOfMedicalDevice(mdcode:MDN1204a ?g)  %?g =:N4a
+:CategoryOfMedicalDevice(?m :N4a)       %?m =mdcode:MDN1204a
 
-:IsClassifiedIn(:MDN1204a ?c)           %?c=:I
-:IsClassifiedIn(?m#:MedicalDevice(:specificCase->:MechanicalBarrier) ?c)  %?m =:MDN1204a   ?c=:I
+:IsClassifiedIn(mdcode:MDN1204a ?c)           %?c=:I
+:IsClassifiedIn(?m#:MedicalDevice(:specificCase->:MechanicalBarrier) ?c)  %?m =mdcode:MDN1204a   ?c=:I
 
 
-:MarketableMedicalDevice(:MDN1204a)           %No   
-:DeclarationOfConformityInClass(:MDN1204a :I) %No
+:MarketableMedicalDevice(mdcode:MDN1204a)           %No   
+:DeclarationOfConformityInClass(mdcode:MDN1204a :I) %No
 
-:AppointingAnEAR(:MDN1204a)  %Yes
-:ConformityAssesment(:device->:MDN1204a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No) %Yes
-:MDN1204a#:MedicalDevice(:kind->:NonInvasive :use->:ContactInjuredSkin :specificCase->:MechanicalBarrier)      %Yes
-:RegisterWithTheECA(:MDN1204a)   %No
+:AppointingAnEAR(mdcode:MDN1204a)  %Yes
+:ConformityAssessment(:device->mdcode:MDN1204a :technicalFile->:Yes :vigilanceSystem->:Yes :harmonizedStandards->:No) %Yes
+mdcode:MDN1204a#:MedicalDevice(:kind->:NonInvasive :use->:ContactInjuredSkin :specificCase->:MechanicalBarrier)      %Yes
+:RegisterWithTheECA(mdcode:MDN1204a)   %No
 								 
 
 
