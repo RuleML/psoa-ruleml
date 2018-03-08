@@ -1,4 +1,4 @@
-PSOATransRun 1.3 README                                              2018-01-18
+PSOATransRun 1.3 README                                              2018-03-08
 
 OVERVIEW
 PSOATransRun is the reference implementation of the Positional-Slotted Object-Applicative
@@ -12,8 +12,10 @@ REQUIREMENTS
 Operating System: Windows, Linux, or Mac OS X
 Prerequisites:
   Install Java version 8.0 or higher
-  Install XSB Prolog 3.6 or higher (http://xsb.sourceforge.net) to a directory,
-  the path of which we will call <xsb_dir>, e.g. ...
+  Install (via http://xsb.sourceforge.net) XSB Prolog 3.6
+  (from https://sourceforge.net/projects/xsb/files/xsb/3.6%20%28Gazpatcho%29/),
+  rather than XSB 3.7 or 3.8,
+  to a directory the path of which we will call <xsb_dir>, e.g. ...
   ... in Windows:                C:\Program Files\XSB
   ... in Linux/Mac OS X:         ~/XSB/
 
