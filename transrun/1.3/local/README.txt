@@ -1,4 +1,4 @@
-PSOATransRun 1.3 README                                              2018-03-08
+PSOATransRun 1.3 README                                              2018-03-13
 
 OVERVIEW
 PSOATransRun is the reference implementation of the Positional-Slotted Object-Applicative
