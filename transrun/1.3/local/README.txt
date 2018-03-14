@@ -21,7 +21,10 @@ Prerequisites:
 
 USAGE
 Download http://psoa.ruleml.org/transrun/1.3/local/PSOATransRunLocal.jar to 
-a directory, the path of which we will call <PSOATransRun_dir>. 
+a directory, the path of which we will call <PSOATransRun_dir>
+[e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
+click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
+any earlier version (no need for any other 'uninstall' action)]. 
 Then follow these steps to use PSOATransRun (1. and 2. being just preparatory):
 
 1. Open a window for a Command Prompt / Linux Terminal
