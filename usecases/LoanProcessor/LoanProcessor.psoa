@@ -1,12 +1,13 @@
 RuleML ( 
 
 % Datalog Decision Rules for Loan Processor Example                       2013-10-31
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       2018-03-20
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       2018-03-22
 
 % Harold Boley
 
 Prefix(: <http://psoa.ruleml.org/usecases/LoanProcessor#>)
 Prefix(math: <http://psoa.ruleml.org/lib/math#>)
+Prefix(isopl: <https://www.iso.org/standard/21413.html#>)
 
 Import(<http://psoa.ruleml.org/lib/math.psoa>)
 
@@ -21,7 +22,7 @@ Import(<http://psoa.ruleml.org/lib/math.psoa>)
 % http://wiki.ruleml.org/index.php/PSOA_RuleML
 % Transcribed to PSOA from original POSL version:
 % http://www.cs.unb.ca/~boley/Grailog/LoanProcessor/LoanProcessor.txt
-% Insertion of membership conditions ?...#Top for conclusion-only variables ?...
+% Insertion of conditions isopl:number(?...) for conclusion-only variables ?...
 % enables static/dynamic objectification.
 
 
@@ -42,7 +43,7 @@ And(
 Forall ?Client ?AmountAsk ?AmountGrant ?RiskLevel ?RatiMin (
 riskBrancher(?Client ?AmountAsk ?AmountGrant ?RiskLevel ?RatiMin) :-
 And(
-  ?RatiMin#Top
+  isopl:number(?RatiMin)
   math:lessThan(?AmountAsk ?RiskLevel)                           % Deterministic ...
   matchingAssessor(?Client ?AmountAsk ?AmountGrant))
 )
@@ -65,7 +66,7 @@ And(
 Forall ?Client ?Amount (
 matchingAssessor(?Client ?Amount ?Amount) :-   % ?Amount = ?AmountGrant = ?AmountAsk IF
 And(
-  ?Amount#Top
+  isopl:number(?Amount)
   clientCategory(?Client platinum)             % ?Client fact matches platinum category
 )
 )
@@ -88,19 +89,19 @@ clientCategory(claritum platinum)             % of previous quantitative analysi
 
 Forall ?AmountAsk (
 clientEvaluation(nilper ?AmountAsk 0.77)         % (Non-ground) facts record ratings
-  :- ?AmountAsk#Top
+  :- isopl:number(?AmountAsk)
 )
 Forall ?AmountAsk (
 clientEvaluation(bold ?AmountAsk 0.79)           % from deep client data analysis,
-  :- ?AmountAsk#Top
+  :- isopl:number(?AmountAsk)
 )
 Forall ?AmountAsk (
 clientEvaluation(claritum ?AmountAsk 0.91)       % which could be made conditional
-  :- ?AmountAsk#Top
+  :- isopl:number(?AmountAsk)
 )
 Forall ?AmountAsk (
 clientEvaluation(ralcitum ?AmountAsk 0.91)       % on (currently free) ?AmountAsk
-  :- ?AmountAsk#Top
+  :- isopl:number(?AmountAsk)
 )
 
 
