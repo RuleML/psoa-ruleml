@@ -5,7 +5,6 @@ RuleML (
 
 % Harold Boley
 
-Prefix(: <http://psoa.ruleml.org/usecases/LoanProcessor#>)
 Prefix(math: <http://psoa.ruleml.org/lib/math#>)
 Prefix(isopl: <https://www.iso.org/standard/21413.html#>)
 
