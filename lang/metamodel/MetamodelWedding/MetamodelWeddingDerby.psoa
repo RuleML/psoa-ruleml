@@ -1,0 +1,26 @@
+RuleML (
+  
+  Assert (
+
+% http://wiki.ruleml.org/index.php/PSOA_RuleML_Bridges_Graph_and_Relational_Databases#Metamodel_Paths
+
+Wedding1(Mary John)
+Wedding2(bride+>Mary groom+>John)
+w31#Wedding3(bride+>Mary groom+>John)
+w41#Wedding4(bride->Mary groom->John)
+
+w31#Derby(groom+>James)
+w41#Derby(groom->James)
+
+% > w31#?P(groom+>?w)
+% ?P=_Derby ?w=_James
+% ?P=_Wedding3 ?w=_John
+
+% > w41#?P(groom->?w)
+% ?w=_James ?P=_Derby
+% ?w=_James ?P=_Wedding4
+% ?w=_John ?P=_Derby
+% ?w=_John ?P=_Wedding4
+
+  )
+)

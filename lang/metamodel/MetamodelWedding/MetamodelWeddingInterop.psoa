@@ -1,0 +1,21 @@
+RuleML (
+  
+  Assert (
+
+% http://wiki.ruleml.org/index.php/PSOA_RuleML_Bridges_Graph_and_Relational_Databases#Transition_Rules
+
+% Relationship-to-Frame Rule (R2F):
+Forall ?x ?y (
+  f5(?x ?y)#Wedding4(bride->?x groom->?y) :- Wedding1(?x ?y)
+)
+
+% Frame-to-Relationship Rule (F2R):
+Forall ?x ?y (
+  Wedding1(?x ?y) :- ?#Wedding4(bride->?x groom->?y)
+)
+
+Wedding1(Mary John)
+f5(Mary John)#Wedding4(bride->Mary groom->John)
+
+  )
+)
