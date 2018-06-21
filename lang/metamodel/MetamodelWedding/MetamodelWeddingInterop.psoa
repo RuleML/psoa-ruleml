@@ -1,8 +1,10 @@
 RuleML (
+
+% http://wiki.ruleml.org/index.php/PSOA_RuleML_Bridges_Graph_and_Relational_Databases#Transition_Rules
   
   Assert (
 
-% http://wiki.ruleml.org/index.php/PSOA_RuleML_Bridges_Graph_and_Relational_Databases#Transition_Rules
+% Knowledge base:
 
 % Relationship-to-Frame Rule (R2F):
 Forall ?x ?y (
@@ -18,4 +20,26 @@ Wedding1(Mary John)
 f5(Mary John)#Wedding4(bride->Mary groom->John)
 
   )
+
+% Implementation hints:
+
+% Since the PSOA semantics is agnostic w.r.t. duplicate answers,
+% the PSOATransRun implementation does not always eliminate them.
+% In particular, for PSOATransRun[PSOA2Prolog,XSBProlog]:
+%   Under static/dynamic objectification, relationship translations
+%     are not tabled in XSB, so that there can be duplicate answers;
+%   under static objectification, asserted and derived relationships
+%     receive different OIDs, so that duplicates cannot be eliminated.
+%   Frame translations are tabled in XSB, so that
+%   (top-level and intermediate) duplicate answers are eliminated.
+
+% Queries:
+
+% > Wedding1(?a ?b)
+% ?a=_Mary ?b=_John
+% ?a=_Mary ?b=_John
+
+% > ?o#Wedding4(bride->Mary groom->?b)
+% ?o=_f5(_Mary _John) ?b=_John
+
 )
