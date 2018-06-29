@@ -1,0 +1,53 @@
+PSOAMetaViz v1
+Author: Alex Kienzle
+
+To run locally:
+Allow local file access and scripting in your browser (I run the included devChrome.bat to allow file access in Chrome).
+Open index.html in browser.
+
+Description of project files:
+
+  index.html contains:
+  - A header with the slicing selectors and help button.
+  - An iframe that displays 6 different html files that represent the 6 views.
+  - A reference to frame.js
+
+  html folder contains:
+  - 6 views for (perspectivity, descriptor, oid) * (2D, 3D).
+  - help.html
+
+    Each view (ex. oid_3d) contains:
+    - Code for the visualization's elements.
+    - Code for the card elements.
+    - A reference to a css file.
+    - A reference to tiles.js.
+    - A reference to jquery.js (A javascript library *not currently saved locally*)
+    Note: perspectivity_3d.html contains comments outlining the structure of the code. The other html files are structured the same.
+
+  css folder contains:
+  - A css file for each view.
+
+    css files contain:
+    - Code for styling (color, size, position, etc.) the elements of each view.
+    Note: p3d.css contains comments outlining the structure of the code. The other css files are structured the same.
+
+  js folder contains:
+  - Javascript files to handle various tasks.
+
+    frame.js contains:
+    - Code to handle the naviagtion between the 6 views, and to the help page.
+
+    tiles.js contains:
+    - Code to handle the selection/deselection of tiles, and the corresponding loading/removing of the card info from the json file.
+    - Reference to cards.json.
+    - Reference to the images folder.
+
+  json folder contains:
+  - json file containing information for the 18 cards.
+
+    cards.json contains:
+    - Card information
+    - References to diagrams contained in images folder
+
+  images folder contains:
+  - A diagram for each of the 18 cards.

@@ -1,0 +1,201 @@
+{ "cards": [
+  {
+    "systematicName": "pn1",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral",
+    "descriptor": "tupled",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; tuples -[t ... t] independent from predicate f",
+    "syntax": "f(-[t ... t] . . . -[t ... t])",
+    "symbol": "Wedding(-[Mary John])",
+    "diagram": "diagram_pn1.png"
+  },
+  {
+    "systematicName": "pn2",
+    "commonName": "shelves",
+    "perspectivity": "perspeneutral",
+    "descriptor": "tupled",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; tuples -[t ... t] independent from predicate f",
+    "syntax": "o#f(-[t ... t] . . . -[t ... t])<br />o#f(-[t ... t])",
+    "symbol": "w21#Wedding(-[Mary John])",
+    "diagram": "diagram_pn2.png"
+  },
+  {
+    "systematicName": "pn3",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral",
+    "descriptor": "slotted",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; slots p->v independent from predicate f",
+    "syntax": "f(p->v . . . p->v)",
+    "symbol": "Wedding(bride->Mary groom->John)",
+    "diagram": "diagram_pn3.png"
+  },
+  {
+    "systematicName": "pn4",
+    "commonName": "frames",
+    "perspectivity": "perspeneutral",
+    "descriptor": "slotted",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; slots p->v independent from predicate f",
+    "syntax": "o#f(p->v . . . p->v)",
+    "symbol": "w41#Wedding(bride->Mary groom->John)",
+    "diagram": "diagram_pn4.png"
+  },
+  {
+    "systematicName": "pn5",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral",
+    "descriptor": "tupled + slotted",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; descriptors independent from predicate f",
+    "syntax": "f(-[t ... t] . . . -[t ... t] p->v . . . p->v)",
+    "symbol": "Wedding(-[Mary John] loc->LA)",
+    "diagram": "diagram_pn5.png"
+  },
+  {
+    "systematicName": "pn6",
+    "commonName": "shelframes",
+    "perspectivity": "perspeneutral",
+    "descriptor": "tupled + slotted",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; descriptors independent from predicate f",
+    "syntax": "o#f(-[t ... t] . . . -[t ... t] p->v . . . p->v)<br />o#f(-[t ... t] p->v . . . p->v)",
+    "symbol": "w61#Wedding(-[Mary John] loc->LA)",
+    "diagram": "diagram_pn6.png"
+  },
+  {
+    "systematicName": "pv1",
+    "commonName": "relationships",
+    "perspectivity": "perspectival",
+    "descriptor": "tupled",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; tuples +[t ... t] dependent on predicate f",
+    "syntax": "f(+[t ... t] . . . +[t ... t])<br />f(t ... t) or f(+[t ... t])",
+    "symbol": "Wedding(Mary John) or Wedding(+[Mary John])",
+    "diagram": "diagram_pv1.png"
+  },
+  {
+    "systematicName": "pv2",
+    "commonName": "n/a",
+    "perspectivity": "perspectival",
+    "descriptor": "tupled",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; tuples +[t ... t] dependent on predicate f",
+    "syntax": "o#f(+[t ... t] . . . +[t ... t])<br />o#f(t ... t) or o#f(+[t ... t])",
+    "symbol": "w11#Wedding(+[Mary John])",
+    "diagram": "diagram_pv2.png"
+  },
+  {
+    "systematicName": "pv3",
+    "commonName": "pairships",
+    "perspectivity": "perspectival",
+    "descriptor": "slotted",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; slots p+>v dependent on predicate f",
+    "syntax": "f(p+>v . . . p+>v)",
+    "symbol": "Wedding(bride+>Mary groom+>John)",
+    "diagram": "diagram_pv3.png"
+  },
+  {
+    "systematicName": "pv4",
+    "commonName": "n/a",
+    "perspectivity": "perspectival",
+    "descriptor": "slotted",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; slots p+>v dependent on predicate f",
+    "syntax": "o#f(p+>v . . . p+>v)",
+    "symbol": "w31#Wedding(bride+>Mary groom+>John)",
+    "diagram": "diagram_pv4.png"
+  },
+  {
+    "systematicName": "pv5",
+    "commonName": "relpairships",
+    "perspectivity": "perspectival",
+    "descriptor": "tupled + slotted",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; descriptors dependent on predicate f",
+    "syntax": "f(+[t ... t] . . . +[t ... t] p+>v . . . p+>v)<br />f(+[t ... t] p+>v . . . p+>v)",
+    "symbol": "Wedding(+[Mary John] loc+>LA)",
+    "diagram": "diagram_pv5.png"
+  },
+  {
+    "systematicName": "pv6",
+    "commonName": "n/a",
+    "perspectivity": "perspectival",
+    "descriptor": "tupled + slotted",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; descriptors dependent on predicate f",
+    "syntax": "o#f(+[t ... t] . . . +[t ... t] p+>v . . . p+>v)",
+    "symbol": "w51#Wedding(+[Mary John] loc+>LA)",
+    "diagram": "diagram_pv6.png"
+  },
+  {
+    "systematicName": "pp1",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral + perspectival",
+    "descriptor": "tupled",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; both in/dependent tuples w.r.t. predicate f",
+    "syntax": "f(+[t ... t] . . . +[t ... t]<br />&nbsp;&nbsp;&nbsp;&nbsp;-[t ... t] . . . -[t ... t])",
+    "symbol": "Wedding(-[2018 8 18] +[Mary John])",
+    "diagram": "diagram_pp1.png"
+  },
+  {
+    "systematicName": "pp2",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral + perspectival",
+    "descriptor": "tupled",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; both in/dependent tuples w.r.t. predicate f",
+    "syntax": "o#f(+[t ... t] . . . +[t ... t]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-[t ... t] . . . -[t ... t])",
+    "symbol": "w71#Wedding(-[2018 8 18] +[Mary John])",
+    "diagram": "diagram_pp2.png"
+  },
+  {
+    "systematicName": "pp3",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral + perspectival",
+    "descriptor": "slotted",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; both in/dependent slots w.r.t. predicate f",
+    "syntax": "f(p+>v . . . p+>v<br />&nbsp;&nbsp;&nbsp;p->v . . . p->v)",
+    "symbol": "Wedding(bride->Mary groom+>John)",
+    "diagram": "diagram_pp3.png"
+  },
+  {
+    "systematicName": "pp4",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral + perspectival",
+    "descriptor": "slotted",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; both in/dependent slots w.r.t. predicate f",
+    "syntax": "o#f(p+>v . . . p+>v<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p->v . . . p->v)",
+    "symbol": "w81#Wedding(bride->Mary groom+>John)",
+    "diagram": "diagram_pp4.png"
+  },
+  {
+    "systematicName": "pp5",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral + perspectival",
+    "descriptor": "tupled + slotted",
+    "oid": "oidless",
+    "semantics": "Implicit existential OID; both in/dependent descriptors w.r.t. predicate f",
+    "syntax": "f(+[t ... t] . . . +[t ... t]<br />&nbsp;&nbsp;&nbsp;-[t ... t] . . . -[t ... t]<br />&nbsp;&nbsp;&nbsp;p+>v . . . p+>v<br />&nbsp;&nbsp;&nbsp;p->v . . . p->v)",
+    "symbol": "Wedding(-[2018 8 18] bride+>Mary groom+>John)",
+    "diagram": "diagram_pp5.png"
+  },
+  {
+    "systematicName": "pp6",
+    "commonName": "n/a",
+    "perspectivity": "perspeneutral + perspectival",
+    "descriptor": "tupled + slotted",
+    "oid": "oidful",
+    "semantics": "Explicit OID o; both in/dependent descriptors w.r.t. predicate f",
+    "syntax": "o#f(+[t ... t] . . . +[t ... t]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-[t ... t] . . . -[t ... t]<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p+>v . . . p+>v<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p->v . . . p->v)",
+    "symbol": "w91#Wedding(-[2018 8 18] bride+>Mary groom+>John)",
+    "diagram": "diagram_pp6.png"
+  }
+            ]
+}

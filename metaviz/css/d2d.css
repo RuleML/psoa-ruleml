@@ -1,0 +1,157 @@
+.tile {
+  color: white;
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+  font-size: 49px;
+  font-weight: bold;
+  text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
+  border: 2px solid black;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+}
+
+.tile:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.focus {
+  background-color: yellow;
+  color: black;
+  text-shadow: -1px 0 white, 0 2px white, 2px 0 white, 0 -1px white;
+}
+
+.column {
+  float:left;
+}
+
+#topGroup {
+  margin-top: -80px;
+}
+
+.labeledGroup {
+  float: left;
+  margin-right: 50vw;
+}
+
+.group {
+  float: left;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  max-width: 30vw;
+}
+
+.groupLabel1 {
+  position: relative;
+  top: 18px;
+  left: 102px;
+}
+
+.groupLabel2 {
+  position: relative;
+  top: 18px;
+  left: 132px;
+}
+
+.groupLabel3 {
+  position: relative;
+  top: 18px;
+  left: 132px;
+}
+
+.groupContainer {
+  float: left;
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.groupContent {
+  height: 291px;
+  border: 2px solid black;
+}
+
+.columnLabel1 {
+  position: relative;
+  margin-left: 28px;
+  margin-bottom: 10px;
+  top: -10px;
+}
+
+.columnLabel2 {
+  position: relative;
+  margin-left: 53px;
+  top: -10px;
+}
+
+li {
+  margin-bottom: 77px;
+}
+
+ul {
+  list-style-type: none;
+  margin-left: -40px;
+  margin-right: -40px;
+}
+
+.groupRows {
+  position: relative;
+  float: left;
+  height: 291px;
+  width: 80px;
+}
+
+.row1 {
+  margin-top: 121px;
+}
+
+.rowLabel1 {
+  margin-left: 5px;
+}
+
+.rowLabel2 {
+  margin-left: 5px;
+}
+
+.rowLabel3 {
+  margin-left: 0px;
+}
+
+.card {
+  position: relative;
+  top: -50px;
+  border: 2px solid black;
+  width: 44vw;
+  height: 44vw;
+  margin-top: 50px;
+  margin-left: 500px;
+  box-shadow: 10px 10px gray;
+}
+
+.cardContent {
+  position: relative;
+  float: left;
+  top: -1090px;
+  width: 44vw;
+  height: 44vw;
+  margin-top: 5px;
+  margin-left: 40px;
+}
+
+.header, .label, .info {
+  font-size: 1.1vw;
+}
+
+h1 {
+  margin-bottom: 1px;
+}
+
+#diagram {
+  width: 30vw;
+}

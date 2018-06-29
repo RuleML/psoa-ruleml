@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+  <head>
+    <title>PSOAMetaViz</title>
+    <style>
+      #frame {
+        width: 100%;
+        height: 95vh;
+        display:inline-block;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/frame.js"></script>
+  </head>
+
+  <body>
+    <select id=slice>
+      <option value="perspectivity">Perspectivity</option>
+      <option value="descriptor">Descriptor</option>
+      <option value="oid">OID</option>
+    </select>
+    <select id=view>
+      <option value="3d">3D</option>
+      <option value="2d">2D</option>
+    </select>
+    <button id="help" type="button" title="Help" onclick=window.open("html/help.html")>?</button>
+    <iframe id="frame" src="html/perspectivity_3d.html" frameborder="0"></iframe>
+  </body>
+</html>

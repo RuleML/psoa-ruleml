@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+  <head>
+    <!-- CSS and Javascript references -->
+    <link rel="stylesheet" type="text/css" href="../css/p3d.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../js/tiles.js"></script>
+  </head>
+
+  <body>
+    <!-- Tiles section -->
+    <div id="tiles">
+
+      <!-- Group of tiles containing labels -->
+      <div class="labeledGroup" id="topGroup">
+
+        <!-- Labels for each row of tiles of a group -->
+        <div class="groupRows">
+          <ul class="rowLabels">
+            <li class="row1"><span class="rowLabel1">Tupled</span></li>
+            <li class="row2"><span class="rowLabel2">Slotted</span></li>
+            <li class="row3"><span class="rowLabel3">Tupled + Slotted</span></li>
+          </ul>
+        </div>
+
+        <div class="group" id="group1">
+          <div class="groupLabels">
+            <span class="groupLabel1">Perspeneutral</span>
+          </div>
+          <div class="groupContainer">
+
+            <!-- Labels for the columns of a group -->
+            <div class="columnLabels">
+              <span class="columnLabel1">Oidless</span>
+              <span class="columnLabel2">Oidful</span>
+            </div>
+
+            <!-- Tile content of a group -->
+            <div class="groupContent">
+
+              <!-- Columns of tiles -->
+              <div class="column">
+                <div id="pn1" class="tile pn ol tu">pn1</div>
+                <div id="pn3" class="tile pn ol sl">pn3</div>
+                <div id="pn5" class="tile pn ol ts">pn5</div>
+              </div>
+              <div class="column">
+                <div id="pn2" class="tile pn of tu">pn2</div>
+                <div id="pn4" class="tile pn of sl">pn4</div>
+                <div id="pn6" class="tile pn of ts">pn6</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="labeledGroup">
+        <div class="group" id="group2">
+          <div class="groupLabels">
+            <span class="groupLabel2">Perspectival</span>
+          </div>
+          <div class="groupContainer">
+            <div class="groupContent">
+              <div class="column">
+                <div id="pv1" class="tile pv ol tu">pv1</div>
+                <div id="pv3" class="tile pv ol sl">pv3</div>
+                <div id="pv5" class="tile pv ol ts">pv5</div>
+              </div>
+              <div class="column">
+                <div id="pv2" class="tile pv of tu">pv2</div>
+                <div id="pv4" class="tile pv of sl">pv4</div>
+                <div id="pv6" class="tile pv of ts">pv6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="labeledGroup">
+        <div class="group" id="group3">
+          <div class="groupLabels" id="groupLabelContainer3">
+            <span class="groupLabel3">Perspeneutral + Perspectival</span>
+          </div>
+          <div class="groupContainer">
+            <div class="groupContent">
+              <div class="column">
+                <div id="pp1" class="tile pp ol tu">pp1</div>
+                <div id="pp3" class="tile pp ol sl">pp3</div>
+                <div id="pp5" class="tile pp ol ts">pp5</div>
+              </div>
+              <div class="column">
+                <div id="pp2" class="tile pp of tu">pp2</div>
+                <div id="pp4" class="tile pp of sl">pp4</div>
+                <div id="pp6" class="tile pp of ts">pp6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card section -->
+    <div class="card">
+      <div class="cardContent">
+        <h1 class="header">Name: </h1>
+        <span class="label">Systematic: </span>
+        <span id="systematicName" class="info"></span>
+        <div></div>
+        <span class="label">Common: </span>
+        <span id="commonName" class="info"></span>
+        <div></div>
+        <h1 class="header">Dimension: </h1>
+        <span class="label">Perspectivity: </span>
+        <span id="perspectivity" class="info"></span>
+        <div></div>
+        <span class="label">Descriptor: </span>
+        <span id="descriptor" class="info"></span>
+        <div></div>
+        <span class="label">OID: </span>
+        <span id="oid" class="info"></span>
+        <h1 class="label">Semantics: </h1>
+        <span id="semantics" class="info"></span>
+        <div></div>
+        <h1 class="label">Syntax: </h1>
+        <span id="syntax" class="info"></span>
+        <div></div>
+        <h1 class="header">Example: </h1>
+        <span class="label">Symbolic: </span>
+        <span id="symbol" class="info"></span>
+        <div></div>
+        <span class="label">Diagram: </span>
+        <div></div>
+        <img id="diagram"></img>
+      </div>
+    </div>
+
+    <!-- Panels for wireframe appearance -->
+    <div id=panelTop></div>
+    <div id=panelBottom></div>
+
+  </body>
