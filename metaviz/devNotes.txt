@@ -11,10 +11,11 @@ Description of project files:
   - A header with the slicing selectors and help button.
   - An iframe that displays 6 different html files that represent the 6 views.
   - A reference to frame.js
+  - A reference to PSOAMetaVizExplained.html (acting as a help page)
 
   html folder contains:
   - 6 views for (perspectivity, descriptor, oid) * (2D, 3D).
-  - help.html
+  - PSOAMetaVizExplained.html
 
     Each view (ex. oid_3d) contains:
     - Code for the visualization's elements.
@@ -35,7 +36,7 @@ Description of project files:
   - Javascript files to handle various tasks.
 
     frame.js contains:
-    - Code to handle the naviagtion between the 6 views, and to the help page.
+    - Code to handle the naviagtion between the 6 views.
 
     tiles.js contains:
     - Code to handle the selection/deselection of tiles, and the corresponding loading/removing of the card info from the json file.
