@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <title>PSOAMetaViz Explained</title>
+  </head>
+  <body>
+    <h1>PSOAMetaViz Explained: The PSOA RuleML Metamodel in Dynamic Visualization</h1>
+    <h2>Harold Boley, Alexander Kienzle, Scott Bateman</h2>
+    <h3>Faculty of Computer Science, University of New Brunswick, Canada</h3>
+    <br/>
+    <h2>Introduction</h2>
+    <p>
+      Some background for the software <a href="http://psoa.ruleml.org/metaviz/">PSOAMetaViz</a>
+      can be found in the document <a href="http://wiki.ruleml.org/index.php/PSOA_RuleML_Bridges_Graph_and_Relational_Databases">PSOABridgesGraphRelDBs</a>.
+      PSOAMetaViz visualizes the <a href="http://wiki.ruleml.org/index.php/PSOA_RuleML">PSOA RuleML</a> metamodel by a wireframe-like cube.
+      The PSOA metamodel's three orthogonal dimensions of
+      "Perspectivity", "Descriptor", and "OID"
+      are mapped to three Cartesian axes.
+      PSOAMetaViz in "3D" mode focuses the cube in the three switchable projections
+      of Perspectivity, Descriptor, and OID.
+      Alternatively, PSOAMetaViz can also be used in "2D" mode,
+      where each focus becomes a corresponding set of rectangular slices.
+      In both modes, the projections or slices constitute a scaffold
+      for unit cubes or cells.
+      In the ensuing 3D-projection or 2D-sliced systematics,
+      each unit characterizes one kind of atom in PSOA RuleML.
+    </p>
+    <p>
+      PSOAMetaViz creates a dynamic user experience as follows
+      (cf. <a href="http://ruleml.org/talks/PSOAMetamodelGrailogWedding.pdf">PSOAMetamodelGrailogWedding.pdf</a>):
+    </p>
+    <ol>
+      <li>
+        Units point to characterizing 'cards', each containing
+        <ul>
+          <li>a general description of its atom kind according to a common template</li>
+          <li>an (itself visualized) systematically changed atom as a running example</li>
+        </ul>
+      </li>
+      <li>
+        Informed by 1., users can navigate from the current unit to any other unit,
+        thus facilitating pairwise comparison of atoms
+      </li>
+      <li>
+        Iterating 2., users can traverse metamodel paths, e.g. for atomic-fact interoperation by rules,
+        thus exploring the PSOA RuleML design space
+      </li>
+    </ol>
+    <h2>Visualization Principles</h2>
+    <p>
+      In addition to the 3D and 2D geometries,
+      the following conventions (mnemonics in parentheses) are employed
+      in the 3D mode of PSOAMetaViz:
+    </p>
+    <pre>
+Perspectivity = color
+  perspeneutral = red (cf. 'negative amount', i.e. independent)
+  perspectival = green
+  perspeneutral+perspectival = blue
+Descriptor = texture
+  tupled = horizontally striped (length-oriented, positional information)
+  slotted = vertically striped
+  tupled+slotted = digonally striped
+OID = surrounding-line style
+  oidless = dashed surrounding lines ("- -...- -" indicates no OID)
+  oidful = solid surrounding lines
+    </pre>
+    <p>
+      We refer to the boundary segments of the three dimensions in the three projections of the 3D cube as follows:
+    </p>
+    <pre>
+left/right
+top/bottom
+front/rear
+    </pre>
+    <p>
+      Switching between the projections of the same cube results in the following focus transformations
+      (the colors of the Perspectivity-focused entry screen help to keep track also of its transformations
+      for the Descriptor focus and the OID focus):
+    </p>
+    <pre>
+Perspectivity focus:
+left = oidless
+top = tupled
+front = perspeneutral
+
+Descriptor focus:
+left = oidless
+top = perspeneutral
+front = tupled+slotted  
+
+OID focus:
+left = perspeneutral
+top = tupled
+front = oidful
+    </pre>
+    <h2>Software Use</h2>
+    <p>
+      The two menus in the upper-left corner can be used to
+      independently choose the
+      Perspectivity, Descriptor, or OID focus
+      and the
+      3D or 2D mode.
+      With any focus and mode, each of the eighteen units can be selected to view its card
+      (a new focus/mode choice resets any unit selection).
+      The "?" button in the upper-left corner opens a new browser tab with
+      this <a href="http://psoa.ruleml.org/metaviz/html/help.html">help.html</a> document.
+    </p>
+    <h2>Software Realization</h2>
+    <p>
+      A structured exposition of the JavaScript/JSON-based realization of PSOAMetaViz v1
+      is given in the <a href="http://psoa.ruleml.org/metaviz/devNotes.txt">devNotes.txt</a> document.
+      The GitHub source is in the <a href="https://github.com/RuleML/psoa-ruleml/tree/master/metaviz">metaviz</a> project.
+    </p>
+    <h2>Conclusions</h2>
+    <p>
+      PSOAMetaViz has become a 'meta-GUI' for exploring PSOA RuleML's metamodel.
+      This open software comes without any warranty.
+      Please send comments and suggestions to the first author.
+    </p>
+  </body>
+</html>
