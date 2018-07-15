@@ -11,7 +11,7 @@ Description of project files:
   - A header with the slicing selectors and help button.
   - An iframe that displays 6 different html files that represent the 6 views.
   - A reference to frame.js
-  - A reference to PSOAMetaVizExplained.html (acting as a help page)
+  - Code to open PSOAMetaVizExplained.html (acting as a help page)
 
   html folder contains:
   - 6 views for (perspectivity, descriptor, oid) * (2D, 3D).
