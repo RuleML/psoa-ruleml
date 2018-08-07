@@ -1,0 +1,412 @@
+%%% Queries and Answers on GDPR Checking Rules KB %%%
+% Version: 2018-08-06
+% General Data Protection Regulation (EU) 2016/679 %
+
+%Queries about GDPR-compliant companies and their corresponding data subjects
+
+> :GDPRComplianceOfCompany_DataSubject(_Company1 _DataSubj3)
+Answer(s):
+Yes
+
+> :GDPRComplianceOfCompany_DataSubject(_Company2 _DataSubj7)
+Answer(s):
+No
+
+> :GDPRComplianceOfCompany_DataSubject(_Company1 ?d)
+Answer(s):
+?d=_DataSubj1
+?d=_DataSubj2
+?d=_DataSubj3
+?d=_DataSubj4
+?d=_DataSubj5
+
+> :GDPRComplianceOfCompany_DataSubject(_Company2 ?d)
+Answer(s):
+?d=_DataSubj6
+
+> :GDPRComplianceOfCompany_DataSubject(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+
+% Queries about Data Protection Certification which is confirmed by Data Protection Officer based on Records Transparency (Chapter 4.4 & 4.5)
+
+> :DataProtectionCertification(_Company1 _DataSubj4)
+Answer(s):
+Yes
+
+> :DataProtectionCertification(?c ?d)
+Answer(s):
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj2
+?c=_Company2,?d=_DataSubj6
+
+> :DataProtectionOfficer(_Company2 _DataSubj6)
+Answer(s):
+Yes
+
+> :DataProtectionOfficer(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj4
+
+> :TransparentRecords(_Company2 _DataSubj10)
+Answer(s):
+No
+
+> :TransparentRecords(?c ?d)
+
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj4
+
+%Queries about the Data Breaches that were reported within the 72-hours-required period. (Chapter 4.2)
+
+> :DataBreaches(_Company1 :data->_DataSubj2 :periodInHours->?h)
+Answer(s):
+?h=15
+
+> :DataBreaches(?c :data->?d :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->?h)
+Answer(s):
+?c=_Company1,?d=_DataSubj1,?h=40
+?c=_Company1,?d=_DataSubj3,?h=25
+?c=_Company2,?d=_DataSubj10,?h=30
+?c=_Company1,?d=_DataSubj5,?h=45
+?c=_Company1,?d=_DataSubj2,?h=15
+?c=_Company1,?d=_DataSubj4,?h=35
+?c=_Company2,?d=_DataSubj7,?h=65
+?c=_Company2,?d=_DataSubj6,?h=55
+?c=_Company2,?d=_DataSubj9,?h=20
+
+%Queries about the Data Breaches that were NOT reported.
+
+> And(:DataBreaches(?c :data->?d :periodInHours->?h) math:greaterThan(?h 72))
+Answer(s):
+?c=_Company2,?d=_DataSubj8,?h=75
+
+
+> :DataBreaches(?c :data->?d :iocNotif->:No :dataSubjectNotif->:No)
+Answer(s):
+?c=_Company2,?d=_DataSubj8
+
+
+%Queries about companies' Data Security (Chapter 4.1, 4.3, 4.4, 4.5)
+%General
+
+> :DataSecurity(_Company2 ?d)
+Answer(s):
+?d=_DataSubj6
+
+> :DataSecurity(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj4
+
+%More detailed 
+
+> :PrivacyByDesignAndPIAs(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj10
+?c=_Company1,?d=_DataSubj2
+?c=_Company2,?d=_DataSubj8
+?c=_Company1,?d=_DataSubj4
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj5
+?c=_Company2,?d=_DataSubj9
+
+> :DocumentedLegalBasis(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+
+> :DataSecurityMeasures(?c :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+Answer(s):
+?c=_Company2
+?c=_Company1
+
+> :DataSecurityMeasures(?c :encryption->:Yes)
+Answer(s):
+?c=_Company2
+?c=_Company1
+
+% Queries about Companies that have confirmed data subjects' consent (Chapter 3 % 2.7)
+
+> :ConsentFromDataSubject(_Company1 _DataSubj2)
+Answer(s):
+Yes
+
+> :ConsentFromDataSubject(_Company2 _DataSubj9)
+Answer(s):
+No
+
+> :ConsentFromDataSubject(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj5
+
+
+% Queries about Companies that comply with data subjects' rights (Chapter 3)
+%General
+
+> :DataSubjectRights(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+
+%More detailed
+
+> :AccessToPersonalData(?c ?d)
+Answer(s):
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+?c=_Company2,?d=_DataSubj6
+?c=_Company2,?d=_DataSubj9
+?c=_Company2,?d=_DataSubj8
+?c=_Company2,?d=_DataSubj10
+
+> :ObjectionToProcessing(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj7
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+
+> :DataErasure(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj1
+
+> :NoLongerRelevantToOriginalPurposes(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj7
+?c=_Company1,?d=_DataSubj2
+
+>  :DataSubjectWithdrawingConsent(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj8
+?c=_Company1,?d=_DataSubj3
+
+>  :DataUnlawfullyProcessed(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj9
+?c=_Company1,?d=_DataSubj4
+
+> :LegalObligation(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj10
+?c=_Company1,?d=_DataSubj5
+
+> And(:LegalObligation(?c ?d) :ObjectionToProcessing(?c ?d))
+Answer(s):
+?c=_Company1,?d=_DataSubj5
+
+> :RectificationAndErasure(?c ?d)
+Answer(s):
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj2
+?c=_Company2,?d=_DataSubj9
+?c=_Company2,?d=_DataSubj7
+?c=_Company2,?d=_DataSubj6
+?c=_Company2,?d=_DataSubj10
+
+> :RightToBeForgotten(?c ?d)
+Answer(s):
+?c=_Company1,?d=_DataSubj5
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj1
+?c=_Company2,?d=_DataSubj10
+?c=_Company2,?d=_DataSubj9
+?c=_Company2,?d=_DataSubj8
+?c=_Company2,?d=_DataSubj7
+?c=_Company2,?d=_DataSubj6
+
+> :RightToPortability(?c ?d)
+Answer(s):
+?c=Var0,?d=_DataSubj1
+?c=Var1,?d=_DataSubj7
+?c=Var2,?d=_DataSubj4
+?c=Var3,?d=_DataSubj6
+?c=Var4,?d=_DataSubj5
+?c=Var5,?d=_DataSubj3
+?c=Var6,?d=_DataSubj10
+?c=Var7,?d=_DataSubj2
+?c=Var8,?d=_DataSubj9
+
+%Queries about the transfer - or not - of data to their subjects within 30 days after their request (Data portability). 
+
+> And(?d#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->?t) math:lessEq(?t 30))
+Answer(s):
+?d=_DataSubj9,?t=28
+?d=_DataSubj2,?t=24
+?d=_DataSubj10,?t=16
+?d=_DataSubj3,?t=19
+?d=_DataSubj4,?t=22
+?d=_DataSubj7,?t=25
+?d=_DataSubj5,?t=19
+?d=_DataSubj1,?t=27
+?d=_DataSubj6,?t=19
+
+> And(?d#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->?t)
+math:greaterThan(?t 30))
+Answer(s):
+?d=_DataSubj8,?t=45
+
+%Queries about the characteristics of obtained data. (Chapter 3.1)
+%All of them
+
+>  ?d#:DataObtained(:purpose->?p :category->?g :processing->?y :recipients->?r :retentionPeriod->?x)
+Answer(s):
+?d=_DataSubj9,?p=_PatientsHealthConditions,?g=_Sensitive,?y=_DataSubjectConsent,
+?r=_noThirdParty,?x=_3months
+?d=_DataSubj2,?p=_Advertisement,?g=_Personal,?y=_DataSubjectConsent,
+?r=_EU,?x=_3Months
+?d=_DataSubj3,?p=_Advertisement,?g=_Personal,?y=_DataSubjectConsent,
+?r=_EEA,?x=_3Months
+?d=_DataSubj4,?p=_Analytics,?g=_Personal,?y=_ByAutomatedMeans,
+?r=_EU,?x=_15Days
+?d=_DataSubj7,?p=_PatientsStatistics,?g=_Sensitive,?y=_ByAutomatedMeans,
+?r=_EU,?x=_3Years
+?d=_DataSubj5,?p=_CurrentEmployees,?g=_Personal,?y=_PerformanceOfContract,
+?r=_noThirdParty,?x=_1year
+?d=_DataSubj1,?p=_Analytics,?g=_Personal,?y=_ByAutomatedMeans,
+?r=_EU,?x=_15Days
+?d=_DataSubj8,?p=_MedicalDevicesDevelopment,?g=_Sensitive,?y=_DataSubjectConsent,
+?r=_EEA,?x=_1Month
+?d=_DataSubj6,?p=_CurrentEmployees,?g=_Personal,?y=_PerformanceOfContract,
+?r=_noThirdParty,?x=_1year
+
+%Some of them
+
+> ?d#:DataObtained(:purpose->?p :category->?g)
+Answer(s):
+?d=_DataSubj5,?p=_CurrentEmployees,?g=_Personal
+?d=_DataSubj9,?p=_PatientsHealthConditions,?g=_Sensitive
+?d=_DataSubj1,?p=_Analytics,?g=_Personal
+?d=_DataSubj6,?p=_CurrentEmployees,?g=_Personal
+?d=_DataSubj2,?p=_Advertisement,?g=_Personal
+?d=_DataSubj7,?p=_PatientsStatistics,?g=_Sensitive
+?d=_DataSubj3,?p=_Advertisement,?g=_Personal
+?d=_DataSubj8,?p=_MedicalDevicesDevelopment,?g=_Sensitive
+?d=_DataSubj4,?p=_Analytics,?g=_Personal
+
+> ?d#:DataObtained(:processing->?y)
+Answer(s):
+?d=_DataSubj5,?y=_PerformanceOfContract
+?d=_DataSubj9,?y=_DataSubjectConsent
+?d=_DataSubj1,?y=_ByAutomatedMeans
+?d=_DataSubj6,?y=_PerformanceOfContract
+?d=_DataSubj2,?y=_DataSubjectConsent
+?d=_DataSubj7,?y=_ByAutomatedMeans
+?d=_DataSubj3,?y=_DataSubjectConsent
+?d=_DataSubj8,?y=_DataSubjectConsent
+?d=_DataSubj4,?y=_ByAutomatedMeans
+
+> ?d#:DataObtained(:processing->_PerformanceOfContract)
+Answer(s):
+?d=_DataSubj6
+?d=_DataSubj5
+
+%Query about Data Mapping
+
+> :DataStreamMap(?c ?d)
+Answer(s):
+?c=_Company2,?d=_DataSubj9
+?c=_Company2,?d=_DataSubj7
+?c=_Company2,?d=_DataSubj8
+?c=_Company2,?d=_DataSubj6
+?c=_Company1,?d=_DataSubj2
+?c=_Company1,?d=_DataSubj4
+?c=_Company1,?d=_DataSubj1
+?c=_Company1,?d=_DataSubj3
+?c=_Company1,?d=_DataSubj5
+
+%Queries about Data Taxonomy
+
+> ?m#:Data
+Answer(s):
+?m=<http://psoa.ruleml.org/usecases/GDPR#CookieData>
+?m=<http://psoa.ruleml.org/usecases/GDPR#PoliticalOpinion>
+?m=<http://psoa.ruleml.org/usecases/GDPR#RFIDtags>
+?m=<http://psoa.ruleml.org/usecases/GDPR#Location>
+?m=<http://psoa.ruleml.org/usecases/GDPR#SexualOrientations>
+?m=<http://psoa.ruleml.org/usecases/GDPR#Name>
+?m=<http://psoa.ruleml.org/usecases/GDPR#Health>
+?m=<http://psoa.ruleml.org/usecases/GDPR#GeneticBiometrics>
+?m=<http://psoa.ruleml.org/usecases/GDPR#IDNumbers>
+?m=<http://psoa.ruleml.org/usecases/GDPR#IPNumbers>
+?m=<http://psoa.ruleml.org/usecases/GDPR#RacialAndEthnicity>
+
+> ?m#:PersonalData
+Answer(s):
+?m=<http://psoa.ruleml.org/usecases/GDPR#RFIDtags>
+?m=<http://psoa.ruleml.org/usecases/GDPR#CookieData>
+?m=<http://psoa.ruleml.org/usecases/GDPR#IPNumbers>
+?m=<http://psoa.ruleml.org/usecases/GDPR#IDNumbers>
+?m=<http://psoa.ruleml.org/usecases/GDPR#Location>
+?m=<http://psoa.ruleml.org/usecases/GDPR#Name>
+
+
+> ?m#:SensitiveData
+Answer(s):
+?m=<http://psoa.ruleml.org/usecases/GDPR#SexualOrientations>
+?m=<http://psoa.ruleml.org/usecases/GDPR#PoliticalOpinion>
+?m=<http://psoa.ruleml.org/usecases/GDPR#RacialAndEthnicity>
+?m=<http://psoa.ruleml.org/usecases/GDPR#GeneticBiometrics>
+?m=<http://psoa.ruleml.org/usecases/GDPR#Health>
+
+> :PoliticalOpinion#?c
+Answer(s):
+?d=<http://psoa.ruleml.org/usecases/GDPR#SensitiveData>
+?d=<http://psoa.ruleml.org/usecases/GDPR#Data>
+
+
+> :Name#?c
+Answer(s):
+?d=<http://psoa.ruleml.org/usecases/GDPR#PersonalData>
+?d=<http://psoa.ruleml.org/usecases/GDPR#Data>
+
+
+
+
+

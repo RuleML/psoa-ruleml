@@ -1,0 +1,321 @@
+RuleML (
+     Prefix(: <http://psoa.ruleml.org/usecases/GDPR#>) 
+	 Prefix(math: <http://psoa.ruleml.org/lib/math#>)
+     Prefix(phys: <http://psoa.ruleml.org/lib/phys#>)
+  
+     Import(<http://psoa.ruleml.org/lib/math.psoa>)
+     Import(<http://psoa.ruleml.org/lib/phys.psoa>)
+    
+	Assert (
+	
+	 % GDPR Checking Rules KB %
+     % Version: 2018-08-06
+     % Authors: Sofia Almpani, Petros Stefaneas, Harold Boley, Theodoros Mitsikas
+  
+	% General Data Protection Regulation (EU) 2016/679 %
+	% Chapter 3 & 4 %
+	% https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32016R0679&from=EN
+	
+		
+%%% Chapter 3 – Rights of the data subject %%%	 
+%%Section 1  -  Transparency and modalities
+%%Section 2	–	Information and access to personal data
+%%Section 3	–	Rectification and erasure
+%%Section 4	–	Right to object and automated individual decision-making
+%%Section 5	–	Restrictions
+
+%%% Chapter 4 – Controller and processor %%%
+%%Section 1	–	General obligations
+%%Section 2	–	Security of personal data
+%%Section 3	–	Data protection impact assessment and prior consultation
+%%Section 4	–	Data protection officer
+%%Section 5	–	Codes of conduct and certification
+
+	%Information also obtained from:
+	% https://www.eugdpr.org/article-summaries.html  
+	% http://gdprandyou.ie/resources/ 
+	% http://blog.cybertraining365.com/page/2/
+
+  
+
+ Forall ?c ?d(
+	:GDPRComplianceOfCompany_DataSubject(?c ?d) :-
+	:DataProtectionCertification(?c ?d))
+	
+% Chapter 4.5
+	
+ Forall ?c ?d (:DataProtectionCertification(?c ?d) :-
+ :DataProtectionOfficer(?c ?d))
+ 
+% Chapter 4.4 
+
+ Forall ?c ?d (:DataProtectionOfficer(?c ?d) :-
+  :TransparentRecords(?c ?d))
+
+% Chapter 3.1  & Chapter 4.2 
+ 
+ Forall ?h ?c ?d (:TransparentRecords(?c ?d) :-
+   And(:DataSecurity(?c ?d)
+       :DataBreaches(?c :data->?d :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->?h)
+       math:lessEq(?h 72)))
+	 
+% Chapter 4.1, 4.3, 4.4, 4.5
+
+ Forall ?c ?d (:DataSecurity(?c ?d) :-
+  And(:PrivacyByDesignAndPIAs(?c ?d)
+    :DocumentedLegalBasis(?c ?d)
+	:DataSecurityMeasures(?c :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)))
+
+% Chapter 4.2 - Article 33,34	
+
+ Forall ?c ?d (:DocumentedLegalBasis(?c ?d) :-
+  :ConsentFromDataSubject(?c ?d))
+      
+	   
+% Chapter 2.7
+	
+ Forall ?c ?d (:ConsentFromDataSubject(?c ?d) :-
+  :DataSubjectRights(?c ?d))
+  
+ % Chapter 3
+
+ Forall ?c ?d (:DataSubjectRights(?c ?d) :-
+  And(:DataStreamMap(?c ?d)
+    :AccessToPersonalData(?c ?d)
+    :RectificationAndErasure(?c ?d)
+	:RightToObject(?c ?d)
+	:RightToRestriction(?c ?d))) 
+	
+% Chapter 3.2	
+  
+  Forall ?c ?d (:AccessToPersonalData(?c ?d) :-
+    :DataSubjectAccessRequests(?c ?d))
+	  	  
+% Chapter 3.3
+
+ Forall ?c ?d (:RectificationAndErasure(?c ?d) :-
+  And(:RightToRectification(?c ?d)
+	 :RightToBeForgotten(?c ?d)
+	 :RightToPortability(?c ?d)))
+
+	 
+% Chapter 3.3 - Article 17
+
+ Forall ?c ?d (:RightToBeForgotten(?c ?d) :-                                            
+  Or(:DataErasure(?c ?d)
+     :NoLongerRelevantToOriginalPurposes(?c ?d) 
+     :DataSubjectWithdrawingConsent(?c ?d)
+	 :DataUnlawfullyProcessed(?c ?d)
+	 :LegalObligation(?c ?d)))
+
+% Chapter 3.4
+
+ Forall ?c ?d (:RightToObject(?c ?d) :- 
+  Or(:ObjectionToProcessing(?c ?d)
+    :ObjectionToAutomatedDecisionMaking(?c ?d)))
+	
+
+ Forall ?t ?c ?d (:RightToPortability(?c ?d) :-	 
+  And(?d#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->?t) 
+     math:lessEq(?t 30)))
+
+	
+% Chapter 3.5
+
+Forall ?c ?d (:RightToRestriction(?c ?d) :- :WhenLawfullyRestricted(?c ?d))
+
+% Chapter 3.1
+
+ Forall ?c ?d ?p ?g ?y ?r ?x (:DataStreamMap(?c ?d) :-
+  And(:Awareness (?c ?d)
+    ?d#:DataObtained(:purpose->?p :category->?g :processing->?y :recipients->?r :retentionPeriod->?x)))
+    
+ Forall ?c ?d (:Awareness(?c ?d) :-
+  :InformStakeholders(?c ?d))
+  
+ %%% Data Taxonomy%%%
+ 
+ :PersonalData##:Data
+ :SensitiveData##:Data
+ 
+ :Name#:PersonalData
+ :Location#:PersonalData
+ :IDNumbers#:PersonalData
+ :IPNumbers#:PersonalData
+ :CookieData#:PersonalData
+ :RFIDtags#:PersonalData
+ 
+ :Health#:SensitiveData
+ :GeneticBiometrics#:SensitiveData
+ :RacialAndEthnicity#:SensitiveData
+ :PoliticalOpinion#:SensitiveData
+ :SexualOrientations#:SensitiveData
+ 
+%%% Facts - Examples of Companies GDPR Compliance %%% 
+
+%%%Facts%%%
+
+%Company1 -> Marketing-Advertising company
+%Company2 -> Medical company
+%DataSubj -> Data of an individual - data subject
+
+%Company1 (Marketing-Advertising company) - DataSubj1
+
+:DataSubjectAccessRequests(Company1 DataSubj1)
+:PrivacyByDesignAndPIAs(Company1 DataSubj1)
+:DataSecurityMeasures(Company1 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company1 :data->DataSubj1 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->40)
+
+DataSubj1#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->27)
+:RightToRectification(Company1 DataSubj1)
+:DataErasure(Company1 DataSubj1)
+:ObjectionToProcessing(Company1 DataSubj1)
+:WhenLawfullyRestricted(Company1 DataSubj1)
+DataSubj1#:DataObtained(:purpose->Analytics :category->Personal :processing->ByAutomatedMeans :recipients->EU :retentionPeriod->15Days)
+:InformStakeholders(Company1 DataSubj1)
+
+
+%Company1 - DataSubj2
+
+:DataSubjectAccessRequests(Company1 DataSubj2)
+:PrivacyByDesignAndPIAs(Company1 DataSubj2)
+%%%:DataSecurityMeasures(Company1 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company1 :data->DataSubj2 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->15)
+
+DataSubj2#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->24)
+:RightToRectification(Company1 DataSubj2)
+:NoLongerRelevantToOriginalPurposes(Company1 DataSubj2) 
+:ObjectionToAutomatedDecisionMaking(Company1 DataSubj2)
+:WhenLawfullyRestricted(Company1 DataSubj2)
+DataSubj2#:DataObtained(:purpose->Advertisement :category->Personal :processing->DataSubjectConsent :recipients->EU :retentionPeriod->3Months)
+:InformStakeholders(Company1 DataSubj2)
+
+%Company1 - DataSubj3
+
+:DataSubjectAccessRequests(Company1 DataSubj3)
+:PrivacyByDesignAndPIAs(Company1 DataSubj3)
+%%%:DataSecurityMeasures(Company1 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company1 :data->DataSubj3 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->25)
+:TypeofProcessing(:ByAutomatedMeans DataSubj3)
+ 
+DataSubj3#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->19)
+:RightToRectification(Company1 DataSubj3)
+:DataSubjectWithdrawingConsent(Company1 DataSubj3)
+:ObjectionToProcessing(Company1 DataSubj3)
+:WhenLawfullyRestricted(Company1 DataSubj3)
+DataSubj3#:DataObtained(:purpose->Advertisement :category->Personal :processing->DataSubjectConsent :recipients->EEA :retentionPeriod->3Months)
+:InformStakeholders(Company1 DataSubj3)
+
+%Company1 - DataSubj4
+
+:DataSubjectAccessRequests(Company1 DataSubj4)
+:PrivacyByDesignAndPIAs(Company1 DataSubj4)
+%%%:DataSecurityMeasures(Company1 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company1 :data->DataSubj4 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->35)
+ 
+DataSubj4#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->22)
+:RightToRectification(Company1 DataSubj4)
+:DataUnlawfullyProcessed(Company1 DataSubj4)
+:ObjectionToProcessing(Company1 DataSubj4)
+:WhenLawfullyRestricted(Company1 DataSubj4)
+DataSubj4#:DataObtained(:purpose->Analytics :category->Personal :processing->ByAutomatedMeans :recipients->EU :retentionPeriod->15Days)
+:InformStakeholders(Company1 DataSubj4)
+
+%Company1 - DataSubj5
+
+:DataSubjectAccessRequests(Company1 DataSubj5)
+:PrivacyByDesignAndPIAs(Company1 DataSubj5)
+%%%:DataSecurityMeasures(Company1 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company1 :data->DataSubj5 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->45)
+ 
+DataSubj5#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->19)
+:RightToRectification(Company1 DataSubj5)
+:LegalObligation(Company1 DataSubj5)
+:ObjectionToProcessing(Company1 DataSubj5)
+:WhenLawfullyRestricted(Company1 DataSubj5)
+DataSubj5#:DataObtained(:purpose->CurrentEmployees :category->Personal :processing->PerformanceOfContract :recipients->noThirdParty :retentionPeriod->1year)
+:InformStakeholders(Company1 DataSubj5)
+
+%Company2 (Medical company)- DataSubj6
+
+:DataSubjectAccessRequests(Company2 DataSubj6)
+:PrivacyByDesignAndPIAs(Company2 DataSubj6)
+:DataSecurityMeasures(Company2 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company2 :data->DataSubj6 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->55)
+ 
+DataSubj6#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->19)
+:RightToRectification(Company2 DataSubj6)
+:DataErasure(Company2 DataSubj6)
+:ObjectionToAutomatedDecisionMaking(Company2 DataSubj6)
+:WhenLawfullyRestricted(Company2 DataSubj6)
+DataSubj6#:DataObtained(:purpose->CurrentEmployees :category->Personal :processing->PerformanceOfContract :recipients->noThirdParty :retentionPeriod->1year)
+:InformStakeholders(Company2 DataSubj6)
+
+%Company2 - DataSubj7
+
+%:DataSubjectAccessRequests(Company2 DataSubj7)
+%:PrivacyByDesignAndPIAs(Company2 DataSubj7)
+%%%:DataSecurityMeasures(Company2 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company2 :data->DataSubj7 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->65)
+ 
+DataSubj7#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->25)
+:RightToRectification(Company2 DataSubj7)
+:NoLongerRelevantToOriginalPurposes(Company2 DataSubj7) 
+:ObjectionToProcessing(Company2 DataSubj7)
+:WhenLawfullyRestricted(Company2 DataSubj7)
+DataSubj7#:DataObtained(:purpose->PatientsStatistics :category->Sensitive :processing->ByAutomatedMeans :recipients->EU :retentionPeriod->3Years)
+:InformStakeholders(Company2 DataSubj7)
+
+%Company2 - DataSubj8 (3 No instead of Yes, Portability)
+
+:DataSubjectAccessRequests(Company2 DataSubj8)
+:PrivacyByDesignAndPIAs(Company2 DataSubj8)
+:DataSecurityMeasures(Company2 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company2 :data->DataSubj8 :iocNotif->:No :dataSubjectNotif->:No :periodInHours->75)
+
+DataSubj8#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->45)
+:RightToRectification(Company2 DataSubj8)
+:DataSubjectWithdrawingConsent(Company2 DataSubj8)
+:ObjectionToAutomatedDecisionMaking(Company2 DataSubj8)
+:WhenLawfullyRestricted(Company2 DataSubj8)
+DataSubj8#:DataObtained(:purpose->MedicalDevicesDevelopment :category->Sensitive :processing->DataSubjectConsent :recipients->EEA :retentionPeriod->1Month)
+:InformStakeholders(Company2 DataSubj8)
+ 
+%Company2 - DataSubj9
+
+:DataSubjectAccessRequests(Company2 DataSubj9)
+:PrivacyByDesignAndPIAs(Company2 DataSubj9)
+%%%:DataSecurityMeasures(Company2 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company2 :data->DataSubj9 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->20)
+ 
+DataSubj9#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->28)
+:RightToRectification(Company2 DataSubj9)
+:DataUnlawfullyProcessed(Company2 DataSubj9)
+%:ObjectionToProcessing(Company2 DataSubj9)
+%:WhenLawfullyRestricted(Company2 DataSubj9)
+DataSubj9#:DataObtained(:purpose->PatientsHealthConditions :category->Sensitive :processing->DataSubjectConsent :recipients->noThirdParty :retentionPeriod->3months)
+:InformStakeholders(Company2 DataSubj9)
+
+%Company2 - DataSubj10
+
+:DataSubjectAccessRequests(Company2 DataSubj10)
+:PrivacyByDesignAndPIAs(Company2 DataSubj10)
+%%%:DataSecurityMeasures(Company2 :knowRisksInProcessing->:Yes :securityManagement->:Yes :encryption->:Yes :auditLogs->:Yes)
+:DataBreaches(Company2 :data->DataSubj10 :iocNotif->:Yes :dataSubjectNotif->:Yes :periodInHours->30)
+ 
+DataSubj10#:DataPortability(:request->:Yes :means->:Electronic :periodInDays->16)
+:RightToRectification(Company2 DataSubj10)
+:LegalObligation(Company2 DataSubj10)
+:ObjectionToAutomatedDecisionMaking(Company2 DataSubj10)
+:WhenLawfullyRestricted(Company2 DataSubj10)	
+%DataSubj10#:DataObtained(:purpose->MedicalResearch :category->Sensitive :processing->DataSubjectConsent :recipients->EEA :retentionPeriod->15Days)
+%:InformStakeholders(Company2 DataSubj10)
+
+ %Or(:TypeProcessing(:DataSubjectConsent ?d) :TypeofProcessing(:PerformanceOfContract %?d) :TypeofProcessing(:ByAutomatedMeans ?d))))
+
+
+ )
+ 
+	)
+  
+			
