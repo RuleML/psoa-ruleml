@@ -1,7 +1,7 @@
 { "cards": [
   {
     "systematicName": "pn1",
-    "commonName": "n/a",
+    "commonName": "shelfships",
     "perspectivity": "perspeneutral",
     "descriptor": "tupled",
     "oid": "oidless",
@@ -12,7 +12,7 @@
   },
   {
     "systematicName": "pn2",
-    "commonName": "shelves",
+    "commonName": "shelfpoints",
     "perspectivity": "perspeneutral",
     "descriptor": "tupled",
     "oid": "oidful",
@@ -23,7 +23,7 @@
   },
   {
     "systematicName": "pn3",
-    "commonName": "n/a",
+    "commonName": "frameships",
     "perspectivity": "perspeneutral",
     "descriptor": "slotted",
     "oid": "oidless",
@@ -34,7 +34,7 @@
   },
   {
     "systematicName": "pn4",
-    "commonName": "frames",
+    "commonName": "framepoints",
     "perspectivity": "perspeneutral",
     "descriptor": "slotted",
     "oid": "oidful",
@@ -45,7 +45,7 @@
   },
   {
     "systematicName": "pn5",
-    "commonName": "n/a",
+    "commonName": "shelframeships",
     "perspectivity": "perspeneutral",
     "descriptor": "tupled + slotted",
     "oid": "oidless",
@@ -56,7 +56,7 @@
   },
   {
     "systematicName": "pn6",
-    "commonName": "shelframes",
+    "commonName": "shelframepoints",
     "perspectivity": "perspeneutral",
     "descriptor": "tupled + slotted",
     "oid": "oidful",
@@ -78,7 +78,7 @@
   },
   {
     "systematicName": "pv2",
-    "commonName": "n/a",
+    "commonName": "relationpoints",
     "perspectivity": "perspectival",
     "descriptor": "tupled",
     "oid": "oidful",
@@ -100,7 +100,7 @@
   },
   {
     "systematicName": "pv4",
-    "commonName": "n/a",
+    "commonName": "pairpoints",
     "perspectivity": "perspectival",
     "descriptor": "slotted",
     "oid": "oidful",
@@ -122,7 +122,7 @@
   },
   {
     "systematicName": "pv6",
-    "commonName": "n/a",
+    "commonName": "relpairpoints",
     "perspectivity": "perspectival",
     "descriptor": "tupled + slotted",
     "oid": "oidful",
