@@ -1,4 +1,4 @@
-PSOATransRun 1.4 README                                               2019-01-23
+PSOATransRun 1.4.1 README                                               2019-04-25
 
 OVERVIEW
 PSOATransRun is the reference implementation of the Positional-Slotted 
@@ -39,7 +39,7 @@ Prerequisites:
       installation folder.
 
 USAGE
-Download http://psoa.ruleml.org/transrun/1.4/local/PSOATransRunLocal.jar to 
+Download http://psoa.ruleml.org/transrun/1.4.1/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_dir>
 [e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
 click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
@@ -102,5 +102,5 @@ One answer at a time will be shown. To get the next answer, press the semicolon 
 To proceed to the next query, press the Enter key. To exit a query loop, press Ctrl+C, and
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
-PSOATransRun 1.4 RELEASE NOTES
-* Add SWI Prolog backend support
+PSOATransRun 1.4.1 RELEASE NOTES
+* Add generic inequality built-in for both the XSB and SWI Prolog backends
