@@ -1,0 +1,15 @@
+RuleML
+(
+  Prefix(not: <not#>)
+  Prefix(: <http://psoa.ruleml.org/lib/not#>)
+  
+  Assert
+  (
+
+    % Built-in-based Naf (intended for one argument that is a relational atom)
+    Forall ?X (
+      :Naf(?X) :- External(not:Naf(?X))
+    )
+
+  )
+)
