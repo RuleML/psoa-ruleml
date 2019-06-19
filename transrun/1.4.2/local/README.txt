@@ -1,4 +1,4 @@
-PSOATransRun 1.4.2 README                                               2019-06-16
+PSOATransRun 1.4.2 README                                               2019-06-19
 
 OVERVIEW
 PSOATransRun is the reference implementation of the Positional-Slotted 
@@ -9,7 +9,8 @@ well-known Prolog engines:
   XSB platform: The efficient XSB Prolog engine.
   SWI platform: The widespread SWI Prolog engine.
 See http://psoa.ruleml.org for details of PSOA RuleML and PSOATransRun
-and https://github.com/RuleML/PSOATransRunComponents for the repository.
+and https://github.com/RuleML/PSOATransRunComponents for the Java/ANTLR/... sources
+and http://psoa.ruleml.org/lib/ for the PSOA libraries.
 
 REQUIREMENTS
 Operating System: Windows, Linux, or Mac OS X
@@ -104,3 +105,4 @@ optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on 
 
 PSOATransRun 1.4.2 RELEASE NOTES
 * Add built-in-based Naf (intended for one argument that is a relational atom)
+* Add library, not, with Naf definition (External-wrapping the Naf built-in) for convenient calls
