@@ -1,8 +1,8 @@
 { "cards": [
   {
-    "systematicName": "pn1",
+    "systematicName": "in1",
     "commonName": "shelfships",
-    "perspectivity": "perspeneutral",
+    "perspectivity": "independent",
     "descriptor": "tupled",
     "oid": "oidless",
     "semantics": "Implicit existential OID; tuples -[t ... t] independent from predicate f",
@@ -11,9 +11,9 @@
     "diagram": "diagram_pn1.png"
   },
   {
-    "systematicName": "pn2",
+    "systematicName": "in2",
     "commonName": "shelfpoints",
-    "perspectivity": "perspeneutral",
+    "perspectivity": "independent",
     "descriptor": "tupled",
     "oid": "oidful",
     "semantics": "Explicit OID o; tuples -[t ... t] independent from predicate f",
@@ -22,9 +22,9 @@
     "diagram": "diagram_pn2.png"
   },
   {
-    "systematicName": "pn3",
+    "systematicName": "in3",
     "commonName": "frameships",
-    "perspectivity": "perspeneutral",
+    "perspectivity": "independent",
     "descriptor": "slotted",
     "oid": "oidless",
     "semantics": "Implicit existential OID; slots p->v independent from predicate f",
@@ -33,9 +33,9 @@
     "diagram": "diagram_pn3.png"
   },
   {
-    "systematicName": "pn4",
+    "systematicName": "in4",
     "commonName": "framepoints",
-    "perspectivity": "perspeneutral",
+    "perspectivity": "independent",
     "descriptor": "slotted",
     "oid": "oidful",
     "semantics": "Explicit OID o; slots p->v independent from predicate f",
@@ -44,9 +44,9 @@
     "diagram": "diagram_pn4.png"
   },
   {
-    "systematicName": "pn5",
+    "systematicName": "in5",
     "commonName": "shelframeships",
-    "perspectivity": "perspeneutral",
+    "perspectivity": "independent",
     "descriptor": "tupled + slotted",
     "oid": "oidless",
     "semantics": "Implicit existential OID; descriptors independent from predicate f",
@@ -55,9 +55,9 @@
     "diagram": "diagram_pn5.png"
   },
   {
-    "systematicName": "pn6",
+    "systematicName": "in6",
     "commonName": "shelframepoints",
-    "perspectivity": "perspeneutral",
+    "perspectivity": "independent",
     "descriptor": "tupled + slotted",
     "oid": "oidful",
     "semantics": "Explicit OID o; descriptors independent from predicate f",
@@ -66,9 +66,9 @@
     "diagram": "diagram_pn6.png"
   },
   {
-    "systematicName": "pv1",
+    "systematicName": "de1",
     "commonName": "relationships",
-    "perspectivity": "perspectival",
+    "perspectivity": "dependent",
     "descriptor": "tupled",
     "oid": "oidless",
     "semantics": "Implicit existential OID; tuples +[t ... t] dependent on predicate f",
@@ -77,9 +77,9 @@
     "diagram": "diagram_pv1.png"
   },
   {
-    "systematicName": "pv2",
+    "systematicName": "de2",
     "commonName": "relationpoints",
-    "perspectivity": "perspectival",
+    "perspectivity": "dependent",
     "descriptor": "tupled",
     "oid": "oidful",
     "semantics": "Explicit OID o; tuples +[t ... t] dependent on predicate f",
@@ -88,9 +88,9 @@
     "diagram": "diagram_pv2.png"
   },
   {
-    "systematicName": "pv3",
+    "systematicName": "de3",
     "commonName": "pairships",
-    "perspectivity": "perspectival",
+    "perspectivity": "dependent",
     "descriptor": "slotted",
     "oid": "oidless",
     "semantics": "Implicit existential OID; slots p+>v dependent on predicate f",
@@ -99,9 +99,9 @@
     "diagram": "diagram_pv3.png"
   },
   {
-    "systematicName": "pv4",
+    "systematicName": "de4",
     "commonName": "pairpoints",
-    "perspectivity": "perspectival",
+    "perspectivity": "dependent",
     "descriptor": "slotted",
     "oid": "oidful",
     "semantics": "Explicit OID o; slots p+>v dependent on predicate f",
@@ -110,9 +110,9 @@
     "diagram": "diagram_pv4.png"
   },
   {
-    "systematicName": "pv5",
+    "systematicName": "de5",
     "commonName": "relpairships",
-    "perspectivity": "perspectival",
+    "perspectivity": "dependent",
     "descriptor": "tupled + slotted",
     "oid": "oidless",
     "semantics": "Implicit existential OID; descriptors dependent on predicate f",
@@ -121,9 +121,9 @@
     "diagram": "diagram_pv5.png"
   },
   {
-    "systematicName": "pv6",
+    "systematicName": "de6",
     "commonName": "relpairpoints",
-    "perspectivity": "perspectival",
+    "perspectivity": "dependent",
     "descriptor": "tupled + slotted",
     "oid": "oidful",
     "semantics": "Explicit OID o; descriptors dependent on predicate f",
@@ -132,9 +132,9 @@
     "diagram": "diagram_pv6.png"
   },
   {
-    "systematicName": "pp1",
+    "systematicName": "id1",
     "commonName": "n/a",
-    "perspectivity": "perspeneutral + perspectival",
+    "perspectivity": "independent + dependent",
     "descriptor": "tupled",
     "oid": "oidless",
     "semantics": "Implicit existential OID; both in/dependent tuples w.r.t. predicate f",
@@ -143,9 +143,9 @@
     "diagram": "diagram_pp1.png"
   },
   {
-    "systematicName": "pp2",
+    "systematicName": "id2",
     "commonName": "n/a",
-    "perspectivity": "perspeneutral + perspectival",
+    "perspectivity": "independent + dependent",
     "descriptor": "tupled",
     "oid": "oidful",
     "semantics": "Explicit OID o; both in/dependent tuples w.r.t. predicate f",
@@ -154,9 +154,9 @@
     "diagram": "diagram_pp2.png"
   },
   {
-    "systematicName": "pp3",
+    "systematicName": "id3",
     "commonName": "n/a",
-    "perspectivity": "perspeneutral + perspectival",
+    "perspectivity": "independent + dependent",
     "descriptor": "slotted",
     "oid": "oidless",
     "semantics": "Implicit existential OID; both in/dependent slots w.r.t. predicate f",
@@ -165,9 +165,9 @@
     "diagram": "diagram_pp3.png"
   },
   {
-    "systematicName": "pp4",
+    "systematicName": "id4",
     "commonName": "n/a",
-    "perspectivity": "perspeneutral + perspectival",
+    "perspectivity": "independent + dependent",
     "descriptor": "slotted",
     "oid": "oidful",
     "semantics": "Explicit OID o; both in/dependent slots w.r.t. predicate f",
@@ -176,9 +176,9 @@
     "diagram": "diagram_pp4.png"
   },
   {
-    "systematicName": "pp5",
+    "systematicName": "id5",
     "commonName": "n/a",
-    "perspectivity": "perspeneutral + perspectival",
+    "perspectivity": "independent + dependent",
     "descriptor": "tupled + slotted",
     "oid": "oidless",
     "semantics": "Implicit existential OID; both in/dependent descriptors w.r.t. predicate f",
@@ -187,9 +187,9 @@
     "diagram": "diagram_pp5.png"
   },
   {
-    "systematicName": "pp6",
+    "systematicName": "id6",
     "commonName": "n/a",
-    "perspectivity": "perspeneutral + perspectival",
+    "perspectivity": "independent + dependent",
     "descriptor": "tupled + slotted",
     "oid": "oidful",
     "semantics": "Explicit OID o; both in/dependent descriptors w.r.t. predicate f",
