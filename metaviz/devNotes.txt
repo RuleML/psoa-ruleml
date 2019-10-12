@@ -1,8 +1,11 @@
-PSOAMetaViz v1
-Author: Alex Kienzle
+PSOAMetaViz
 
+Authors: Alex Kienzle (Original: PSOAMetaViz v1, 29 June 2018)
+         Harold Boley (Update: PSOAMetaViz v1.03, 12 October 2019)
+
+		 
 To run locally:
-Allow local file access and scripting in your browser (I run the included devChrome.bat to allow file access in Chrome).
+Allow local file access and scripting in your browser (Alex run the included devChrome.bat to allow file access in Chrome).
 Open index.html in browser.
 
 Description of project files:
@@ -14,7 +17,7 @@ Description of project files:
   - Code to open PSOAMetaVizExplained.html (acting as a help page)
 
   html folder contains:
-  - 6 views for (perspectivity, descriptor, oid) * (2D, 3D).
+  - 6 views for (perspectivity/dependency, descriptor/variety, oid) * (2D, 3D).
   - PSOAMetaVizExplained.html
 
     Each view (ex. oid_3d) contains:
@@ -22,7 +25,7 @@ Description of project files:
     - Code for the card elements.
     - A reference to a css file.
     - A reference to tiles.js.
-    - A reference to jquery.js (A javascript library *not currently saved locally*)
+    - A reference to jquery.js (a javascript library *not currently saved locally*)
     Note: perspectivity_3d.html contains comments outlining the structure of the code. The other html files are structured the same.
 
   css folder contains:
@@ -39,7 +42,7 @@ Description of project files:
     - Code to handle the naviagtion between the 6 views.
 
     tiles.js contains:
-    - Code to handle the selection/deselection of tiles, and the corresponding loading/removing of the card info from the json file.
+    - Code to handle the selection&deselection of tiles, and the corresponding loading&removing of the card info from the json file.
     - Reference to cards.json.
     - Reference to the images folder.
 
@@ -52,3 +55,6 @@ Description of project files:
 
   images folder contains:
   - A diagram for each of the 18 cards.
+  
+Update (12 October 2019):
+Accommodating these changes: http://wiki.ruleml.org/index.php/PSOA_RuleML#PSOA_RuleML_Changes [2019-08-03]
