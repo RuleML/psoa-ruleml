@@ -6,7 +6,7 @@
     <h1>PSOAMetaViz Explained: The PSOA RuleML Metamodel in a GUI for Dynamic Visualization</h1>
     <h2>Harold Boley, Alexander Kienzle, Scott Bateman</h2>
     <h3>Faculty of Computer Science, University of New Brunswick, Canada</h3>
-    <h3>17 July 2018</h3>
+    <h3>17 July 2018 (Revised: 12 October 2019)</h3>
     <br/>
     <h2>Introduction</h2>
     <p>
@@ -14,10 +14,10 @@
       can be found in the document <a href="http://wiki.ruleml.org/index.php/PSOA_RuleML_Bridges_Graph_and_Relational_Databases">PSOABridgesGraphRelDBs</a>.
       PSOAMetaViz visualizes the <a href="http://wiki.ruleml.org/index.php/PSOA_RuleML">PSOA RuleML</a> metamodel by a wireframe-like cube.
       The PSOA metamodel's three orthogonal dimensions of
-      "Perspectivity", "Descriptor", and "OID"
+      "Dependency", "Variety", and "OID"
       are mapped to three Cartesian axes.
       PSOAMetaViz in "3D" mode focuses the cube in the three switchable projections
-      of Perspectivity, Descriptor, and OID.
+      of Dependency, Variety, and OID.
       Alternatively, PSOAMetaViz can also be used in "2D" mode,
       where each focus becomes a corresponding set of rectangular slices.
       In both modes, the projections or slices constitute a scaffold
@@ -52,11 +52,11 @@
       in the 3D mode of PSOAMetaViz:
     </p>
     <pre>
-Perspectivity = color
-  perspeneutral = red (cf. 'negative amount', i.e. independent)
-  perspectival = green
-  perspeneutral+perspectival = blue
-Descriptor = texture
+Dependency = color
+  independent = red (cf. 'negative amount', i.e. independent)
+  dependent = green
+  independent+dependent = blue
+Variety = texture
   tupled = horizontally striped (length-oriented, positional information)
   slotted = vertically striped
   tupled+slotted = digonally striped
@@ -74,22 +74,22 @@ front/rear
     </pre>
     <p>
       Switching between the projections of the same cube results in the following focus transformations
-      (the colors of the Perspectivity-focused entry screen help to keep track also of its transformations
-      for the Descriptor focus and the OID focus):
+      (the colors of the Dependency-focused entry screen help to keep track also of its transformations
+      for the Variety focus and the OID focus):
     </p>
     <pre>
-Perspectivity focus:
+Dependency focus:
 left = oidless
 top = tupled
-front = perspeneutral
+front = independent
 
-Descriptor focus:
+Variety focus:
 left = oidless
-top = perspeneutral
+top = independent
 front = tupled+slotted  
 
 OID focus:
-left = perspeneutral
+left = independent
 top = tupled
 front = oidful
     </pre>
@@ -97,7 +97,7 @@ front = oidful
     <p>
       The two menus in the upper-left corner can be used to
       independently choose the
-      Perspectivity, Descriptor, or OID focus
+      Dependency, Variety, or OID focus
       and the
       3D or 2D mode.
       With any focus and mode, each of the eighteen units can be selected to view its card
