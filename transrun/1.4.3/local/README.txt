@@ -1,18 +1,29 @@
-PSOATransRun 1.4.2 README                                               2019-06-19
+PSOATransRun 1.4.3 README                                               2019-12-22
+
 
 OVERVIEW
+
 PSOATransRun is the reference implementation of the Positional-Slotted 
 Object-Applicative RuleML (PSOA RuleML) language. This PSOATransRun release 
-includes a composition of a translator PSOA2Prolog, from PSOA RuleML to a 
-subset of the logic programming language ISO Prolog with one of the following
-well-known Prolog engines:
+includes two translator compositions:
+
+A translator PSOA2TPTP, from PSOA RuleML to a subset of the first-order logic 
+language TPTP with a TPTP engine (here, the open source VampirePrime reasoner).
+
+A translator PSOA2Prolog, from PSOA RuleML to a subset of the logic programming 
+language ISO Prolog with one of the following well-known Prolog engines:
   XSB platform: The efficient XSB Prolog engine.
   SWI platform: The widespread SWI Prolog engine.
+
 See http://psoa.ruleml.org for details of PSOA RuleML and PSOATransRun
 and https://github.com/RuleML/PSOATransRunComponents for the Java/ANTLR/... sources
-and http://psoa.ruleml.org/lib/ for the PSOA libraries.
+and http://psoa.ruleml.org/lib/ for the Prolog-targeting PSOA libraries.
+
+In the following, we will focus on the PSOA2Prolog translator and engines.
+
 
 REQUIREMENTS
+
 Operating System: Windows, Linux, or Mac OS X
 Prerequisites:
   Install Java version 8.0 or higher
@@ -39,8 +50,10 @@ Prerequisites:
       -x <swi_dir> must be specified, where <swi_dir> denotes the path of the 
       installation folder.
 
+
 USAGE
-Download http://psoa.ruleml.org/transrun/1.4.2/local/PSOATransRunLocal.jar to 
+
+Download http://psoa.ruleml.org/transrun/1.4.3/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_dir>
 [e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
 click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
@@ -103,6 +116,6 @@ One answer at a time will be shown. To get the next answer, press the semicolon 
 To proceed to the next query, press the Enter key. To exit a query loop, press Ctrl+C, and
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
-PSOATransRun 1.4.2 RELEASE NOTES
-* Add built-in-based Naf (intended for one argument that is a relational atom)
-* Add library, not, with Naf definition (External-wrapping the Naf built-in) for convenient calls
+
+PSOATransRun 1.4.3 RELEASE NOTES
+* Update TPTP-targeting PSOATransRunWebService for PSOATransRun that uses KB-contextual queries
