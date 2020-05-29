@@ -1,4 +1,4 @@
-PSOATransRun 1.4.3 README                                               2019-12-22
+PSOATransRun 1.4.4 README                                               2020-05-29
 
 
 OVERVIEW
@@ -53,7 +53,7 @@ Prerequisites:
 
 USAGE
 
-Download http://psoa.ruleml.org/transrun/1.4.3/local/PSOATransRunLocal.jar to 
+Download http://psoa.ruleml.org/transrun/1.4.4/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_dir>
 [e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
 click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
@@ -117,5 +117,12 @@ To proceed to the next query, press the Enter key. To exit a query loop, press C
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
 
-PSOATransRun 1.4.3 RELEASE NOTES
-* Update TPTP-targeting PSOATransRunWebService for PSOATransRun that uses KB-contextual queries
+PSOATransRun 1.4.4 RELEASE NOTES
+* Realize schemaless checking 
+    "Forall" warnings for missing variable declarations in KB clauses
+    "Document" and "Group" deprecation warnings (instead, use "RuleML" and "Assert", respectively)
+* Generalize left-tuple normal form to left-implicit-tuple normal form for KBs and queries
+    Within each term (which can only have a single implicit tuple;
+                      if present, there can be no explicit tuples):
+      Implicit tuple: restricted to occur to the left of all slots
+      Explicit tuples and slots: allowed to occur in any permutation
