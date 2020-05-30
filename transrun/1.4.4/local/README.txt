@@ -34,12 +34,12 @@ Prerequisites:
       rather than XSB 3.7 or 3.8,
       to a directory the path of which we will call <xsb_dir>, e.g. ...
       ... in Windows:                C:\Program Files\XSB
-      ... in Linux/Mac OS X:         ~/XSB/
+      ... in Linux / Mac OS X:       ~/XSB/
     SWI platform:
-      Windows/Mac OS X:
+      Windows / Mac OS X:
         Install SWI Prolog from http://www.swi-prolog.org/download/stable,
         following the instructions, to the default installation directory. 
-      Linux/Mac OS X:
+      Linux / Mac OS X:
         Linux users are encouraged to install SWI Prolog via their package
         manager (available in many distributions as swi-prolog or swipl), e.g.:
           sudo apt-get install swi-prolog
@@ -61,8 +61,8 @@ any earlier version (no need for any other 'uninstall' action)].
 Then follow these steps to use PSOATransRun (1. and 2. being just preparatory):
 
 1. Open a window for a Command Prompt / Linux Terminal
-Windows: see http://windows.microsoft.com/en-ca/windows-vista/open-a-command-prompt-window
-Linux: start the Linux Terminal
+Windows: start the Command Prompt (or PowerShell)
+Linux:   start the Linux Terminal
 
 2. Change the working directory to <PSOATransRun_dir> by executing
    cd <PSOATransRun_dir>
@@ -98,11 +98,11 @@ XSB platform:
   Windows [assuming the XSB installation directory <xsb_dir> is expanded to C:\Program Files\XSB]:
      java -jar PSOATransRunLocal.jar -x "C:\Program Files\XSB" -i EDITME.psoa
     
-  Linux/Mac OS X [assuming the XSB installation directory <xsb_dir> is expanded to ~/XSB/]:
+  Linux / Mac OS X [assuming the XSB installation directory <xsb_dir> is expanded to ~/XSB/]:
      java -jar PSOATransRunLocal.jar -x ~/XSB/ -i EDITME.psoa
 
 SWI platform:
-  Windows/Linux/Mac OS X [assuming the default install location of SWI Prolog (Windows/Mac OS X),
+  Windows / Linux / Mac OS X [assuming the default install location of SWI Prolog (Windows / Mac OS X),
   an installation through a package manager, Homebrew (Linux, Mac OS X) or installation from
   source to /usr/local (Linux, Mac OS X)]:
      java -jar PSOATransRunLocal.jar -b swi -i EDITME.psoa
@@ -120,8 +120,9 @@ optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on 
 PSOATransRun 1.4.4 RELEASE NOTES
 * Realize schemaless checking 
     "Forall" warnings for missing variable declarations in KB clauses
-      (additional command line option -f/--fAllWrap turns warnings into errors)
-    "Document" and "Group" deprecation warnings (instead, use "RuleML" and "Assert", respectively)
+      An additional command line option -f/--fAllWrap turns warnings into errors
+    "Document" and "Group" warnings announcing their deprecation
+      Substitute them with "RuleML" and "Assert", respectively
 * Generalize left-tuple normal form to left-implicit-tuple normal form for KBs and queries
     Within each term (which can only have a single implicit tuple;
                       if present, there can be no explicit tuples):
