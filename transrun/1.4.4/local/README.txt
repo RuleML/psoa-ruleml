@@ -1,4 +1,4 @@
-PSOATransRun 1.4.4 README                                               2020-05-29
+PSOATransRun 1.4.4 README                                               2020-05-30
 
 
 OVERVIEW
@@ -120,6 +120,7 @@ optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on 
 PSOATransRun 1.4.4 RELEASE NOTES
 * Realize schemaless checking 
     "Forall" warnings for missing variable declarations in KB clauses
+      (additional command line option -f/--fAllWrap turns warnings into errors)
     "Document" and "Group" deprecation warnings (instead, use "RuleML" and "Assert", respectively)
 * Generalize left-tuple normal form to left-implicit-tuple normal form for KBs and queries
     Within each term (which can only have a single implicit tuple;
