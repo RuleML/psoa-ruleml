@@ -1,4 +1,4 @@
-PSOATransRun 1.4.4 README                                               2020-05-30
+PSOATransRun 1.4.5 README                                               2020-07-24
 
 
 OVERVIEW
@@ -53,7 +53,7 @@ Prerequisites:
 
 USAGE
 
-Download http://psoa.ruleml.org/transrun/1.4.4/local/PSOATransRunLocal.jar to 
+Download http://psoa.ruleml.org/transrun/1.4.5/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_dir>
 [e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
 click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
@@ -117,14 +117,8 @@ To proceed to the next query, press the Enter key. To exit a query loop, press C
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
 
-PSOATransRun 1.4.4 RELEASE NOTES
-* Realize schemaless checking 
-    "Forall" warnings for missing variable declarations in KB clauses
-      An additional command line option -f/--fAllWrap turns warnings into errors
-    "Document" and "Group" warnings announcing their deprecation
-      Substitute them with "RuleML" and "Assert", respectively
-* Generalize left-tuple normal form to left-implicit-tuple normal form for KBs and queries
-    Within each term (which can only have a single implicit tuple;
-                      if present, there can be no explicit tuples):
-      Implicit tuple: restricted to occur to the left of all slots
-      Explicit tuples and slots: allowed to occur in any permutation
+PSOATransRun 1.4.5 RELEASE NOTES
+* Add ANTLR-based Naf allowing general psoa atoms as well as general formulas, e.g. And(...)
+* Deprecate built-in-based Naf, with ANTLR-based/built-in-based transition exemplified at 
+    https://github.com/RuleML/PSOATransRunComponents/blob/master/PSOATransRun/test-built-ins/built-in-based_naf_TRANSITION/built-in-based_naf-KB.psoa
+* Add command line option '--checkLTNF/-k' to report atoms not in left-tuple normal form (LTNF)
