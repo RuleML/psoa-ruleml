@@ -1,4 +1,4 @@
-PSOATransRun 1.4.5 README                                               2020-07-24
+PSOATransRun 1.5 README                                                 2020-09-18
 
 
 OVERVIEW
@@ -53,7 +53,7 @@ Prerequisites:
 
 USAGE
 
-Download http://psoa.ruleml.org/transrun/1.4.5/local/PSOATransRunLocal.jar to 
+Download http://psoa.ruleml.org/transrun/1.5/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_dir>
 [e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
 click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
@@ -117,8 +117,16 @@ To proceed to the next query, press the Enter key. To exit a query loop, press C
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
 
-PSOATransRun 1.4.5 RELEASE NOTES
-* Add ANTLR-based Naf allowing general psoa atoms as well as general formulas, e.g. And(...)
-* Deprecate built-in-based Naf, with ANTLR-based/built-in-based transition exemplified at 
-    https://github.com/RuleML/PSOATransRunComponents/blob/master/PSOATransRun/test-built-ins/built-in-based_naf_TRANSITION/built-in-based_naf-KB.psoa
-* Add command line option '--checkLTNF/-k' to report atoms not in left-tuple normal form (LTNF)
+PSOATransRun 1.5 RELEASE NOTES
+* Support syntactic recognition of "#"-prefixed embedded and top-level predicates to indicate oidless atoms
+    [Raise error if whitespace follows hash ("#"), both for infix and prefix uses of "#"]
+* For nested oidless atoms, add embedded objectification, complementing (top-level) objectification
+* Introduce embedded "ground-fact-differentiated" objectification as
+    differentiated objectification for ground facts
+    undifferentiated objectification for everything else
+* Examples can be found in
+    http://wiki.ruleml.org/index.php/PSOA_RuleML#store-predicate
+    http://wiki.ruleml.org/index.php/PSOA_RuleML#Presentation_Syntax_Long_and_Short_Forms
+    https://github.com/RuleML/PSOATransRunComponents/blob/master/PSOATransRun/test-basic/embobj/ex_0/embobj_ex_0-KB.psoa
+    https://github.com/RuleML/PSOATransRunComponents/blob/master/PSOATransRun/test-basic/embobj/store_franchise/store_franchise-KB.psoa
+* Add support for C-style comment blocks, print deprecation warning for XML-style comment blocks
