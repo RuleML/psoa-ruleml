@@ -1,4 +1,4 @@
-PSOATransRun 1.5 README                                                 2020-09-18
+PSOATransRun 1.5.1 README                                               2020-10-22
 
 
 OVERVIEW
@@ -53,7 +53,7 @@ Prerequisites:
 
 USAGE
 
-Download http://psoa.ruleml.org/transrun/1.5/local/PSOATransRunLocal.jar to 
+Download http://psoa.ruleml.org/transrun/1.5.1/local/PSOATransRunLocal.jar to 
 a directory, the path of which we will call <PSOATransRun_dir>
 [e.g., in the directory above this README, right-click PSOATransRunLocal.jar,
 click "Save Link As...", copy it to <PSOATransRun_dir>, possibly overwriting
@@ -117,16 +117,13 @@ To proceed to the next query, press the Enter key. To exit a query loop, press C
 optionally change EDITME.psoa and go back to 3 (e.g., via the 'up-arrow' key on most platforms).
 
 
-PSOATransRun 1.5 RELEASE NOTES
-* Support syntactic recognition of "#"-prefixed embedded and top-level predicates to indicate oidless atoms
-    [Raise error if whitespace follows hash ("#"), both for infix and prefix uses of "#"]
-* For nested oidless atoms, add embedded objectification, complementing (top-level) objectification
-* Introduce embedded "ground-fact-differentiated" objectification as
-    differentiated objectification for ground facts
-    undifferentiated objectification for everything else
-* Examples can be found in
-    http://wiki.ruleml.org/index.php/PSOA_RuleML#store-predicate
-    http://wiki.ruleml.org/index.php/PSOA_RuleML#Presentation_Syntax_Long_and_Short_Forms
-    https://github.com/RuleML/PSOATransRunComponents/blob/master/PSOATransRun/test-basic/embobj/ex_0/embobj_ex_0-KB.psoa
-    https://github.com/RuleML/PSOATransRunComponents/blob/master/PSOATransRun/test-basic/embobj/store_franchise/store_franchise-KB.psoa
-* Add support for C-style comment blocks, print deprecation warning for XML-style comment blocks
+PSOATransRun 1.5.1 RELEASE NOTES
+* Augment SchemalessChecker to notify about possible floundering in Naf for certain psoa atoms
+* Add systematic tests without floundering for the following Naf_Psoa_Goal combinations
+    Naf_Relationship_Goal
+      (Naf formulas containing relationship atoms only and occurring as any goals,
+       i.e. in queries or rule premises)
+    Naf_Psoa_Query
+      (Naf formulas containing any psoa atoms and occurring as query goals only,
+       i.e. directly in REPL)
+* Add exploratory tests without floundering for selected Naf_Psoa_Premise combinations
